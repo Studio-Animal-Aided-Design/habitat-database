@@ -1,0 +1,15 @@
+﻿id,scientific_name,alternative_scientific_name,common_name,alternative_common_name,class_common,class_scientific,order_common,order_scientific,family_common,family_scientific,genus_common,genus_scientific
+,Apus apus,,Mauersegler,,Vögel,Aves,Seglervögel,Apidiformes,Segler,Apodidae,,Apus
+,Pyrrhula pyrrhula,,Gimpel,Dompfaff,Vögel,Aves,Sperlingsvögel,Passeriformes,Finken,Fringillidae,Eigentliche Gimpel,Pyrrhula
+,Muscicapa striata,,Grauschnäpper,,Vögel,Aves,Sperlingsvögel,Passeriformes,Fliegenschnäpper,Muscicapidae,,Muscicapa
+,Phoenicurus phoenicurus,,Gartenrotschwanz,,Vögel,Aves,Sperlingsvögel,Passeriformes,Fliegenschnäpper,Muscicapidae,Rotschwänze,Phoenicurus
+,Passer domesticus,,Haussperling,Hausspatz,Vögel,Aves,Sperlingsvögel,Passeriformes,Sperlinge,Passeridae,,Passer
+,Picus viridis,,Grünspecht,Erdspecht,Vögel,Aves,Spechtvögel,Piciformes,Spechte,Picidae,,Picus
+,Andrena barbilabris,,Bärtige Sandbiene,Schwimmende Sandbiene,Insekten,Insecta,Hautflügler,Hymenoptera,,Andrenidae,Sandbienen,Andrena
+,Anthophora plumipes,,Frühlings-Pelzbiene,Gemeine Pelzbiene,Insekten,Insecta,Hautflügler,Hymenoptera,Echte Bienen,Apidae,,Anthophora
+,Anthidium oblongatum,,Spalten-Wollbiene,Felsspalten-Wollbiene,Insekten,Insecta,Hautflügler,Hymenoptera,Bauchsammlerbienen,Megachilidae,Harz- und Wollbienen,Anthidium
+,Plebejus idas,,Idas-Bläuling,Ginster-Bläuling,Insekten,Insecta,Schmetterlinge,Lepidoptera,Bläulinge,Lycaenidae,,Plebejus
+,Papilio machaon,,Schwalbenschwanz,,Insekten,Insecta,Schmetterlinge,Lepidoptera,Ritterfalter,Papilionidae,,Papilio
+,Pipistrellus pipistrellus,,Zwergfledermaus,,Säugetiere,Mammalia,Fledertiere,Chiroptera,Glattnasen,Vespertilionidae,Zweifarbfledermäuse,Vespertilio
+,Vespertilio murinus,,Zweifarbfledermaus,,Säugetiere,Mammalia,Fledertiere,Chiroptera,Glattnasen,Vespertilionidae,Zweifarbfledermäuse,Vespertilio
+,Lacerta agilis,,Zauneidechse,,Reptilien,Reptilia,Schuppenkriechtiere,Squamata,Echte Eidechsen,Lacertidae,Halsbandeidechsen,Lacerta

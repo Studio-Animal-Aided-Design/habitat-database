@@ -1,0 +1,301 @@
+id,habitat_element,species,lifecycle_stage,purpose,purpose_element
+1,junge_nadelbaeume,Pyrrhula pyrrhula,adult,Brutplatz,dichte Zweige
+2,wild_hecken,Apus apus,"adult, juvenil",Nahrung,Insekten
+3,wild_hecken,Pipistrellus pipistrellus,adult,Nahrung,Insekten
+4,wild_hecken,Vespertilio murinus,adult,Nahrung,Insekten
+5,wild_hecken,Muscicapa striata,"adult, juvenil",Schutzort,Blätter/Zweige
+6,wild_hecken,Lacerta agilis,"adult, juvenil",Schutzort,Blätter/Zweige
+7,wild_hecken,Pyrrhula pyrrhula,adult,Brutplatz,Zweige
+8,wild_hecken,Pyrrhula pyrrhula,"adult, juvenil",Schlafplatz,Zweige
+9,wild_hecken,Phoenicurus phoenicurus,"adult, juvenil",Schutzort,Blätter/Zweige
+10,wild_hecken,Phoenicurus phoenicurus,adult,Jagdwarte,Zweige
+11,wild_hecken,Passer domesticus,"adult, juvenil",Schutzort,Blätter/Zweige
+12,wild_hecken,Passer domesticus,"adult, juvenil",Schlafplätze,Zweige
+13,wild_hecken,Passer domesticus,"adult, juvenil",Ruheplätze,Zweige
+14,wild_staudenflaeche,Muscicapa striata,"adult, juvenil",Nahrung,Insekten
+15,wild_staudenflaeche,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+16,wild_staudenflaeche,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+17,wild_staudenflaeche,Lacerta agilis,"adult, juvenil",Nahrung,Insekten
+18,wild_staudenflaeche,Andrena barbilabris,Larve,Nahrung,Pollen
+19,wild_staudenflaeche,Andrena barbilabris,adult,Nahrung,Nektar
+20,wild_staudenflaeche,Anthidium oblongatum,Larve,Nahrung,Pollen
+21,wild_staudenflaeche,Anthidium oblongatum,adult,Nahrung,Nektar
+22,wild_staudenflaeche,Anthophora plumipes,Larve,Nahrung,Pollen
+23,wild_staudenflaeche,Anthophora plumipes,adult,Nahrung,Nektar
+24,wild_staudenflaeche,Papilio machaon,adult,Nahrung,Nektar
+25,wild_staudenflaeche,Plebejus idas,adult,Nahrung,Nektar
+26,wild_staudenflaeche,Passer domesticus,"adult, juvenil",Nahrung,Samen
+27,wild_staudenflaeche,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+28,altgrasstreifen,Passer domesticus,"adult, juvenil",Nahrung,Samen
+29,altgrasstreifen,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+30,altgrasstreifen,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+31,altgrasstreifen,Pyrrhula pyrrhula,juvenil,Nahrung,Insekten
+32,altgrasstreifen,Lacerta agilis,"adult, juvenil",Nahrung,Insekten
+33,altgrasstreifen,Lacerta agilis,"adult, juvenil",Schutzort,hohe Stängel
+34,baeume,Muscicapa striata,"adult, juvenil",Jagdwarte,Zweige
+35,baeume,Muscicapa striata,adult,Singwarte,Zweige
+36,baeume,Phoenicurus phoenicurus,"adult, juvenil",Jagdwarte,Zweige
+37,baeume,Phoenicurus phoenicurus,adult,Singwarte,Zweige
+38,baeume,Muscicapa striata,adult,Paarungsort,Zweige
+39,baeume,Muscicapa striata,"adult, juvenil",Nahrung,Insekten
+40,baeume,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Knospen/Früchte/Samen
+41,baeume,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Insekten
+42,baeume,Passer domesticus,"adult, juvenil",Nahrung,Früchte/Beeren
+43,baeume,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+44,baeume,Andrena barbilabris,Larve,Nahrung,Pollen
+45,baeume,Andrena barbilabris,adult,Nahrung,Nektar
+46,baeume,Anthophora plumipes,Larve,Nahrung,Pollen
+47,baeume,Anthophora plumipes,adult,Nahrung,Nektar
+48,baeume,Picus viridis,adult,Brutplatz,Hohlraum
+49,baeume,Picus viridis,"adult, juvenil",Schlafplatz,Hohlraum
+50,baeume,Phoenicurus phoenicurus,"adult, juvenil",Schutzort,Hohlraum
+51,baeume,Phoenicurus phoenicurus,adult,Singwarte,Zweige
+52,baumgruppen,Pipistrellus pipistrellus,adult,Jagdgebiet,Insekten
+53,baumgruppen,Vespertilio murinus,adult,Jagdgebiet,Insekten
+54,baumgruppen,Picus viridis,adult,Schlafplatz,Hohlräume
+55,benjeshecke_totholzhecke,Lacerta agilis,"adult, juvenil",Schutzort,Hohlräume
+56,benjeshecke_totholzhecke,Phoenicurus phoenicurus,adult,Jagdwarte,Totholz
+57,benjeshecke_totholzhecke,Muscicapa striata,ad,Jagdwarte,Totholz
+58,bestaende_von_blaukissen_aubrieta,Anthophora plumipes,adult,Balz,
+59,blumenrasen,Picus viridis,"adult, juvenil",Nahrung,Insekten
+60,blumenrasen,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+61,blumenrasen,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+62,blumenrasen,Andrena barbilabris,Larve,Nahrung,Pollen
+63,blumenrasen,Andrena barbilabris,adult,Nahrung,Nektar
+64,blumenrasen,Anthidium oblongatum,Larve,Nahrung,Pollen
+65,blumenrasen,Anthidium oblongatum,adult,Nahrung,Nektar
+66,blumenwiese,Picus viridis,"adult, juvenil",Nahrung,Insekten
+67,blumenwiese,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+68,blumenwiese,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+69,blumenwiese,Passer domesticus,"adult, juvenil",Nahrung,Samen
+70,blumenwiese,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+71,blumenwiese,Muscicapa striata,"adult, juvenil",Nahrung,Insekten
+72,blumenwiese,Andrena barbilabris,Larve,Nahrung,Pollen
+73,blumenwiese,Andrena barbilabris,adult,Nahrung,Nektar
+74,blumenwiese,Anthidium oblongatum,Larve,Nahrung,Pollen
+75,blumenwiese,Anthidium oblongatum,adult,Nahrung,Nektar
+76,blumenwiese,Anthophora plumipes,adult,Nahrung,Nektar
+77,blumenwiese,Anthophora plumipes,Larve,Nahrung,Pollen
+78,blumenwiese,Papilio machaon,adult,Nahrung,Nektar
+79,blumenwiese,Plebejus idas,adult,Nahrung,Nektar
+80,blumenwiese,Lacerta agilis,"adult, juvenil",Nahrung,Insekten
+81,blumenwiese,Pipistrellus pipistrellus,adult,Nahrung,Insekten
+82,blumenwiese,Vespertilio murinus,adult,Nahrung,Insekten
+83,breitere_pflasterfugen_aus_sand,Andrena barbilabris,adult,Eiablage,Sand
+84,dichte_straeucher,Apus apus,"adult, juvenil",Nahrung,Insekten
+85,dichte_straeucher,Pipistrellus pipistrellus,adult,Nahrung,Insekten
+86,dichte_straeucher,Vespertilio murinus,adult,Nahrung,Insekten
+87,dichte_straeucher,Muscicapa striata,"adult, juvenil",Schutzort,Blätter/Zweige
+88,dichte_straeucher,Lacerta agilis,"adult, juvenil",Schutzort,Blätter/Zweige
+89,dichte_straeucher,Pyrrhula pyrrhula,adult,Brutplatz,Zweige
+90,dichte_straeucher,Pyrrhula pyrrhula,"adult, juvenil",Schlafplatz,Zweige
+91,dichte_straeucher,Phoenicurus phoenicurus,"adult, juvenil",Jagdwarte,Zweige
+92,dichte_straeucher,Muscicapa striata,"adult, juvenil",Jagdwarte,Zweige
+93,dichte_straeucher,Phoenicurus phoenicurus,"adult, juvenil",Schutzort,Blätter/Zweige
+94,dichte_straeucher,Muscicapa striata,"adult, juvenil",Schutzort,Blätter/Zweige
+95,dichte_straeucher,Passer domesticus,"adult, juvenil",Schutzort,Blätter/Zweige
+96,dichte_straeucher,Passer domesticus,"adult, juvenil",Schlafplätze,Zweige
+97,dichte_straeucher,Passer domesticus,"adult, juvenil",Ruheplätze,Zweige
+98,extensive_dachbegruenung_pv_dach,Anthidium oblongatum,Larve,Nahrung,Nektar
+99,extensive_dachbegruenung_pv_dach,Anthidium oblongatum,adult,Nahrung,Pollen
+100,extensive_dachbegruenung_pv_dach,Anthophora plumipes,Larve,Nahrung,Nektar
+101,extensive_dachbegruenung_pv_dach,Anthophora plumipes,adult,Nahrung,Pollen
+102,extensive_dachbegruenung_pv_dach,Papilio machaon,adult,Nahrung,Nektar
+103,extensive_dachbegruenung_pv_dach,Andrena barbilabris,Larve,Nahrung,Pollen
+104,extensive_dachbegruenung_pv_dach,Andrena barbilabris,adult,Nahrung,Nektar
+105,extensive_dachbegruenung_pv_dach,Passer domesticus,adult,Nahrung,Samen
+106,extensive_dachbegruenung_pv_dach,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+107,extensive_dachbegruenung_pv_dach,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+108,extensive_dachbegruenung_pv_dach,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+109,extensive_dachbegruenung_pv_dach,Picus viridis,"adult, juvenil",Nahrung,Ameisen
+110,extensive_dachbegruenung_pv_dach,Andrena barbilabris,Larve,Nahrung,Pollen
+111,extensive_dachbegruenung_pv_dach,Andrena barbilabris,adult,Nahrung,Nektar
+112,extensive_dachbegruenung_praeriedach,Anthophora plumipes,Larve,Nahrung,Pollen
+113,extensive_dachbegruenung_praeriedach,Anthophora plumipes,adult,Nahrung,Nektar
+114,extensive_dachbegruenung_praeriedach,Andrena barbilabris,Larve,Nahrung,Pollen
+115,extensive_dachbegruenung_praeriedach,Andrena barbilabris,adult,Nahrung,Nektar
+116,extensive_dachbegruenung_praeriedach,Plebejus idas,adult,Nahrung,Nektar
+117,extensive_dachbegruenung_praeriedach,Picus viridis,"adult, juvenil",Nahrung,Insekten
+118,extensive_dachbegruenung_praeriedach,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+119,extensive_dachbegruenung_praeriedach,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+120,extensive_dachbegruenung_praeriedach,Passer domesticus,adult,Nahrung,Samen
+121,extensive_dachbegruenung_praeriedach,Pipistrellus pipistrellus,adult,Nahrung,Insekten
+122,extensive_dachbegruenung_praeriedach,Vespertilio murinus,adult,Nahrung,Insekten
+123,extensive_dachbegruenung_praeriedach,Apus apus,adult,Nahrung,Insekten
+124,extensive_dachbegruenung_praeriedach,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+125,extensive_dachbegruenung_praeriedach,Papilio machaon,adult,Nahrung,Nektar
+126,extensive_dachbegruenung_praeriedach,Anthidium oblongatum,Larve,Nahrung,Pollen
+127,extensive_dachbegruenung_praeriedach,Anthidium oblongatum,adult,Nahrung,Nektar
+128,extensive_dachbegruenung_steppendach,Anthophora plumipes,Larve,Nahrung,Pollen
+129,extensive_dachbegruenung_steppendach,Anthophora plumipes,adult,Nahrung,Nektar
+130,extensive_dachbegruenung_steppendach,Andrena barbilabris,Larve,Nahrung,Pollen
+131,extensive_dachbegruenung_steppendach,Andrena barbilabris,adult,Nahrung,Nektar
+132,extensive_dachbegruenung_steppendach,Plebejus idas,adult,Nahrung,Nektar
+133,extensive_dachbegruenung_steppendach,Picus viridis,"adult, juvenil",Nahrung,Insekten
+134,extensive_dachbegruenung_steppendach,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+135,extensive_dachbegruenung_steppendach,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+136,extensive_dachbegruenung_steppendach,Passer domesticus,adult,Nahrung,Samen
+137,extensive_dachbegruenung_steppendach,Vespertilio murinus,adult,Nahrung,Insekten
+138,extensive_dachbegruenung_steppendach,Pipistrellus pipistrellus,adult,Nahrung,Insekten
+139,extensive_dachbegruenung_steppendach,Apus apus,adult,Nahrung,Insekten
+140,extensive_dachbegruenung_steppendach,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+141,extensive_dachbegruenung_steppendach,Papilio machaon,adult,Nahrung,Nektar
+142,extensive_dachbegruenung_steppendach,Anthidium oblongatum,Larve,Nahrung,Pollen
+143,extensive_dachbegruenung_steppendach,Anthidium oblongatum,adult,Nahrung,Nektar
+144,extensive_dachbegruenung_steppendach,Picus viridis,"adult, juvenil",Nahrung,Ameisen
+145,flache_wasserstelle,Muscicapa striata,"adult, juvenil",Trinkstelle,Wasser
+146,flache_wasserstelle,Muscicapa striata,"adult, juvenil",Badestelle,Wasser
+147,flache_wasserstelle,Picus viridis,"adult, juvenil",Trinkstelle,Wasser
+148,flache_wasserstelle,Passer domesticus,"adult, juvenil",Trinkstelle,Wasser
+149,flache_wasserstelle,Passer domesticus,"adult, juvenil",Badestelle,Wasser
+150,flache_wasserstelle,Andrena barbilabris,adult,Trinkstelle,Wasser
+151,flache_wasserstelle,Anthidium oblongatum,adult,Trinkstelle,Wasser
+152,flache_wasserstelle,Anthophora plumipes,adult,Trinkstelle,Wasser
+153,futterstellen_fuer_voegel,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+154,futterstellen_fuer_voegel,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Samen
+155,futterstellen_fuer_voegel,Passer domesticus,"adult, juvenil",Nahrung,Samen
+156,gartenbeete,Papilio machaon,Raupe,Nahrung,Blätter
+157,gartenbeete,Papilio machaon,Ei,Eiablage,Stängel/Blätter
+158,gartenbeete,Papilio machaon,adult,Nahrung,Nektar
+159,doldengewaechse,Papilio machaon,Raupe,Nahrung,Blätter
+160,doldengewaechse,Papilio machaon,Ei,Eiablage,Stängel/Blätter
+161,doldengewaechse,Papilio machaon,adult,Nahrung,Nektar
+162,gebaeudespalten_spaltenquartiere_an_fassaden_sommerquartier,Vespertilio murinus,adult,Schlafplatz,Hohlraum
+163,gebaeudespalten_spaltenquartiere_an_fassaden_sommerquartier,Pipistrellus pipistrellus,adult,Schlafplatz,Hohlraum
+164,halbhoehlenkaesten_durchgehender_schlitz_hoehe_50_mm,Muscicapa striata,adult,Brutplatz,Hohlraum
+165,hoehlenkaesten_flugloch_32_34_mm_an_baeumen,Passer domesticus,adult,Brutplatz,Hohlraum
+166,hoehlenkaesten_flugloch_32_34_mm_an_fassaden,Passer domesticus,adult,Brutplatz,Hohlraum
+167,hoehlenkaesten_flugloch_32_48_mm_an_baeumen,Phoenicurus phoenicurus,adult,Brutplatz,Hohlraum
+168,hoehlenkaesten_flugloch_oval_30x50_mm_an_baeumen,Phoenicurus phoenicurus,adult,Brutplatz,Hohlraum
+169,horizontales_totholz,Muscicapa striata,adult,Jagdwarte,Totholz
+170,horizontales_totholz,Phoenicurus phoenicurus,adult,Jagdwarte,Totholz
+171,horizontales_totholz,Lacerta agilis,"adult, juvenil",Schutzort,Hohlräume
+172,horizontales_totholz,Lacerta agilis,"adult, juvenil",Nahrung,Insekten
+173,horizontales_totholz,Lacerta agilis,"adult, juvenil",Sonnenplatz,Totholz
+174,horizontales_totholz,Lacerta agilis,"adult, juvenil",Überwinterung,Hohlräume
+175,horizontales_totholz,Muscicapa striata,adult,Jagdwarte,Totholz
+176,horizontales_totholz,Muscicapa striata,adult,Singwarte,Totholz
+177,horizontales_totholz,Muscicapa striata,adult,Paarungsort,Totholz
+178,horizontales_totholz,Phoenicurus phoenicurus,adult,Jagdwarte,Totholz
+179,isolierte_spaltenquartiere_an_fassade_winterquartier,Pipistrellus pipistrellus,adult,Überwinterung,Hohlraum
+180,isolierte_spaltenquartiere_an_hohen_fassaden_winterquartier,Vespertilio murinus,adult,Überwinterung,Hohlraum
+181,kletter_und_schlingpflanzen_mit_rankgeruest,Muscicapa striata,"adult, juvenil",Schutzort,Blätter/Zweige
+182,kletter_und_schlingpflanzen_mit_rankgeruest,Passer domesticus,"adult, juvenil",Schutzort,Blätter/Zweige
+183,kletter_und_schlingpflanzen_mit_rankgeruest,Andrena barbilabris,juvenil,Nahrung,Pollen
+184,kletter_und_schlingpflanzen_mit_rankgeruest,Andrena barbilabris,adult,Nahrung,Nektar
+185,kletter_und_schlingpflanzen_mit_rankgeruest,Anthidium oblongatum,juvenil,Nahrung,Pollen
+186,kletter_und_schlingpflanzen_mit_rankgeruest,Anthidium oblongatum,adult,Nahrung,Nektar
+187,kletter_und_schlingpflanzen_mit_rankgeruest,Anthophora plumipes,juvenil,Nahrung,Pollen
+188,kletter_und_schlingpflanzen_mit_rankgeruest,Anthophora plumipes,adult,Nahrung,Nektar
+189,kletterpflanzen_selbstklimmer,Muscicapa striata,"adult, juvenil",Schutzort,Blätter/Zweige
+190,kletterpflanzen_selbstklimmer,Passer domesticus,"adult, juvenil",Schutzort,Blätter/Zweige
+191,komposthaufen,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+192,komposthaufen,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+193,komposthaufen,Muscicapa striata,"adult, juvenil",Nahrung,Insekten
+194,krautsaum,Muscicapa striata,"adult, juvenil",Nahrung,Insekten
+195,krautsaum,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+196,krautsaum,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+197,krautsaum,Lacerta agilis,"adult, juvenil",Nahrung,Insekten
+198,krautsaum,Andrena barbilabris,Larve,Nahrung,Pollen
+199,krautsaum,Andrena barbilabris,adult,Nahrung,Nektar
+200,krautsaum,Anthidium oblongatum,Larve,Nahrung,Pollen
+201,krautsaum,Anthidium oblongatum,adult,Nahrung,Nektar
+202,krautsaum,Anthophora plumipes,Larve,Nahrung,Pollen
+203,krautsaum,Anthophora plumipes,adult,Nahrung,Nektar
+204,krautsaum,Papilio machaon,adult,Nahrung,Nektar
+205,krautsaum,Plebejus idas,adult,Nahrung,Nektar
+206,krautsaum,Passer domesticus,"adult, juvenil",Nahrung,Samen
+207,krautsaum,Pipistrellus pipistrellus,adult,Nahrung,Insekten
+208,krautsaum,Vespertilio murinus,adult,Nahrung,Insekten
+209,laubgehoelze,Pyrrhula pyrrhula,adult,Brutplatz,dichte Zweige
+210,magerrasen,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+211,magerrasen,Passer domesticus,"adult, juvenil",Nahrung,Samen
+212,magerrasen,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+213,magerrasen,Muscicapa striata,"adult, juvenil",Nahrung,Insekten
+214,magerrasen,Andrena barbilabris,Larve,Nahrung,Pollen
+215,magerrasen,Andrena barbilabris,adult,Nahrung,Nektar
+216,magerrasen,Anthidium oblongatum,Larve,Nahrung,Pollen
+217,magerrasen,Anthidium oblongatum,adult,Nahrung,Nektar
+218,magerrasen,Anthophora plumipes,Larve,Nahrung,Pollen
+219,magerrasen,Anthophora plumipes,adult,Nahrung,Nektar
+220,magerrasen,Papilio machaon,adult,Nahrung,Nektar
+221,magerrasen,Plebejus idas,adult,Nahrung,Nektar
+222,magerrasen,Lacerta agilis,"adult, juvenil",Nahrung,Insekten
+223,magerrasen,Pipistrellus pipistrellus,adult,Nahrung,Insekten
+224,magerrasen,Vespertilio murinus,adult,Nahrung,Insekten
+225,magerrasen,Apus apus,"adult, juvenil",Nahrung,Insekten
+226,mauerseglerkaesten_flugloch_50_mm,Apus apus,adult,Brutplatz,Hohlraum
+227,mauerseglerkaesten_flugloch_queroval_40x60_mm,Apus apus,adult,Brutplatz,Hohlraum
+228,rasen,Picus viridis,"adult, juvenil",Nahrung,Insekten
+229,rasen,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+230,rasen,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+231,reisig_laubhaufen,Lacerta agilis,"adult, juvenil",Schutzort,Hohlräume
+232,ruderalflaeche,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Insekten
+233,ruderalflaeche,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+234,ruderalflaeche,Passer domesticus,"adult, juvenil",Nahrung,Samen
+235,ruderalflaeche,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Samen
+236,ruderalflaeche,Andrena barbilabris,Larve,Nahrung,Pollen
+237,ruderalflaeche,Andrena barbilabris,adult,Nahrung,Nektar
+238,ruderalflaeche,Andrena barbilabris,Ei,Eiablage,Sand
+239,ruderalflaeche,Anthidium oblongatum,Larve,Nahrung,Pollen
+240,ruderalflaeche,Anthidium oblongatum,adult,Nahrung,Nektar
+241,ruderalflaeche,Anthophora plumipes,Larve,Nahrung,Pollen
+242,ruderalflaeche,Anthophora plumipes,adult,Nahrung,Nektar
+243,ruderalflaeche,Papilio machaon,adult,Nahrung,Nektar
+244,ruderalflaeche,Plebejus idas,adult,Nahrung,Nektar
+245,ruderalflaeche,Plebejus idas,Ei,Eiablage,Pflanzen
+246,ruderalflaeche,Plebejus idas,adult,Balz,Fläche
+247,ruderalflaeche,Lacerta agilis,"adult, juvenil",Nahrung,Insekten
+248,ruderalflaeche,Lacerta agilis,Ei,Eiablage,Sand
+249,ruderalflaeche,Pipistrellus pipistrellus,adult,Nahrung,Insekten
+250,ruderalflaeche,Vespertilio murinus,adult,Nahrung,Insekten
+253,sandlinse_sandbeet_mindesttiefe_30_cm,Lacerta agilis,Ei,Eiablage,Sand
+255,senkrecht_stehende_pflanzenstaengel_zweige,Papilio machaon,Puppe,Überwinterung,Stängel
+256,spaltenquartiere_an_baeumen_sommerquartier,Vespertilio murinus,adult,Schlafplatz,Hohlraum
+257,spaltenquartiere_an_baeumen_wochenstuben,Vespertilio murinus,"adult, juvenil",Jungenaufzucht,Hohlraum
+258,spaltenquartiere_an_fassaden_wochenstuben,Pipistrellus pipistrellus,"adult, juvenil",Jungenaufzucht,Hohlraum
+259,spaltenquartiere_an_fassaden_wochenstuben,Vespertilio murinus,"adult, juvenil",Jungenaufzucht,Hohlraum
+260,spaltenquartiere_unter_attika,Pipistrellus pipistrellus,adult,Schlafplatz,Hohlraum
+261,steingabione,Muscicapa striata,adult,Jagdwarte,Steine
+262,steingabione,Phoenicurus phoenicurus,adult,Jagdwarte,Steine
+263,steingabione,Lacerta agilis,"adult, juvenil",Schutzort,Hohlräume
+264,steingabione,Lacerta agilis,"adult, juvenil",Überwinterung,Hohlräume
+265,steingabione,Lacerta agilis,"adult, juvenil",Sonnenplatz,Steine
+266,steingabione,Anthidium oblongatum,Ei,Eiablage,Hohlräume
+267,steinschuettungen_steinhaufen,Muscicapa striata,adult,Jagdwarte,Steine
+268,steinschuettungen_steinhaufen,Phoenicurus phoenicurus,adult,Jagdwarte,Steine
+269,steinschuettungen_steinhaufen,Lacerta agilis,"adult, juvenil",Schutzort,Hohlräume
+270,steinschuettungen_steinhaufen,Lacerta agilis,"adult, juvenil",Nahrung,Insekten
+271,steinschuettungen_steinhaufen,Lacerta agilis,"adult, juvenil",Überwinterung,Hohlräume
+272,steinschuettungen_steinhaufen,Lacerta agilis,"adult, juvenil",Sonnenplatz,Steine
+273,steinschuettungen_steinhaufen,Anthidium oblongatum,Ei,Eiablage,Hohlräume
+274,straeucher,Muscicapa striata,"adult, juvenil",Nahrung,Insekten
+275,straeucher,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Knospen/Früchte/Samen
+276,straeucher,Pyrrhula pyrrhula,"adult, juvenil",Nahrung,Insekten
+277,straeucher,Passer domesticus,"adult, juvenil",Nahrung,Früchte/Beeren
+278,straeucher,Passer domesticus,"adult, juvenil",Nahrung,Insekten
+279,straeucher,Andrena barbilabris,Larve,Nahrung,Pollen
+280,straeucher,Andrena barbilabris,adult,Nahrung,Nektar
+281,straeucher,Anthophora plumipes,Larve,Nahrung,Pollen
+282,straeucher,Anthophora plumipes,adult,Nahrung,Nektar
+283,straeucher,Plebejus idas,adult,Nahrung,Nektar
+284,straeucher,Phoenicurus phoenicurus,"adult, juvenil",Jagdwarte,Zweige
+285,straeucher,Muscicapa striata,"adult, juvenil",Jagdwarte,Zweige
+286,straeuchergruppen_straeucher_clumps,Pyrrhula pyrrhula,adult,Brutplatz,Zweige
+287,straeuchergruppen_straeucher_clumps,Pyrrhula pyrrhula,"adult, juvenil",Schlafplatz,Zweige
+288,straeuchergruppen_straeucher_clumps,Passer domesticus,"adult, juvenil",Ruheplätze,Zweige
+289,streuobstwiese,Phoenicurus phoenicurus,adult,Balz,Zweige
+290,streuobstwiese,Phoenicurus phoenicurus,"adult, juvenil",Nahrung,Früchte/Beeren
+291,streuobstwiese,Muscicapa striata,"adult, juvenil",Nahrung,Insekten
+292,totholzgabione,Lacerta agilis,"adult, juvenil",Schutzort,Hohlräume
+293,totholzgabione,Phoenicurus phoenicurus,"adult, juvenil",Jagdwarte,Totholz
+294,totholzgabione,Muscicapa striata,adult,Jagdwarte,Totholz
+295,trockenmauer,Muscicapa striata,adult,Jagdwarte,Steine
+296,trockenmauer,Phoenicurus phoenicurus,adult,Jagdwarte,Steine
+297,trockenmauer,Lacerta agilis,"adult, juvenil",Schutzort,Hohlräume
+298,trockenmauer,Lacerta agilis,"adult, juvenil",Überwinterung,Hohlräume
+299,trockenmauer,Lacerta agilis,"adult, juvenil",Sonnenplatz,Steine
+300,trockenmauer,Anthidium oblongatum,Ei,Eiablage,Hohlräume
+301,unbefestigte_flaeche,Passer domesticus,"adult, juvenil",Staubbad,Staub
+302,trockenmauer,Anthophora plumipes,Ei,Eiablage,Hohlraum
+303,wildbienen_nisthilfe_aus_lehm,Anthophora plumipes,Ei,Eiablage,Lehm
