@@ -20,3 +20,18 @@ The **data** directory contains the original data as .xlsx spreadsheet files. Th
 ## Maintainers
 
 Maintainer of this project is the [Studio Animal-Aided Design](https://animal-aided-design.de/). This project is a public project sponsored by the European Union.
+
+## Local Converter App (Notebook Replacement)
+
+A local desktop converter app is available under `converter_app/`.
+
+- User guide: `CONVERTER.md`
+- GUI launch: `python3 -m converter_app.gui`
+- CLI fallback: `python3 -m converter_app.cli --input-root data --output-root dist/conversion-output`
+
+The converter generates Tooljet-ready CSV outputs, a JSON/HTML conversion report, and a Tooljet import guide.
+
+- Distribution guide: `RELEASE.md`
+- External user documentation: `docs/converter/README.md`
+
+- Dev mode (auto-restart GUI): `python3 -m converter_app.dev_runner` or `./run_converter_dev.command`

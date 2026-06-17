@@ -1,1 +1,21 @@
-.DS_STORE
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Build / packaging
+build/
+dist/
+.pyinstaller-cache/
+
+# Logs
+*.log

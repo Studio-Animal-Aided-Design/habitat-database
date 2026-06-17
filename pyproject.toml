@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aad-tooljet-converter"
+version = "0.1.0"
+description = "Local converter app replacing notebook-based Tooljet imports"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas>=2.2.0",
+  "openpyxl>=3.1.2",
+  "customtkinter>=5.2.2"
+]
+
+[project.scripts]
+aad-converter = "converter_app.cli:main"
+aad-converter-gui = "converter_app.gui:main"
