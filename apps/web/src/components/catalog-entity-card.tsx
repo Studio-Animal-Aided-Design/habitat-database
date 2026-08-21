@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Building2, Leaf } from "lucide-react";
+import { Building2, Leaf } from "lucide-react";
+import { EditorialActionLink, EditorialEyebrow } from "@/components/editorial-primitives";
 import type { HabitatSummary, PlantSummary } from "@/lib/catalog/types";
 
 type PlantCardProps = { kind: "plant"; item: PlantSummary };
@@ -33,13 +34,11 @@ export function CatalogEntityCard(props: PlantCardProps | HabitatCardProps) {
         <span>{isPlant ? <Leaf size={14} /> : <Building2 size={14} />}{label}</span>
       </Link>
       <div className="entity-card-content">
-        <p className="eyebrow">{props.kind === "plant" ? props.item.floweringPeriod ?? "Pflanzenart" : props.item.location ?? "Planungsbaustein"}</p>
+        <EditorialEyebrow>{props.kind === "plant" ? props.item.floweringPeriod ?? "Pflanzenart" : props.item.location ?? "Planungsbaustein"}</EditorialEyebrow>
         <h2><Link href={href}>{title}</Link></h2>
         {props.kind === "plant" && <p className="scientific">{props.item.scientificName}</p>}
         <p>{props.item.teaser}</p>
-        <Link className="text-link" href={href}>
-          Details öffnen <ArrowRight size={17} />
-        </Link>
+        <EditorialActionLink variant="text" href={href}>Details öffnen</EditorialActionLink>
       </div>
     </article>
   );

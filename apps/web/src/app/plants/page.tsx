@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CatalogEntityCard } from "@/components/catalog-entity-card";
 import { CatalogToolbar } from "@/components/catalog-toolbar";
+import { EditorialActionLink, EditorialEmptyState, EditorialEyebrow } from "@/components/editorial-primitives";
 import { PublicFooter } from "@/components/public-footer";
 import { SiteHeader } from "@/components/site-header";
 import { catalogApi } from "@/lib/catalog/catalog-api";
@@ -22,7 +22,7 @@ export default async function PlantsPage({ searchParams }: PageProps) {
       <div className="page-shell">
         <SiteHeader />
         <section className="catalog-intro catalog-intro-plant">
-          <p className="eyebrow">Pflanzenbibliothek</p>
+          <EditorialEyebrow>Pflanzenbibliothek</EditorialEyebrow>
           <h1>Pflanzen wählen.<br /><em>Wirkung entfalten.</em></h1>
           <p>{plants.length} Pflanzen entsprechen der aktuellen Auswahl.</p>
           <CatalogToolbar
@@ -38,11 +38,12 @@ export default async function PlantsPage({ searchParams }: PageProps) {
             {plants.map((plant) => <CatalogEntityCard key={plant.slug} kind="plant" item={plant} />)}
           </section>
         ) : (
-          <section className="empty-state">
-            <p className="eyebrow">Keine Treffer</p>
-            <h2>Keine Pflanze entspricht dieser Auswahl.</h2>
-            <Link className="outline-link" href="/plants">Filter zurücksetzen</Link>
-          </section>
+          <EditorialEmptyState
+            title="Keine Pflanze entspricht dieser Auswahl."
+            action={<EditorialActionLink href="/plants">Filter zurücksetzen</EditorialActionLink>}
+          >
+            Versuchen Sie einen anderen Suchbegriff oder setzen Sie die Filter zurück.
+          </EditorialEmptyState>
         )}
         <PublicFooter />
       </div>

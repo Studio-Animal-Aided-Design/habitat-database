@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Bird, Leaf, MapPin, Quote, Sprout } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { PublicFooter } from "@/components/public-footer";
+import { EditorialEyebrow, EditorialFactList, EditorialSourceNote } from "@/components/editorial-primitives";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -65,16 +66,19 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
                 <span>{species.taxonomy.orderCommon}</span>
                 <span>{species.taxonomy.familyCommon}</span>
               </div>
-              <p className="eyebrow">Artenportrait</p>
+              <EditorialEyebrow>Artenportrait</EditorialEyebrow>
               <h1>{species.commonName}</h1>
               <p className="portrait-scientific">{species.scientificName}</p>
               {species.alternativeName && <p className="alternative">Auch bekannt als {species.alternativeName}</p>}
               <p className="portrait-teaser">{species.teaser}</p>
-              <dl className="taxonomy-list">
-                <div><dt>Klasse</dt><dd>{species.taxonomy.classCommon} <i>{species.taxonomy.classScientific}</i></dd></div>
-                <div><dt>Ordnung</dt><dd>{species.taxonomy.orderCommon} <i>{species.taxonomy.orderScientific}</i></dd></div>
-                <div><dt>Familie</dt><dd>{species.taxonomy.familyCommon} <i>{species.taxonomy.familyScientific}</i></dd></div>
-              </dl>
+              <EditorialFactList
+                className="taxonomy-list"
+                items={[
+                  { label: "Klasse", value: <>{species.taxonomy.classCommon} <i>{species.taxonomy.classScientific}</i></> },
+                  { label: "Ordnung", value: <>{species.taxonomy.orderCommon} <i>{species.taxonomy.orderScientific}</i></> },
+                  { label: "Familie", value: <>{species.taxonomy.familyCommon} <i>{species.taxonomy.familyScientific}</i></> }
+                ]}
+              />
             </div>
           </section>
 
@@ -95,7 +99,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
                   <p>{attribute.category}</p>
                   <h3>{attribute.label}</h3>
                   <blockquote><Quote size={18} />{attribute.value}</blockquote>
-                  {attribute.sources && <small>{attribute.sources}</small>}
+                  {attribute.sources && <EditorialSourceNote sources={attribute.sources} compact />}
                 </div>
               ))}
             </div>

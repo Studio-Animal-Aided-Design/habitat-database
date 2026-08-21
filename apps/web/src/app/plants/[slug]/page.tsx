@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, CalendarDays, Leaf, MapPin, Sprout } from "lucide-react";
 import { PublicFooter } from "@/components/public-footer";
 import { SiteHeader } from "@/components/site-header";
+import { EditorialActionLink, EditorialSectionHeading, EditorialSourceNote } from "@/components/editorial-primitives";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -83,10 +84,11 @@ export default async function PlantDetailPage({ params }: PageProps) {
           </section>
 
           <section className="related-section">
-            <div className="section-heading">
-              <div><p className="eyebrow">03 · Beziehungen</p><h2>Arten, die von dieser Pflanze profitieren</h2></div>
-              <Link className="outline-link" href="/species">Alle Arten <ArrowRight size={17} /></Link>
-            </div>
+            <EditorialSectionHeading
+              eyebrow="03 · Beziehungen"
+              title="Arten, die von dieser Pflanze profitieren"
+              action={<EditorialActionLink href="/species">Alle Arten</EditorialActionLink>}
+            />
             {plant.relatedSpecies.length ? (
               <div className="related-link-grid">
                 {plant.relatedSpecies.map((species) => (
@@ -99,7 +101,7 @@ export default async function PlantDetailPage({ params }: PageProps) {
               </div>
             ) : <p className="empty-note">Beziehungen folgen mit der vollständigen Datenmigration.</p>}
           </section>
-          <section className="source-note"><p className="eyebrow">Quellen</p><p>{plant.sources.join(" · ")}</p></section>
+          <EditorialSourceNote sources={plant.sources.join(" · ")} />
         </article>
         <PublicFooter />
       </div>
