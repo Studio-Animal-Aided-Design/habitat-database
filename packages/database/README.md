@@ -110,6 +110,17 @@ If any CSV byte changes after the dry run, the manifest changes and apply refuse
 
 Do not use a checksum from a `merge` review with a later `sync` command without also reviewing the mode-specific removal/archive column. The file checksum is identical, but the operational consequence is not.
 
+### Publication policy for converter data
+
+Species, plants and habitat elements present in the approved converter snapshot are written as
+`published` in both merge and sync mode. This also corrects an already imported `draft` or
+`archived` source record on the next apply, even when its CSV fields are unchanged. The dry-run
+reports that publication-only correction as an update.
+
+The table default remains `draft`: records created later through the management application are not
+published implicitly. In sync mode, source-managed core records missing from the complete snapshot
+are still changed to `archived`.
+
 ## Merge mode
 
 `merge` is the default when `--mode` is omitted. Prefer spelling it explicitly in operational commands.
@@ -129,6 +140,7 @@ Merge performs these actions:
 - inserts relationships by their complete semantic identity;
 - records all seen source rows and leaves missing source-owned database records untouched;
 - never performs sync-driven deletes or archives.
+- publishes every species, plant and habitat element present in the approved snapshot.
 
 Important consequence: because relationship purpose, annotations and sources are part of a relationship's semantic identity, changing those values creates a new relationship in merge mode while the old relationship remains. Use `sync` when the CSV snapshot is authoritative and edits or removals must replace the previous source state.
 
