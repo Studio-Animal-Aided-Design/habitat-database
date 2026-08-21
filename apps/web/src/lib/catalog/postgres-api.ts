@@ -163,7 +163,7 @@ export class PostgresCatalogApi implements CatalogApi {
     const [summary, lifecycle, attributes, plants, habitats] = await Promise.all([
       this.speciesSummary(row),
       this.database.query("SELECT m.* FROM media_assets m JOIN species_media sm ON sm.media_id=m.id WHERE sm.species_id=$1 AND m.image_type='lifecycle' ORDER BY sm.sort_order, m.created_at LIMIT 1", [row.id]),
-      this.database.query("SELECT d.level1_display_name AS category,d.display_name AS label,v.value,v.sources FROM species_attribute_values v JOIN species_attribute_definitions d ON d.id=v.definition_id WHERE v.species_id=$1 AND nullif(trim(v.value),'') IS NOT NULL ORDER BY d.primary_sort,d.secondary_sort", [row.id]),
+      this.database.query("SELECT d.level1_display_name AS category,COALESCE(NULLIF(BTRIM(d.level2_display_name),''),d.level1_display_name) AS subcategory,d.display_name AS label,v.value,v.sources FROM species_attribute_values v JOIN species_attribute_definitions d ON d.id=v.definition_id WHERE v.species_id=$1 AND nullif(trim(v.value),'') IS NOT NULL ORDER BY d.primary_sort,d.secondary_sort", [row.id]),
       this.database.query("SELECT p.scientific_name,p.common_name,r.purpose FROM species_plant_relations r JOIN plants p ON p.id=r.plant_id WHERE r.species_id=$1 AND p.publication_status='published' ORDER BY p.scientific_name", [row.id]),
       this.database.query("SELECT h.legacy_slug,h.name,r.purpose,r.purpose_element,r.lifecycle_stage FROM species_habitat_relations r JOIN habitat_elements h ON h.id=r.habitat_element_id WHERE r.species_id=$1 AND h.publication_status='published' ORDER BY h.name", [row.id])
     ]);
@@ -179,7 +179,7 @@ export class PostgresCatalogApi implements CatalogApi {
         familyScientific: row.family_scientific || "",
         genusScientific: row.genus_scientific || ""
       },
-      attributes: attributes.rows.map((item) => ({ category: item.category, label: item.label, value: item.value, sources: item.sources || undefined })),
+      attributes: attributes.rows.map((item) => ({ category: item.category, subcategory: item.subcategory, label: item.label, value: item.value, sources: item.sources || undefined })),
       lifecycleImage: imageFromRow(lifecycle.rows[0], row.common_name, "lifecycle"),
       plants: plants.rows.map((item) => ({ slug: catalogSlug(item.scientific_name), scientificName: item.scientific_name, commonName: item.common_name || item.scientific_name, purpose: item.purpose || "" })),
       habitats: habitats.rows.map((item) => ({ slug: catalogSlug(item.legacy_slug), name: item.name, purpose: item.purpose || "", purposeElement: item.purpose_element || "", lifecycleStage: item.lifecycle_stage || "" }))

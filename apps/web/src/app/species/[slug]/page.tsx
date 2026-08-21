@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Bird, Leaf, MapPin, Quote, Sprout } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bird, Leaf, MapPin, Sprout } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { PublicFooter } from "@/components/public-footer";
-import { EditorialEyebrow, EditorialFactList, EditorialSourceNote } from "@/components/editorial-primitives";
+import { EditorialEyebrow, EditorialFactList } from "@/components/editorial-primitives";
+import { SpeciesAttributeBrowser } from "@/components/species-attribute-browser";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -93,16 +94,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
               <p className="eyebrow">01 · Art verstehen</p>
               <h2>Kurzcharakteristik</h2>
             </div>
-            <div className="attribute-list">
-              {species.attributes.map((attribute) => (
-                <div className="attribute-item" key={`${attribute.category}-${attribute.label}`}>
-                  <p>{attribute.category}</p>
-                  <h3>{attribute.label}</h3>
-                  <blockquote><Quote size={18} />{attribute.value}</blockquote>
-                  {attribute.sources && <EditorialSourceNote sources={attribute.sources} compact />}
-                </div>
-              ))}
-            </div>
+            <SpeciesAttributeBrowser attributes={species.attributes} />
           </section>
 
           <section className="lifecycle-section" id="lifecycle">

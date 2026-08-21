@@ -34,6 +34,15 @@ describe("MockCatalogApi", () => {
     await expect(catalogApi.getHabitatBySlug("unbekannt")).resolves.toBeNull();
   });
 
+  it("retains both canonical attribute grouping levels in development fallback data", async () => {
+    const species = await catalogApi.getSpeciesBySlug("gimpel");
+
+    expect(species?.attributes[0]).toMatchObject({
+      category: "Kurzcharakteristik",
+      subcategory: "Aussehen und Körperbau"
+    });
+  });
+
   it("keeps mocked cross-entity links referentially valid", async () => {
     const species = await catalogApi.getSpeciesBySlug("gimpel");
     expect(species).not.toBeNull();

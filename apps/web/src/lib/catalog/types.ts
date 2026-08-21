@@ -35,6 +35,7 @@ export type RelatedHabitat = {
 
 export type SpeciesAttribute = {
   category: string;
+  subcategory: string;
   label: string;
   value: string;
   sources?: string;
