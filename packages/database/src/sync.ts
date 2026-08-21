@@ -5,6 +5,7 @@ import { writeReport, type DatasetDiff, type ImportReport } from "./report.js";
 import { buildSnapshot, type Snapshot, type SourceRef } from "./snapshot.js";
 
 export type SyncMode = "merge" | "sync";
+const importedPublicationStatus = "published" as const;
 
 const fingerprint = (value: unknown): string => hash(JSON.stringify(value));
 const diff = (desired: Map<string, string>, current: Map<string, string>, mode: SyncMode): DatasetDiff => {
@@ -18,9 +19,15 @@ const diff = (desired: Map<string, string>, current: Map<string, string>, mode: 
   return { incoming: desired.size, inserted, updated, unchanged, removedOrArchived: mode === "sync" ? missing : 0 };
 };
 
-async function currentMap(client: pg.PoolClient, table: string, keyColumn: string): Promise<Map<string, string>> {
-  const result = await client.query<{ key: string; source_fingerprint: string }>(`SELECT ${keyColumn} AS key, source_fingerprint FROM ${table} WHERE source_managed`);
-  return new Map(result.rows.map((row) => [row.key, row.source_fingerprint]));
+async function currentMap(client: pg.PoolClient, table: string, keyColumn: string, requirePublished = false): Promise<Map<string, string>> {
+  const statusColumn = requirePublished ? ", publication_status" : "";
+  const result = await client.query<{ key: string; source_fingerprint: string; publication_status?: string }>(`SELECT ${keyColumn} AS key, source_fingerprint${statusColumn} FROM ${table} WHERE source_managed`);
+  return new Map(result.rows.map((row) => [
+    row.key,
+    requirePublished && row.publication_status !== importedPublicationStatus
+      ? `publication-status:${row.publication_status}:${row.source_fingerprint}`
+      : row.source_fingerprint
+  ]));
 }
 
 function desiredMaps(snapshot: Snapshot): Record<string, Map<string, string>> {
@@ -52,7 +59,11 @@ export async function planSync(client: pg.PoolClient, repoRoot: string, mode: Sy
     if (name === "species_attribute_values") {
       const rows = await client.query<{ key: string; source_fingerprint: string }>(`SELECT s.scientific_name_key || ':' || d.slug AS key, v.source_fingerprint FROM species_attribute_values v JOIN species s ON s.id=v.species_id JOIN species_attribute_definitions d ON d.id=v.definition_id WHERE v.source_managed`);
       datasets[name] = diff(desiredRows, new Map(rows.rows.map((row) => [row.key, row.source_fingerprint])), mode);
-    } else datasets[name] = diff(desiredRows, await currentMap(client, name, keys[name]), mode);
+    } else datasets[name] = diff(
+      desiredRows,
+      await currentMap(client, name, keys[name], ["species", "plants", "habitat_elements"].includes(name)),
+      mode
+    );
   }
   return { snapshot, report: { generatedAt: new Date().toISOString(), manifestChecksum: snapshot.manifestChecksum, mode, applied: false, sourceFiles: snapshot.files, datasets, diagnostics: snapshot.diagnostics } };
 }
@@ -65,15 +76,15 @@ export async function applySync(client: pg.PoolClient, snapshot: Snapshot, repor
   try {
     for (const item of snapshot.species) {
       const values = [item.scientific_name, item.naturalKey, item.alternative_scientific_name, item.common_name, item.alternative_common_name, item.class_common, item.class_scientific, item.order_common, item.order_scientific, item.family_common, item.family_scientific, item.genus_common, item.genus_scientific, fieldsFingerprint(item)];
-      await client.query(`INSERT INTO species(scientific_name,scientific_name_key,alternative_scientific_name,common_name,alternative_common_name,class_common,class_scientific,order_common,order_scientific,family_common,family_scientific,genus_common,genus_scientific,source_managed,source_fingerprint) VALUES (${placeholders(13)},true,$14) ON CONFLICT(scientific_name_key) DO UPDATE SET scientific_name=EXCLUDED.scientific_name,alternative_scientific_name=EXCLUDED.alternative_scientific_name,common_name=EXCLUDED.common_name,alternative_common_name=EXCLUDED.alternative_common_name,class_common=EXCLUDED.class_common,class_scientific=EXCLUDED.class_scientific,order_common=EXCLUDED.order_common,order_scientific=EXCLUDED.order_scientific,family_common=EXCLUDED.family_common,family_scientific=EXCLUDED.family_scientific,genus_common=EXCLUDED.genus_common,genus_scientific=EXCLUDED.genus_scientific,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,publication_status=CASE WHEN species.publication_status='archived' THEN 'draft' ELSE species.publication_status END,updated_at=now() WHERE species.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint`, values);
+      await client.query(`INSERT INTO species(scientific_name,scientific_name_key,alternative_scientific_name,common_name,alternative_common_name,class_common,class_scientific,order_common,order_scientific,family_common,family_scientific,genus_common,genus_scientific,publication_status,source_managed,source_fingerprint) VALUES (${placeholders(13)},'published',true,$14) ON CONFLICT(scientific_name_key) DO UPDATE SET scientific_name=EXCLUDED.scientific_name,alternative_scientific_name=EXCLUDED.alternative_scientific_name,common_name=EXCLUDED.common_name,alternative_common_name=EXCLUDED.alternative_common_name,class_common=EXCLUDED.class_common,class_scientific=EXCLUDED.class_scientific,order_common=EXCLUDED.order_common,order_scientific=EXCLUDED.order_scientific,family_common=EXCLUDED.family_common,family_scientific=EXCLUDED.family_scientific,genus_common=EXCLUDED.genus_common,genus_scientific=EXCLUDED.genus_scientific,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,publication_status='published',updated_at=now() WHERE species.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint OR species.publication_status IS DISTINCT FROM 'published'`, values);
     }
     for (const item of snapshot.plants) {
       const values = [item.scientificName, item.naturalKey, item.commonName, item.plantType, item.floweringTime, item.nativeStatus, item.localFaunaImportance, fieldsFingerprint(item)];
-      await client.query(`INSERT INTO plants(scientific_name,scientific_name_key,common_name,plant_type,flowering_time,native_status,local_fauna_importance,source_managed,source_fingerprint) VALUES (${placeholders(7)},true,$8) ON CONFLICT(scientific_name_key) DO UPDATE SET scientific_name=EXCLUDED.scientific_name,common_name=EXCLUDED.common_name,plant_type=EXCLUDED.plant_type,flowering_time=EXCLUDED.flowering_time,native_status=EXCLUDED.native_status,local_fauna_importance=EXCLUDED.local_fauna_importance,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,publication_status=CASE WHEN plants.publication_status='archived' THEN 'draft' ELSE plants.publication_status END,updated_at=now() WHERE plants.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint`, values);
+      await client.query(`INSERT INTO plants(scientific_name,scientific_name_key,common_name,plant_type,flowering_time,native_status,local_fauna_importance,publication_status,source_managed,source_fingerprint) VALUES (${placeholders(7)},'published',true,$8) ON CONFLICT(scientific_name_key) DO UPDATE SET scientific_name=EXCLUDED.scientific_name,common_name=EXCLUDED.common_name,plant_type=EXCLUDED.plant_type,flowering_time=EXCLUDED.flowering_time,native_status=EXCLUDED.native_status,local_fauna_importance=EXCLUDED.local_fauna_importance,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,publication_status='published',updated_at=now() WHERE plants.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint OR plants.publication_status IS DISTINCT FROM 'published'`, values);
     }
     for (const item of snapshot.habitats) {
       const values = [item.legacySlug, item.name, item.elementType, item.size, item.location, item.measureDescription, item.maintenance, item.combinedWithText, fieldsFingerprint(item)];
-      await client.query(`INSERT INTO habitat_elements(legacy_slug,name,element_type,size,location,measure_description,maintenance,combined_with_text,source_managed,source_fingerprint) VALUES (${placeholders(8)},true,$9) ON CONFLICT(legacy_slug) DO UPDATE SET name=EXCLUDED.name,element_type=EXCLUDED.element_type,size=EXCLUDED.size,location=EXCLUDED.location,measure_description=EXCLUDED.measure_description,maintenance=EXCLUDED.maintenance,combined_with_text=EXCLUDED.combined_with_text,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,publication_status=CASE WHEN habitat_elements.publication_status='archived' THEN 'draft' ELSE habitat_elements.publication_status END,updated_at=now() WHERE habitat_elements.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint`, values);
+      await client.query(`INSERT INTO habitat_elements(legacy_slug,name,element_type,size,location,measure_description,maintenance,combined_with_text,publication_status,source_managed,source_fingerprint) VALUES (${placeholders(8)},'published',true,$9) ON CONFLICT(legacy_slug) DO UPDATE SET name=EXCLUDED.name,element_type=EXCLUDED.element_type,size=EXCLUDED.size,location=EXCLUDED.location,measure_description=EXCLUDED.measure_description,maintenance=EXCLUDED.maintenance,combined_with_text=EXCLUDED.combined_with_text,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,publication_status='published',updated_at=now() WHERE habitat_elements.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint OR habitat_elements.publication_status IS DISTINCT FROM 'published'`, values);
     }
     for (const item of snapshot.definitions) {
       const values = [item.slug,item.primarySort,item.secondarySort,item.level1Category,item.level2Category,item.level1DisplayName,item.level2DisplayName,item.fieldName,item.displayName,item.description,item.explanation,item.hasSources,fieldsFingerprint(item)];

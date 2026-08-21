@@ -1,35 +1,44 @@
 # Local development and test runtime
 
-This repository currently contains two separate replacement-app runtime surfaces:
+The replacement has two runtime surfaces: PostgreSQL with the canonical imported data and the
+Next.js public/management application. Starting PostgreSQL does not start the website.
 
-1. PostgreSQL with imported canonical data;
-2. the Next.js web application, which still uses its typed mock API.
+## Local endpoints
 
-The web application is not yet connected to PostgreSQL. Starting PostgreSQL does not start a website, and starting the website currently displays mock data rather than the imported database records.
-
-## Current local endpoints
-
-| Component | Address | Browser UI | Current role |
+| Component | Address | Browser UI | Role |
 | --- | --- | --- | --- |
-| PostgreSQL 16 | `localhost:5432`, database `aad_habitat` | No | Canonical imported data and migration testing |
-| Next.js web | `http://localhost:3000` when started | Yes | Public and management route design backed by mock data |
+| PostgreSQL 16 | `localhost:5432`, database `aad_habitat` | No | Canonical data and migration testing |
+| Next.js web | `http://localhost:3000` | Yes | Server-rendered public and management reads |
 
-## Start PostgreSQL
+## Start PostgreSQL and load data
 
 From the repository root:
 
 ```bash
 docker compose up -d postgres
 docker compose ps
+cd packages/database
+npm install
+npm run db:migrate
+npm run db:dry-run -- --mode sync
 ```
 
-The expected healthy service is `habitat-database-postgres-1`, published on port 5432. Connect with:
+Review the generated report and apply its printed checksum:
+
+```bash
+npm run db:apply -- --mode sync --approve <manifest-checksum>
+```
+
+The exact CSV locations, merge/sync semantics and safety procedure are documented in
+[`../../packages/database/README.md`](../../packages/database/README.md).
+
+Useful database commands from the repository root:
 
 ```bash
 docker compose exec postgres psql -U aad -d aad_habitat
+docker compose logs -f postgres
+docker compose stop postgres
 ```
-
-The database import commands and source-file locations are documented in [`../../packages/database/README.md`](../../packages/database/README.md).
 
 ## Start the web application
 
@@ -41,20 +50,44 @@ npm install
 npm run dev
 ```
 
-Open `http://localhost:3000`. Management mock routes begin at `http://localhost:3000/management`.
+Open `http://localhost:3000`; management routes begin at `http://localhost:3000/management`.
 
-To stop the development server, press `Ctrl+C` in its terminal. To stop PostgreSQL without deleting its data:
+The default development configuration is equivalent to:
+
+```dotenv
+CATALOG_DATA_SOURCE=auto
+DATABASE_URL=postgresql://aad:aad-local-only@localhost:5432/aad_habitat
+```
+
+Copy `apps/web/.env.example` to `apps/web/.env.local` only to override these defaults.
+
+| `CATALOG_DATA_SOURCE` | Development | Production |
+| --- | --- | --- |
+| `auto` | Query PostgreSQL; on failure warn once and use mock fixtures | Does not fall back |
+| `postgres` | Require PostgreSQL and surface failures | Default; requires `DATABASE_URL` |
+| `mock` | Always use retained fixtures | Rejected at startup |
+
+To deliberately use fixtures during UI work:
+
+```bash
+CATALOG_DATA_SOURCE=mock npm run dev
+```
+
+To stop the web server, press `Ctrl+C` in its terminal. Stopping PostgreSQL without deleting its
+volume is safe:
 
 ```bash
 docker compose stop postgres
 ```
 
-## Current integration limitation
+`docker compose down -v` deletes all local PostgreSQL data and should only be used for an intentional
+clean rebuild.
 
-The browser application reads `CatalogApi` mock fixtures. It has no server-side PostgreSQL repository yet. Consequently:
+## Current integration boundary
 
-- CSV sync results can be inspected with SQL but are not reflected in the browser;
-- edits made in the mock management UI are not persisted;
-- public pages do not yet enforce database publication status.
+Catalogue and detail pages now read the canonical PostgreSQL schema. The management routes use the
+same read adapter, but forms are not yet persistent. Authentication, write validation, audit events,
+preview and publication commands are the next boundary.
 
-The next implementation slice should replace the mock adapter with a server-only PostgreSQL-backed catalogue repository while retaining the existing typed `CatalogApi` boundary. Begin with read-only species, plant and habitat queries plus relationship and flexible-attribute loading, then switch public server-rendered routes to that adapter. This creates a verifiable vertical slice before authentication and write workflows are added.
+Public detail routes reject non-published records. Approved converter snapshots publish their core
+species, plant and habitat records; future editorial records continue to default to `draft`.

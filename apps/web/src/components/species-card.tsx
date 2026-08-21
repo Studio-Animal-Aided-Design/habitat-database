@@ -1,0 +1,32 @@
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import type { SpeciesSummary } from "@/lib/catalog/types";
+
+export function SpeciesCard({ species, priority = false }: { species: SpeciesSummary; priority?: boolean }) {
+  return (
+    <article className="species-card">
+      <Link href={`/species/${species.slug}`} className="species-image">
+        <Image
+          src={species.image.url}
+          alt={species.image.alt}
+          fill
+          priority={priority}
+          sizes="(max-width: 760px) 90vw, 31vw"
+        />
+        <span>{species.className}</span>
+      </Link>
+      <div className="species-card-content">
+        <p className="eyebrow">{species.familyName}</p>
+        <h3>
+          <Link href={`/species/${species.slug}`}>{species.commonName}</Link>
+        </h3>
+        <p className="scientific">{species.scientificName}</p>
+        <p>{species.teaser}</p>
+        <Link className="text-link" href={`/species/${species.slug}`}>
+          Artenportrait öffnen <ArrowRight size={17} />
+        </Link>
+      </div>
+    </article>
+  );
+}
