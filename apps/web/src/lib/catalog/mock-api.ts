@@ -1,8 +1,10 @@
 import { mockHabitats, mockPlants, mockSpecies } from "./mock-data";
+import { featuredSlugs, selectFeatured, uniquePublishedTypes } from "./featured-content";
 import type {
   CatalogApi,
   CatalogOverview,
   CatalogQuery,
+  CatalogTypes,
   HabitatDetail,
   HabitatSummary,
   PlantDetail,
@@ -23,7 +25,17 @@ export class MockCatalogApi implements CatalogApi {
       speciesCount: 14,
       plantCount: 262,
       habitatCount: 57,
-      featuredSpecies: mockSpecies
+      featuredSpecies: selectFeatured(mockSpecies, featuredSlugs.species),
+      featuredPlants: selectFeatured(mockPlants, featuredSlugs.plants),
+      featuredHabitats: selectFeatured(mockHabitats, featuredSlugs.habitats)
+    };
+  }
+
+  async getCatalogTypes(): Promise<CatalogTypes> {
+    return {
+      speciesTypes: uniquePublishedTypes(mockSpecies),
+      plantTypes: uniquePublishedTypes(mockPlants),
+      habitatTypes: uniquePublishedTypes(mockHabitats)
     };
   }
 

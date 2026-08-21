@@ -15,7 +15,11 @@ type PageProps = { searchParams: Promise<{ q?: string; type?: string }> };
 
 export default async function SpeciesPage({ searchParams }: PageProps) {
   const query = await searchParams;
-  const species = (await catalogApi.listSpecies(query)).filter((item) => item.status === "published");
+  const [listedSpecies, catalogTypes] = await Promise.all([
+    catalogApi.listSpecies(query),
+    catalogApi.getCatalogTypes()
+  ]);
+  const species = listedSpecies.filter((item) => item.status === "published");
 
   return (
     <main>
@@ -29,13 +33,13 @@ export default async function SpeciesPage({ searchParams }: PageProps) {
             action="/species"
             query={query.q}
             type={query.type}
-            types={["Vögel", "Insekten", "Reptilien", "Säugetiere"]}
+            types={catalogTypes.speciesTypes}
             searchLabel="Nach Name, Klasse oder Familie suchen"
           />
         </section>
         {species.length ? (
           <section className="species-grid catalog-grid" aria-label="Artenportraits">
-            {species.map((item, index) => <SpeciesCard key={item.slug} species={item} priority={index === 0} />)}
+            {species.map((item, index) => <SpeciesCard key={item.slug} species={item} priority={index === 0} headingLevel={2} />)}
           </section>
         ) : (
           <EditorialEmptyState

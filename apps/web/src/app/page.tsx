@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, ArrowUpRight, Bird, Building2, Leaf, Search, Sparkles } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { SpeciesCard } from "@/components/species-card";
+import { CatalogEntityCard } from "@/components/catalog-entity-card";
 import { PublicFooter } from "@/components/public-footer";
 import { EditorialActionLink, EditorialSectionHeading } from "@/components/editorial-primitives";
 import { catalogApi } from "@/lib/catalog/catalog-api";
@@ -86,6 +87,39 @@ export default async function Home() {
             {overview.featuredSpecies.map((species, index) => (
               <SpeciesCard key={species.slug} species={species} priority={index === 0} />
             ))}
+          </div>
+        </section>
+
+        <section className="catalog-preview-section" aria-labelledby="catalog-preview-title">
+          <EditorialSectionHeading
+            eyebrow="Planungswissen entdecken"
+            title="Pflanzen und Strukturen, die Arten unterstützen."
+            titleId="catalog-preview-title"
+            lede="Von der ökologischen Funktion zur umsetzbaren Auswahl: Entdecken Sie veröffentlichte Pflanzen und Habitatelemente aus der Datenbank."
+          />
+          <div className="catalog-preview-columns">
+            <section className="catalog-preview-group" aria-labelledby="featured-plants-title">
+              <header>
+                <div><Leaf aria-hidden="true" /><h3 id="featured-plants-title">Pflanzen</h3></div>
+                <EditorialActionLink href="/plants" variant="text">Alle Pflanzen</EditorialActionLink>
+              </header>
+              <div className="catalog-preview-cards">
+                {overview.featuredPlants.slice(0, 2).map((plant) => (
+                  <CatalogEntityCard key={plant.slug} kind="plant" item={plant} headingLevel={4} />
+                ))}
+              </div>
+            </section>
+            <section className="catalog-preview-group" aria-labelledby="featured-habitats-title">
+              <header>
+                <div><Building2 aria-hidden="true" /><h3 id="featured-habitats-title">Habitatelemente</h3></div>
+                <EditorialActionLink href="/habitat-elements" variant="text">Alle Habitatelemente</EditorialActionLink>
+              </header>
+              <div className="catalog-preview-cards">
+                {overview.featuredHabitats.slice(0, 2).map((habitat, index) => (
+                  <CatalogEntityCard key={habitat.slug} kind="habitat" item={habitat} priority={index === 0} headingLevel={4} />
+                ))}
+              </div>
+            </section>
           </div>
         </section>
 

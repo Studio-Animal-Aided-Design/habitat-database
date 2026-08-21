@@ -31,6 +31,18 @@ Prefer these primitives whenever a pattern appears on more than one route. Entit
 - At narrow widths, section actions move below their headings and catalogue cards become a single column.
 - The supported narrow reference width is 390 px. Touch targets remain at least 44 px where the component is an important action.
 
+## Homepage featured-content policy
+
+Featured content is deterministic without adding a premature editorial-curation schema:
+
+1. only published records are eligible;
+2. `src/lib/catalog/featured-content.ts` defines an explicit ordered slug list for each entity type;
+3. missing preferred records are skipped rather than failing the page;
+4. remaining positions are filled by published records ordered by stable slug;
+5. the mock adapter applies the same selection function as PostgreSQL.
+
+The preferred slug lists are a temporary code-owned editorial choice. Move them into managed content only when the management workflow includes preview, publication and audit behavior.
+
 ## Boundary with management UI
 
 Public primitives use the `editorial-*` namespace. Management components use the existing `management-*` namespace and may share low-level colour tokens only. Editorial typography, cards and motion must not leak into authenticated work screens.

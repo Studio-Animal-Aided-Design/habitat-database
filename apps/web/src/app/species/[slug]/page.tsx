@@ -133,7 +133,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
                     <div><strong>{plant.commonName}</strong><i>{plant.scientificName}</i></div>
                     <span>{plant.purpose}</span>
                   </Link>
-                )) : <p className="empty-note">Beziehungen folgen mit der Datenmigration.</p>}
+                )) : <p className="empty-note">Für dieses Artenportrait sind derzeit keine Pflanzenbeziehungen hinterlegt.</p>}
               </div>
               <div>
                 <div className="planning-heading"><MapPin /><span><small>Verknüpfte</small>Habitatelemente</span></div>
@@ -143,7 +143,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
                     <div><strong>{habitat.name}</strong><i>{habitat.lifecycleStage}</i></div>
                     <span>{habitat.purpose}</span>
                   </Link>
-                )) : <p className="empty-note">Beziehungen folgen mit der Datenmigration.</p>}
+                )) : <p className="empty-note">Für dieses Artenportrait sind derzeit keine Habitatelement-Beziehungen hinterlegt.</p>}
               </div>
             </div>
           </section>

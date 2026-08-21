@@ -1,10 +1,12 @@
 import "server-only";
 
 import { Pool, type QueryResultRow } from "pg";
+import { featuredSlugs, selectFeatured } from "./featured-content";
 import type {
   CatalogApi,
   CatalogOverview,
   CatalogQuery,
+  CatalogTypes,
   ContentStatus,
   HabitatDetail,
   HabitatSummary,
@@ -128,7 +130,22 @@ export class PostgresCatalogApi implements CatalogApi {
       speciesCount: species.filter((item) => item.status === "published").length,
       plantCount: plants.filter((item) => item.status === "published").length,
       habitatCount: habitats.filter((item) => item.status === "published").length,
-      featuredSpecies: species.filter((item) => item.status === "published").slice(0, 3)
+      featuredSpecies: selectFeatured(species, featuredSlugs.species),
+      featuredPlants: selectFeatured(plants, featuredSlugs.plants),
+      featuredHabitats: selectFeatured(habitats, featuredSlugs.habitats)
+    };
+  }
+
+  async getCatalogTypes(): Promise<CatalogTypes> {
+    const [species, plants, habitats] = await Promise.all([
+      this.database.query<{ value: string }>("SELECT DISTINCT class_common AS value FROM species WHERE publication_status='published' AND nullif(trim(class_common),'') IS NOT NULL ORDER BY value"),
+      this.database.query<{ value: string }>("SELECT DISTINCT plant_type AS value FROM plants WHERE publication_status='published' AND nullif(trim(plant_type),'') IS NOT NULL ORDER BY value"),
+      this.database.query<{ value: string }>("SELECT DISTINCT element_type AS value FROM habitat_elements WHERE publication_status='published' AND nullif(trim(element_type),'') IS NOT NULL ORDER BY value")
+    ]);
+    return {
+      speciesTypes: species.rows.map((row) => row.value),
+      plantTypes: plants.rows.map((row) => row.value),
+      habitatTypes: habitats.rows.map((row) => row.value)
     };
   }
 
@@ -170,7 +187,7 @@ export class PostgresCatalogApi implements CatalogApi {
   }
 
   private plantSummary(row: PlantRow): PlantSummary {
-    const ecologicalValue = row.local_fauna_importance || "Ökologische Bedeutung wird fachlich ergänzt.";
+    const ecologicalValue = row.local_fauna_importance || "Für diese Pflanze sind noch keine Angaben zur ökologischen Bedeutung hinterlegt.";
     return {
       slug: catalogSlug(row.scientific_name),
       scientificName: row.scientific_name,
@@ -199,7 +216,7 @@ export class PostgresCatalogApi implements CatalogApi {
     return {
       ...this.plantSummary(row),
       siteConditions: [],
-      planningNotes: row.local_fauna_importance || "Planungshinweise werden fachlich ergänzt.",
+      planningNotes: row.local_fauna_importance || "Für diese Pflanze sind noch keine zusätzlichen Planungshinweise hinterlegt.",
       sources: [],
       relatedSpecies: related.rows.map((item) => ({ slug: catalogSlug(item.common_name || item.scientific_name), commonName: item.common_name, scientificName: item.scientific_name, purpose: item.purpose || "" }))
     };

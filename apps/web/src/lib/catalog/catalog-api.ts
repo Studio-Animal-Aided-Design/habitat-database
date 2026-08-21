@@ -32,6 +32,7 @@ class DevelopmentFallbackCatalogApi implements CatalogApi {
   }
 
   getOverview = () => this.call("getOverview", (api) => api.getOverview());
+  getCatalogTypes = () => this.call("getCatalogTypes", (api) => api.getCatalogTypes());
   listSpecies = (query?: Parameters<CatalogApi["listSpecies"]>[0]) => this.call("listSpecies", (api) => api.listSpecies(query));
   getSpeciesBySlug = (slug: string) => this.call("getSpeciesBySlug", (api) => api.getSpeciesBySlug(slug));
   listPlants = (query?: Parameters<CatalogApi["listPlants"]>[0]) => this.call("listPlants", (api) => api.listPlants(query));

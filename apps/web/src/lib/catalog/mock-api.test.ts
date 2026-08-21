@@ -2,6 +2,17 @@ import { describe, expect, it } from "vitest";
 import { catalogApi } from "./mock-api";
 
 describe("MockCatalogApi", () => {
+  it("provides published featured content and data-derived filter types", async () => {
+    const overview = await catalogApi.getOverview();
+    const types = await catalogApi.getCatalogTypes();
+
+    expect(overview.featuredSpecies.map((item) => item.slug)).toEqual(["gimpel", "mauersegler", "gruenspecht"]);
+    expect(overview.featuredPlants.map((item) => item.slug)).toEqual(["acer-campestre", "betula-pendula", "cornus-mas"]);
+    expect(overview.featuredHabitats.map((item) => item.slug)).toEqual(["wild-hecken", "altgrasstreifen", "blumenwiese"]);
+    expect(types.plantTypes).toContain("Gehölz");
+    expect(types.habitatTypes).toContain("Vegetation");
+  });
+
   it("filters catalogues with case-insensitive German search terms", async () => {
     const plants = await catalogApi.listPlants({ q: "FELD-ahorn" });
     const habitats = await catalogApi.listHabitats({ q: "sonnig" });

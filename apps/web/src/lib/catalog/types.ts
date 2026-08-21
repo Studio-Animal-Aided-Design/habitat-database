@@ -62,6 +62,14 @@ export type CatalogOverview = {
   plantCount: number;
   habitatCount: number;
   featuredSpecies: SpeciesSummary[];
+  featuredPlants: PlantSummary[];
+  featuredHabitats: HabitatSummary[];
+};
+
+export type CatalogTypes = {
+  speciesTypes: string[];
+  plantTypes: string[];
+  habitatTypes: string[];
 };
 
 export type PlantSummary = {
@@ -121,6 +129,7 @@ export type CatalogQuery = {
 
 export interface CatalogApi {
   getOverview(): Promise<CatalogOverview>;
+  getCatalogTypes(): Promise<CatalogTypes>;
   listSpecies(query?: CatalogQuery): Promise<SpeciesSummary[]>;
   getSpeciesBySlug(slug: string): Promise<SpeciesDetail | null>;
   listPlants(query?: CatalogQuery): Promise<PlantSummary[]>;
