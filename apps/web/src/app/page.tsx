@@ -4,6 +4,7 @@ import { ArrowRight, ArrowUpRight, Bird, Building2, Leaf, Search, Sparkles } fro
 import { SiteHeader } from "@/components/site-header";
 import { SpeciesCard } from "@/components/species-card";
 import { PublicFooter } from "@/components/public-footer";
+import { EditorialActionLink, EditorialSectionHeading } from "@/components/editorial-primitives";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
 export default async function Home() {
@@ -75,13 +76,12 @@ export default async function Home() {
         </section>
 
         <section className="section" aria-labelledby="featured-title">
-          <div className="section-heading">
-            <div>
-              <p className="eyebrow">Arten im Fokus</p>
-              <h2 id="featured-title">Lebensräume aus Sicht der Tiere verstehen</h2>
-            </div>
-            <Link className="outline-link" href="/species">Alle Arten <ArrowRight size={17} /></Link>
-          </div>
+          <EditorialSectionHeading
+            eyebrow="Arten im Fokus"
+            title="Lebensräume aus Sicht der Tiere verstehen"
+            titleId="featured-title"
+            action={<EditorialActionLink href="/species">Alle Arten</EditorialActionLink>}
+          />
           <div className="species-grid">
             {overview.featuredSpecies.map((species, index) => (
               <SpeciesCard key={species.slug} species={species} priority={index === 0} />

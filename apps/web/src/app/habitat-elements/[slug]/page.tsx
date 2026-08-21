@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight, Bird, Hammer, MapPin, Ruler, Scissors, Workflow } from "lucide-react";
 import { PublicFooter } from "@/components/public-footer";
 import { SiteHeader } from "@/components/site-header";
+import { EditorialSectionHeading } from "@/components/editorial-primitives";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -71,9 +72,7 @@ export default async function HabitatDetailPage({ params }: PageProps) {
           </section>
 
           <section className="related-section">
-            <div className="section-heading">
-              <div><p className="eyebrow">Beziehungen</p><h2>Als Teil eines vernetzten Lebensraums</h2></div>
-            </div>
+            <EditorialSectionHeading eyebrow="Beziehungen" title="Als Teil eines vernetzten Lebensraums" />
             <div className="habitat-relations">
               <div>
                 <p className="eyebrow"><Workflow /> In Kombination mit</p>

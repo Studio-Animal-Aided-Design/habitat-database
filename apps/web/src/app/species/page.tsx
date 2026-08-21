@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { CatalogToolbar } from "@/components/catalog-toolbar";
+import { EditorialActionLink, EditorialEmptyState, EditorialEyebrow } from "@/components/editorial-primitives";
 import { PublicFooter } from "@/components/public-footer";
 import { SiteHeader } from "@/components/site-header";
 import { SpeciesCard } from "@/components/species-card";
@@ -22,7 +22,7 @@ export default async function SpeciesPage({ searchParams }: PageProps) {
       <div className="page-shell">
         <SiteHeader />
         <section className="catalog-intro">
-          <p className="eyebrow">Artenbibliothek</p>
+          <EditorialEyebrow>Artenbibliothek</EditorialEyebrow>
           <h1>Arten entdecken.<br /><em>Bedürfnisse verstehen.</em></h1>
           <p>{species.length} Artenportraits entsprechen der aktuellen Auswahl.</p>
           <CatalogToolbar
@@ -38,11 +38,12 @@ export default async function SpeciesPage({ searchParams }: PageProps) {
             {species.map((item, index) => <SpeciesCard key={item.slug} species={item} priority={index === 0} />)}
           </section>
         ) : (
-          <section className="empty-state">
-            <p className="eyebrow">Keine Treffer</p>
-            <h2>Keine Art entspricht dieser Auswahl.</h2>
-            <Link className="outline-link" href="/species">Filter zurücksetzen</Link>
-          </section>
+          <EditorialEmptyState
+            title="Keine Art entspricht dieser Auswahl."
+            action={<EditorialActionLink href="/species">Filter zurücksetzen</EditorialActionLink>}
+          >
+            Versuchen Sie einen anderen Suchbegriff oder setzen Sie die Filter zurück.
+          </EditorialEmptyState>
         )}
         <PublicFooter />
       </div>

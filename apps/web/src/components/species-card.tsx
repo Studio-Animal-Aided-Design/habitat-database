@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { EditorialActionLink, EditorialEyebrow } from "@/components/editorial-primitives";
 import type { SpeciesSummary } from "@/lib/catalog/types";
 
 export function SpeciesCard({ species, priority = false }: { species: SpeciesSummary; priority?: boolean }) {
@@ -17,15 +17,15 @@ export function SpeciesCard({ species, priority = false }: { species: SpeciesSum
         <span>{species.className}</span>
       </Link>
       <div className="species-card-content">
-        <p className="eyebrow">{species.familyName}</p>
+        <EditorialEyebrow>{species.familyName}</EditorialEyebrow>
         <h3>
           <Link href={`/species/${species.slug}`}>{species.commonName}</Link>
         </h3>
         <p className="scientific">{species.scientificName}</p>
         <p>{species.teaser}</p>
-        <Link className="text-link" href={`/species/${species.slug}`}>
-          Artenportrait öffnen <ArrowRight size={17} />
-        </Link>
+        <EditorialActionLink variant="text" href={`/species/${species.slug}`}>
+          Artenportrait öffnen
+        </EditorialActionLink>
       </div>
     </article>
   );
