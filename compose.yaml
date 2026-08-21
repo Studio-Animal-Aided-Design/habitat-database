@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${AAD_POSTGRES_DB:-aad_habitat}
+      POSTGRES_USER: ${AAD_POSTGRES_USER:-aad}
+      POSTGRES_PASSWORD: ${AAD_POSTGRES_PASSWORD:-aad-local-only}
+    ports:
+      - "${AAD_POSTGRES_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    volumes:
+      - aad_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  aad_postgres_data:

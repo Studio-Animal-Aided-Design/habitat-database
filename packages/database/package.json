@@ -1,0 +1,23 @@
+{
+  "name": "@aad/database",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "db:migrate": "tsx src/cli.ts migrate",
+    "db:dry-run": "tsx src/cli.ts sync --dry-run",
+    "db:apply": "tsx src/cli.ts sync --apply",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "csv-parse": "^6.1.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@types/pg": "^8.15.5",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}
