@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Bird, Leaf, MapPin, Sprout } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { PublicFooter } from "@/components/public-footer";
 import { EditorialEyebrow, EditorialFactList } from "@/components/editorial-primitives";
 import { SpeciesAttributeBrowser } from "@/components/species-attribute-browser";
+import { SpeciesPlanningBrowser } from "@/components/species-planning-browser";
 import { SpeciesPortraitNav } from "@/components/species-portrait-nav";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
@@ -117,28 +118,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
               <p className="eyebrow">03 · In den Entwurf übersetzen</p>
               <h2>Planungsbausteine für den {species.commonName}</h2>
             </div>
-            <div className="planning-columns">
-              <div>
-                <div className="planning-heading"><Leaf /><span><small>Verknüpfte</small>Pflanzen</span></div>
-                {species.plants.length ? species.plants.map((plant) => (
-                  <Link className="relation-row" href={`/plants/${plant.slug}`} key={`${plant.scientificName}-${plant.purpose}`}>
-                    <Sprout size={18} />
-                    <div><strong>{plant.commonName}</strong><i>{plant.scientificName}</i></div>
-                    <span>{plant.purpose}</span>
-                  </Link>
-                )) : <p className="empty-note">Für dieses Artenportrait sind derzeit keine Pflanzenbeziehungen hinterlegt.</p>}
-              </div>
-              <div>
-                <div className="planning-heading"><MapPin /><span><small>Verknüpfte</small>Habitatelemente</span></div>
-                {species.habitats.length ? species.habitats.map((habitat) => (
-                  <Link className="relation-row" href={`/habitat-elements/${habitat.slug}`} key={`${habitat.slug}-${habitat.purpose}`}>
-                    <Bird size={18} />
-                    <div><strong>{habitat.name}</strong><i>{habitat.lifecycleStage}</i></div>
-                    <span>{habitat.purpose}</span>
-                  </Link>
-                )) : <p className="empty-note">Für dieses Artenportrait sind derzeit keine Habitatelement-Beziehungen hinterlegt.</p>}
-              </div>
-            </div>
+            <SpeciesPlanningBrowser plants={species.plants} habitats={species.habitats} />
           </section>
 
           <section className="portrait-cta">
