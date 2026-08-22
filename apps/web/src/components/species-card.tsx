@@ -3,7 +3,17 @@ import Link from "next/link";
 import { EditorialActionLink, EditorialEyebrow } from "@/components/editorial-primitives";
 import type { SpeciesSummary } from "@/lib/catalog/types";
 
-export function SpeciesCard({ species, priority = false }: { species: SpeciesSummary; priority?: boolean }) {
+export function SpeciesCard({
+  species,
+  priority = false,
+  headingLevel = 3
+}: {
+  species: SpeciesSummary;
+  priority?: boolean;
+  headingLevel?: 2 | 3;
+}) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
+
   return (
     <article className="species-card">
       <Link href={`/species/${species.slug}`} className="species-image">
@@ -18,9 +28,9 @@ export function SpeciesCard({ species, priority = false }: { species: SpeciesSum
       </Link>
       <div className="species-card-content">
         <EditorialEyebrow>{species.familyName}</EditorialEyebrow>
-        <h3>
+        <Heading>
           <Link href={`/species/${species.slug}`}>{species.commonName}</Link>
-        </h3>
+        </Heading>
         <p className="scientific">{species.scientificName}</p>
         <p>{species.teaser}</p>
         <EditorialActionLink variant="text" href={`/species/${species.slug}`}>

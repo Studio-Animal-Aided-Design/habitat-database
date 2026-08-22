@@ -1,10 +1,12 @@
 import "server-only";
 
 import { Pool, type QueryResultRow } from "pg";
+import { featuredSlugs, selectFeatured } from "./featured-content";
 import type {
   CatalogApi,
   CatalogOverview,
   CatalogQuery,
+  CatalogTypes,
   ContentStatus,
   HabitatDetail,
   HabitatSummary,
@@ -128,7 +130,22 @@ export class PostgresCatalogApi implements CatalogApi {
       speciesCount: species.filter((item) => item.status === "published").length,
       plantCount: plants.filter((item) => item.status === "published").length,
       habitatCount: habitats.filter((item) => item.status === "published").length,
-      featuredSpecies: species.filter((item) => item.status === "published").slice(0, 3)
+      featuredSpecies: selectFeatured(species, featuredSlugs.species),
+      featuredPlants: selectFeatured(plants, featuredSlugs.plants),
+      featuredHabitats: selectFeatured(habitats, featuredSlugs.habitats)
+    };
+  }
+
+  async getCatalogTypes(): Promise<CatalogTypes> {
+    const [species, plants, habitats] = await Promise.all([
+      this.database.query<{ value: string }>("SELECT DISTINCT class_common AS value FROM species WHERE publication_status='published' AND nullif(trim(class_common),'') IS NOT NULL ORDER BY value"),
+      this.database.query<{ value: string }>("SELECT DISTINCT plant_type AS value FROM plants WHERE publication_status='published' AND nullif(trim(plant_type),'') IS NOT NULL ORDER BY value"),
+      this.database.query<{ value: string }>("SELECT DISTINCT element_type AS value FROM habitat_elements WHERE publication_status='published' AND nullif(trim(element_type),'') IS NOT NULL ORDER BY value")
+    ]);
+    return {
+      speciesTypes: species.rows.map((row) => row.value),
+      plantTypes: plants.rows.map((row) => row.value),
+      habitatTypes: habitats.rows.map((row) => row.value)
     };
   }
 
@@ -146,7 +163,7 @@ export class PostgresCatalogApi implements CatalogApi {
     const [summary, lifecycle, attributes, plants, habitats] = await Promise.all([
       this.speciesSummary(row),
       this.database.query("SELECT m.* FROM media_assets m JOIN species_media sm ON sm.media_id=m.id WHERE sm.species_id=$1 AND m.image_type='lifecycle' ORDER BY sm.sort_order, m.created_at LIMIT 1", [row.id]),
-      this.database.query("SELECT d.level1_display_name AS category,d.display_name AS label,v.value,v.sources FROM species_attribute_values v JOIN species_attribute_definitions d ON d.id=v.definition_id WHERE v.species_id=$1 AND nullif(trim(v.value),'') IS NOT NULL ORDER BY d.primary_sort,d.secondary_sort", [row.id]),
+      this.database.query("SELECT d.level1_display_name AS category,COALESCE(NULLIF(BTRIM(d.level2_display_name),''),d.level1_display_name) AS subcategory,d.display_name AS label,v.value,v.sources FROM species_attribute_values v JOIN species_attribute_definitions d ON d.id=v.definition_id WHERE v.species_id=$1 AND nullif(trim(v.value),'') IS NOT NULL ORDER BY d.primary_sort,d.secondary_sort", [row.id]),
       this.database.query("SELECT p.scientific_name,p.common_name,r.purpose FROM species_plant_relations r JOIN plants p ON p.id=r.plant_id WHERE r.species_id=$1 AND p.publication_status='published' ORDER BY p.scientific_name", [row.id]),
       this.database.query("SELECT h.legacy_slug,h.name,r.purpose,r.purpose_element,r.lifecycle_stage FROM species_habitat_relations r JOIN habitat_elements h ON h.id=r.habitat_element_id WHERE r.species_id=$1 AND h.publication_status='published' ORDER BY h.name", [row.id])
     ]);
@@ -162,7 +179,7 @@ export class PostgresCatalogApi implements CatalogApi {
         familyScientific: row.family_scientific || "",
         genusScientific: row.genus_scientific || ""
       },
-      attributes: attributes.rows.map((item) => ({ category: item.category, label: item.label, value: item.value, sources: item.sources || undefined })),
+      attributes: attributes.rows.map((item) => ({ category: item.category, subcategory: item.subcategory, label: item.label, value: item.value, sources: item.sources || undefined })),
       lifecycleImage: imageFromRow(lifecycle.rows[0], row.common_name, "lifecycle"),
       plants: plants.rows.map((item) => ({ slug: catalogSlug(item.scientific_name), scientificName: item.scientific_name, commonName: item.common_name || item.scientific_name, purpose: item.purpose || "" })),
       habitats: habitats.rows.map((item) => ({ slug: catalogSlug(item.legacy_slug), name: item.name, purpose: item.purpose || "", purposeElement: item.purpose_element || "", lifecycleStage: item.lifecycle_stage || "" }))
@@ -170,7 +187,7 @@ export class PostgresCatalogApi implements CatalogApi {
   }
 
   private plantSummary(row: PlantRow): PlantSummary {
-    const ecologicalValue = row.local_fauna_importance || "Ökologische Bedeutung wird fachlich ergänzt.";
+    const ecologicalValue = row.local_fauna_importance || "Für diese Pflanze sind noch keine Angaben zur ökologischen Bedeutung hinterlegt.";
     return {
       slug: catalogSlug(row.scientific_name),
       scientificName: row.scientific_name,
@@ -199,7 +216,7 @@ export class PostgresCatalogApi implements CatalogApi {
     return {
       ...this.plantSummary(row),
       siteConditions: [],
-      planningNotes: row.local_fauna_importance || "Planungshinweise werden fachlich ergänzt.",
+      planningNotes: row.local_fauna_importance || "Für diese Pflanze sind noch keine zusätzlichen Planungshinweise hinterlegt.",
       sources: [],
       relatedSpecies: related.rows.map((item) => ({ slug: catalogSlug(item.common_name || item.scientific_name), commonName: item.common_name, scientificName: item.scientific_name, purpose: item.purpose || "" }))
     };

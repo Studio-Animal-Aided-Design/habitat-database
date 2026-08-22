@@ -35,6 +35,7 @@ export const mockSpecies: SpeciesDetail[] = [
     attributes: [
       {
         category: "Kurzcharakteristik",
+        subcategory: "Aussehen und Körperbau",
         label: "Aussehen",
         value:
           "Männchen tragen eine leuchtend rote Unterseite und schwarze Kopfplatte. Weibchen sind dezenter graubraun gefärbt.",
@@ -42,12 +43,14 @@ export const mockSpecies: SpeciesDetail[] = [
       },
       {
         category: "Bedeutung für den Menschen",
+        subcategory: "Wahrnehmung",
         label: "Beobachtbarkeit",
         value:
           "Der ruhige Ruf und die markante Silhouette machen den Gimpel zu einer gut erkennbaren Zielart in strukturreichen Freiräumen."
       },
       {
         category: "Kritische Standortfaktoren",
+        subcategory: "Brut und Aufzucht",
         label: "Brut und Aufzucht",
         value:
           "Dichte, ausreichend hohe Hecken und Nadelgehölze bieten geschützte Neststandorte. Eine zu starke Auslichtung ist zu vermeiden.",

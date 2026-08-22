@@ -2,6 +2,17 @@ import { describe, expect, it } from "vitest";
 import { catalogApi } from "./mock-api";
 
 describe("MockCatalogApi", () => {
+  it("provides published featured content and data-derived filter types", async () => {
+    const overview = await catalogApi.getOverview();
+    const types = await catalogApi.getCatalogTypes();
+
+    expect(overview.featuredSpecies.map((item) => item.slug)).toEqual(["gimpel", "mauersegler", "gruenspecht"]);
+    expect(overview.featuredPlants.map((item) => item.slug)).toEqual(["acer-campestre", "betula-pendula", "cornus-mas"]);
+    expect(overview.featuredHabitats.map((item) => item.slug)).toEqual(["wild-hecken", "altgrasstreifen", "blumenwiese"]);
+    expect(types.plantTypes).toContain("Gehölz");
+    expect(types.habitatTypes).toContain("Vegetation");
+  });
+
   it("filters catalogues with case-insensitive German search terms", async () => {
     const plants = await catalogApi.listPlants({ q: "FELD-ahorn" });
     const habitats = await catalogApi.listHabitats({ q: "sonnig" });
@@ -21,6 +32,15 @@ describe("MockCatalogApi", () => {
     await expect(catalogApi.getSpeciesBySlug("unbekannt")).resolves.toBeNull();
     await expect(catalogApi.getPlantBySlug("unbekannt")).resolves.toBeNull();
     await expect(catalogApi.getHabitatBySlug("unbekannt")).resolves.toBeNull();
+  });
+
+  it("retains both canonical attribute grouping levels in development fallback data", async () => {
+    const species = await catalogApi.getSpeciesBySlug("gimpel");
+
+    expect(species?.attributes[0]).toMatchObject({
+      category: "Kurzcharakteristik",
+      subcategory: "Aussehen und Körperbau"
+    });
   });
 
   it("keeps mocked cross-entity links referentially valid", async () => {

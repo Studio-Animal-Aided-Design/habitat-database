@@ -99,7 +99,7 @@ export default async function PlantDetailPage({ params }: PageProps) {
                   </Link>
                 ))}
               </div>
-            ) : <p className="empty-note">Beziehungen folgen mit der vollständigen Datenmigration.</p>}
+            ) : <p className="empty-note">Für diese Pflanze sind derzeit keine Zielart-Beziehungen hinterlegt.</p>}
           </section>
           <EditorialSourceNote sources={plant.sources.join(" · ")} />
         </article>

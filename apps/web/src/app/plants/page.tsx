@@ -15,7 +15,11 @@ type PageProps = { searchParams: Promise<{ q?: string; type?: string }> };
 
 export default async function PlantsPage({ searchParams }: PageProps) {
   const query = await searchParams;
-  const plants = (await catalogApi.listPlants(query)).filter((item) => item.status === "published");
+  const [listedPlants, catalogTypes] = await Promise.all([
+    catalogApi.listPlants(query),
+    catalogApi.getCatalogTypes()
+  ]);
+  const plants = listedPlants.filter((item) => item.status === "published");
 
   return (
     <main>
@@ -29,7 +33,7 @@ export default async function PlantsPage({ searchParams }: PageProps) {
             action="/plants"
             query={query.q}
             type={query.type}
-            types={["Gehölz", "Staude"]}
+            types={catalogTypes.plantTypes}
             searchLabel="Nach deutschem oder wissenschaftlichem Namen suchen"
           />
         </section>

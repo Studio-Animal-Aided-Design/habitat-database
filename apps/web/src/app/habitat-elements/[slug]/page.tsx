@@ -78,7 +78,7 @@ export default async function HabitatDetailPage({ params }: PageProps) {
                 <p className="eyebrow"><Workflow /> In Kombination mit</p>
                 {habitat.combinedWith.length ? habitat.combinedWith.map((related) => (
                   <Link href={`/habitat-elements/${related.slug}`} key={related.slug}>{related.name}<ArrowRight /></Link>
-                )) : <p className="empty-note">Keine Kombinationen im Mock erfasst.</p>}
+                )) : <p className="empty-note">Für dieses Habitatelement sind derzeit keine Kombinationen hinterlegt.</p>}
               </div>
               <div>
                 <p className="eyebrow"><Bird /> Zielarten</p>
@@ -87,7 +87,7 @@ export default async function HabitatDetailPage({ params }: PageProps) {
                     <span><strong>{species.commonName}</strong><i>{species.scientificName}</i></span>
                     <small>{species.purpose} · {species.lifecycleStage}</small>
                   </Link>
-                )) : <p className="empty-note">Zielart-Beziehungen folgen mit der Datenmigration.</p>}
+                )) : <p className="empty-note">Für dieses Habitatelement sind derzeit keine Zielart-Beziehungen hinterlegt.</p>}
               </div>
             </div>
           </section>

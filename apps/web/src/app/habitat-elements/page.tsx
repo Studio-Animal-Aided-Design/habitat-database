@@ -15,7 +15,11 @@ type PageProps = { searchParams: Promise<{ q?: string; type?: string }> };
 
 export default async function HabitatElementsPage({ searchParams }: PageProps) {
   const query = await searchParams;
-  const habitats = (await catalogApi.listHabitats(query)).filter((item) => item.status === "published");
+  const [listedHabitats, catalogTypes] = await Promise.all([
+    catalogApi.listHabitats(query),
+    catalogApi.getCatalogTypes()
+  ]);
+  const habitats = listedHabitats.filter((item) => item.status === "published");
 
   return (
     <main>
@@ -29,7 +33,7 @@ export default async function HabitatElementsPage({ searchParams }: PageProps) {
             action="/habitat-elements"
             query={query.q}
             type={query.type}
-            types={["Vegetation", "Ausstattungselement"]}
+            types={catalogTypes.habitatTypes}
             searchLabel="Nach Element, Typ oder Standort suchen"
           />
         </section>

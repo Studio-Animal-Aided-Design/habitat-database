@@ -2,10 +2,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowLeft, ArrowRight, Bird, Leaf, MapPin, Quote, Sprout } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 import { PublicFooter } from "@/components/public-footer";
-import { EditorialEyebrow, EditorialFactList, EditorialSourceNote } from "@/components/editorial-primitives";
+import { EditorialEyebrow, EditorialFactList } from "@/components/editorial-primitives";
+import { SpeciesAttributeBrowser } from "@/components/species-attribute-browser";
+import { SpeciesPlanningBrowser } from "@/components/species-planning-browser";
+import { SpeciesPortraitNav } from "@/components/species-portrait-nav";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -82,27 +85,18 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
             </div>
           </section>
 
-          <nav className="portrait-nav" aria-label="Abschnitte des Artenportraits">
-            <a href="#characteristics">Kurzcharakteristik</a>
-            <a href="#lifecycle">Lebenszyklus</a>
-            <a href="#planning">Planungsbausteine</a>
-          </nav>
+          <SpeciesPortraitNav
+            commonName={species.commonName}
+            scientificName={species.scientificName}
+            image={species.image}
+          />
 
           <section className="portrait-section" id="characteristics">
             <div className="portrait-section-title">
               <p className="eyebrow">01 · Art verstehen</p>
               <h2>Kurzcharakteristik</h2>
             </div>
-            <div className="attribute-list">
-              {species.attributes.map((attribute) => (
-                <div className="attribute-item" key={`${attribute.category}-${attribute.label}`}>
-                  <p>{attribute.category}</p>
-                  <h3>{attribute.label}</h3>
-                  <blockquote><Quote size={18} />{attribute.value}</blockquote>
-                  {attribute.sources && <EditorialSourceNote sources={attribute.sources} compact />}
-                </div>
-              ))}
-            </div>
+            <SpeciesAttributeBrowser attributes={species.attributes} />
           </section>
 
           <section className="lifecycle-section" id="lifecycle">
@@ -124,28 +118,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
               <p className="eyebrow">03 · In den Entwurf übersetzen</p>
               <h2>Planungsbausteine für den {species.commonName}</h2>
             </div>
-            <div className="planning-columns">
-              <div>
-                <div className="planning-heading"><Leaf /><span><small>Verknüpfte</small>Pflanzen</span></div>
-                {species.plants.length ? species.plants.map((plant) => (
-                  <Link className="relation-row" href={`/plants/${plant.slug}`} key={`${plant.scientificName}-${plant.purpose}`}>
-                    <Sprout size={18} />
-                    <div><strong>{plant.commonName}</strong><i>{plant.scientificName}</i></div>
-                    <span>{plant.purpose}</span>
-                  </Link>
-                )) : <p className="empty-note">Beziehungen folgen mit der Datenmigration.</p>}
-              </div>
-              <div>
-                <div className="planning-heading"><MapPin /><span><small>Verknüpfte</small>Habitatelemente</span></div>
-                {species.habitats.length ? species.habitats.map((habitat) => (
-                  <Link className="relation-row" href={`/habitat-elements/${habitat.slug}`} key={`${habitat.slug}-${habitat.purpose}`}>
-                    <Bird size={18} />
-                    <div><strong>{habitat.name}</strong><i>{habitat.lifecycleStage}</i></div>
-                    <span>{habitat.purpose}</span>
-                  </Link>
-                )) : <p className="empty-note">Beziehungen folgen mit der Datenmigration.</p>}
-              </div>
-            </div>
+            <SpeciesPlanningBrowser plants={species.plants} habitats={species.habitats} />
           </section>
 
           <section className="portrait-cta">
