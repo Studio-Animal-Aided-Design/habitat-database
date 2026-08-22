@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/site-header";
 import { PublicFooter } from "@/components/public-footer";
 import { EditorialEyebrow, EditorialFactList } from "@/components/editorial-primitives";
 import { SpeciesAttributeBrowser } from "@/components/species-attribute-browser";
+import { SpeciesPortraitNav } from "@/components/species-portrait-nav";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -83,11 +84,11 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
             </div>
           </section>
 
-          <nav className="portrait-nav" aria-label="Abschnitte des Artenportraits">
-            <a href="#characteristics">Kurzcharakteristik</a>
-            <a href="#lifecycle">Lebenszyklus</a>
-            <a href="#planning">Planungsbausteine</a>
-          </nav>
+          <SpeciesPortraitNav
+            commonName={species.commonName}
+            scientificName={species.scientificName}
+            image={species.image}
+          />
 
           <section className="portrait-section" id="characteristics">
             <div className="portrait-section-title">
