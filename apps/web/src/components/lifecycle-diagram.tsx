@@ -10,10 +10,10 @@ const TICKS = 180;
 const MONTHS = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
 const round = (value: number) => Number(value.toFixed(3));
 const seasons = [
-  { name: "Winter", months: ["Dez", "Jan", "Feb"], start: 165, end: 30, color: "#b9dfe7", icon: Snowflake, iconTick: 173 },
-  { name: "Frühling", months: ["Mär", "Apr", "Mai"], start: 30, end: 75, color: "#dcefae", icon: Sprout, iconTick: 39 },
-  { name: "Sommer", months: ["Jun", "Jul", "Aug"], start: 75, end: 120, color: "#f5c76d", icon: Sun, iconTick: 112 },
-  { name: "Herbst", months: ["Sep", "Okt", "Nov"], start: 120, end: 165, color: "#dda06d", icon: Leaf, iconTick: 157 }
+  { name: "Winter", months: ["Dez", "Jan", "Feb"], start: 165, end: 30, color: "#b9dfe7", icon: Snowflake, iconTick: 3 },
+  { name: "Frühling", months: ["Mär", "Apr", "Mai"], start: 30, end: 75, color: "#dcefae", icon: Sprout, iconTick: 48 },
+  { name: "Sommer", months: ["Jun", "Jul", "Aug"], start: 75, end: 120, color: "#f5c76d", icon: Sun, iconTick: 102 },
+  { name: "Herbst", months: ["Sep", "Okt", "Nov"], start: 120, end: 165, color: "#dda06d", icon: Leaf, iconTick: 147 }
 ];
 
 export type LifecyclePhaseDetail = { phaseKey: string; title: string; text?: string; sources?: string };
