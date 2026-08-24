@@ -9,10 +9,40 @@ import { EditorialEyebrow, EditorialFactList } from "@/components/editorial-prim
 import { SpeciesAttributeBrowser } from "@/components/species-attribute-browser";
 import { SpeciesPlanningBrowser } from "@/components/species-planning-browser";
 import { SpeciesPortraitNav } from "@/components/species-portrait-nav";
-import { LifecycleDiagram } from "@/components/lifecycle-diagram";
+import { LifecycleDiagram, type LifecyclePhaseDetail } from "@/components/lifecycle-diagram";
 import { catalogApi } from "@/lib/catalog/catalog-api";
+import type { LifecyclePhase, SpeciesAttribute } from "@/lib/catalog/types";
 
 type PageProps = { params: Promise<{ slug: string }> };
+
+const lifecycleAttributeLabels: Record<string, string> = {
+  courtship: "Balz und Paarung",
+  breeding: "Brut und Aufzucht",
+  adult: "Adulte",
+  overwintering: "Überwinterung",
+  egg: "Jungtiere",
+  caterpillar: "Jungtiere",
+  pupa: "Jungtiere",
+  larva: "Jungtiere",
+  larva_pupa: "Jungtiere"
+};
+
+function lifecyclePhaseDetails(phases: LifecyclePhase[], attributes: SpeciesAttribute[]): LifecyclePhaseDetail[] {
+  const lifecycleAttributes = attributes.filter((attribute) =>
+    attribute.category === "Kurzcharakteristik" && attribute.subcategory === "Lebenszyklus"
+  );
+
+  return phases.map((phase) => {
+    const expectedLabel = lifecycleAttributeLabels[phase.key];
+    const attribute = lifecycleAttributes.find((item) => item.label === expectedLabel);
+    return {
+      phaseKey: phase.key,
+      title: attribute?.label ?? phase.label,
+      text: attribute?.value || undefined,
+      sources: attribute?.sources || undefined
+    };
+  });
+}
 
 export async function generateStaticParams() {
   const species = await catalogApi.listSpecies();
@@ -101,7 +131,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
           </section>
 
           <section className="lifecycle-section" id="lifecycle">
-            <div>
+            <div className="portrait-section-title">
               <p className="eyebrow">02 · Im Jahresverlauf</p>
               <h2>Lebenszyklus</h2>
               <p>
@@ -109,7 +139,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
                 besonders sensibel geplant wird.
               </p>
             </div>
-            {species.lifecyclePhases.length ? <LifecycleDiagram phases={species.lifecyclePhases} fallbackAlt={species.lifecycleImage.alt} /> : <div className="lifecycle-image"><Image src={species.lifecycleImage.url} alt={species.lifecycleImage.alt} fill sizes="(max-width: 820px) 90vw, 44vw" /></div>}
+            {species.lifecyclePhases.length ? <LifecycleDiagram phases={species.lifecyclePhases} phaseDetails={lifecyclePhaseDetails(species.lifecyclePhases, species.attributes)} originalImage={species.lifecycleImage} fallbackAlt={species.lifecycleImage.alt} /> : <div className="lifecycle-image"><Image src={species.lifecycleImage.url} alt={species.lifecycleImage.alt} fill sizes="(max-width: 820px) 90vw, 44vw" /></div>}
           </section>
 
           <section className="planning-section" id="planning">
