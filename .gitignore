@@ -19,3 +19,16 @@ dist/
 
 # Logs
 *.log
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+.env*.local
+
+# Client-confidential feasibility studies and commercial planning artifacts
+/private/
+
+# Local delivery tracking (durable decisions belong in workspace/second-brain)
+/docs/replacement-app/implementation-plan.md

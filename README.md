@@ -35,3 +35,15 @@ The converter generates Tooljet-ready CSV outputs, a JSON/HTML conversion report
 - External user documentation: `docs/converter/README.md`
 
 - Dev mode (auto-restart GUI): `python3 -m converter_app.dev_runner` or `./run_converter_dev.command`
+
+## Replacement Web Application
+
+The container-ready replacement is developed as an independent application under `apps/web/`.
+Keeping it below `apps/` preserves the existing Python converter as a separate product and leaves
+space for future services or shared packages without making the repository root Node-specific.
+
+- Local development: [`docs/replacement-app/local-development.md`](docs/replacement-app/local-development.md)
+- PostgreSQL import and sync: [`packages/database/README.md`](packages/database/README.md)
+- Architecture decisions: [`docs/replacement-app/adr-002-postgresql-database.md`](docs/replacement-app/adr-002-postgresql-database.md) and [`docs/replacement-app/adr-003-server-side-catalog-adapter.md`](docs/replacement-app/adr-003-server-side-catalog-adapter.md)
+- Editorial design system: [`docs/replacement-app/editorial-system.md`](docs/replacement-app/editorial-system.md)
+- Issue and pull-request workflow: [`docs/replacement-app/github-workflow.md`](docs/replacement-app/github-workflow.md)
