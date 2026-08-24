@@ -55,23 +55,27 @@ Open `http://localhost:3000`; management routes begin at `http://localhost:3000/
 The default development configuration is equivalent to:
 
 ```dotenv
+APP_ENV=development
 CATALOG_DATA_SOURCE=auto
 DATABASE_URL=postgresql://aad:aad-local-only@localhost:5432/aad_habitat
 ```
 
 Copy `apps/web/.env.example` to `apps/web/.env.local` only to override these defaults.
 
-| `CATALOG_DATA_SOURCE` | Development | Production |
-| --- | --- | --- |
-| `auto` | Query PostgreSQL; on failure warn once and use mock fixtures | Does not fall back |
-| `postgres` | Require PostgreSQL and surface failures | Default; requires `DATABASE_URL` |
-| `mock` | Always use retained fixtures | Rejected at startup |
+| `CATALOG_DATA_SOURCE` | Development/test | Preview | Production |
+| --- | --- | --- | --- |
+| `auto` | Query PostgreSQL; on failure warn once and use mock fixtures | Rejected | Rejected |
+| `postgres` | Require PostgreSQL and surface failures | Default; requires `DATABASE_URL` | Default; requires `DATABASE_URL` |
+| `mock` | Always use retained fixtures | Requires `APP_ENV=preview` and explicit acknowledgement | Rejected |
 
 To deliberately use fixtures during UI work:
 
 ```bash
 CATALOG_DATA_SOURCE=mock npm run dev
 ```
+
+Customer-review hosting and the production-like local preview mode are documented in
+[`render-previews.md`](render-previews.md).
 
 To stop the web server, press `Ctrl+C` in its terminal. Stopping PostgreSQL without deleting its
 volume is safe:

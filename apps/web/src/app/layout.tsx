@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
+import { isPreviewEnvironment } from "@/lib/runtime-environment";
 import "./globals.css";
 
+const baseUrl = process.env.APP_BASE_URL ?? process.env.RENDER_EXTERNAL_URL ?? "https://habitat-database.example";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://habitat-database.example"),
+  metadataBase: new URL(baseUrl),
   title: {
     default: "Animal-Aided Design Datenbank",
     template: "%s | Animal-Aided Design"
@@ -22,7 +25,8 @@ export const metadata: Metadata = {
     title: "Planen für Artenvielfalt.",
     description: "Ökologisches Artenwissen wird zu konkretem Entwurfswissen.",
     images: ["/og.png"]
-  }
+  },
+  robots: isPreviewEnvironment ? { index: false, follow: false, noarchive: true } : undefined
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
