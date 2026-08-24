@@ -11,6 +11,7 @@ const headers = {
   habitatRelations: ["id", "habitat_element", "species", "lifecycle_stage", "purpose", "purpose_element"],
   attributes: ["id", "attribute_value", "sources", "species", "attribute_slug"],
   plantRelations: ["id", "species", "plant", "purpose", "annotations", "sources"],
+  lifecycle: ["species", "phase_key", "label_de", "ring_order", "segment_order", "color_hex", "start_tick", "end_tick", "wraps_year", "tick_count", "source_image_url", "source_sha256", "extraction_status"],
 } as const;
 
 export interface Diagnostic { severity: "warning" | "error"; code: string; message: string; sources: string[] }
@@ -30,6 +31,7 @@ export interface Snapshot {
   habitatImages: any[];
   plantRelations: any[];
   habitatRelations: any[];
+  lifecyclePhases: any[];
 }
 
 const ref = (row: CsvRow): SourceRef => ({ file: row.__file, row: Number(row.__row), legacyId: clean(row.id) });
@@ -68,6 +70,7 @@ export async function buildSnapshot(repoRoot: string): Promise<Snapshot> {
   const habitatRelationRows = await load("habitat-elements/import/out/habitat_element_species_relation.csv", headers.habitatRelations);
   const attributeRows = await loadMany(`${path.sep}portraits${path.sep}import${path.sep}out${path.sep}attributes${path.sep}`, headers.attributes);
   const plantRelationRows = await loadMany(`${path.sep}plants${path.sep}import${path.sep}out${path.sep}relations${path.sep}`, headers.plantRelations);
+  const lifecycleRows = await load("lifecycle/import/out/species-lifecycle-phases.csv", headers.lifecycle);
 
   const species = speciesRows.map((row) => ({ ...Object.fromEntries(headers.species.map((field) => [field, clean(row[field])])), naturalKey: key(row.scientific_name), source: ref(row) }));
   const definitions = definitionRows.map((row) => ({
@@ -145,6 +148,16 @@ export async function buildSnapshot(repoRoot: string): Promise<Snapshot> {
     return { ...rows[0], sources: rows.flatMap((row) => row.sources) };
   });
 
+  const lifecyclePhases = lifecycleRows.map((row) => {
+    requireReference(speciesKeys.has(key(row.species)), "orphan_lifecycle_species", `Unknown lifecycle species: ${row.species}`, row);
+    const startTick = Number(row.start_tick), endTick = Number(row.end_tick), ringOrder = Number(row.ring_order), segmentOrder = Number(row.segment_order);
+    if (!Number.isInteger(startTick) || startTick < 0 || startTick > 179 || !Number.isInteger(endTick) || endTick < 0 || endTick > 180) diagnostics.push({ severity: "error", code: "invalid_lifecycle_interval", message: `Invalid lifecycle interval for ${row.species}/${row.phase_key}`, sources: [`${row.__file}:${row.__row}`] });
+    if (!Number.isInteger(ringOrder) || ringOrder < 1 || !Number.isInteger(segmentOrder) || segmentOrder < 1) diagnostics.push({ severity: "error", code: "invalid_lifecycle_order", message: `Invalid lifecycle order for ${row.species}/${row.phase_key}`, sources: [`${row.__file}:${row.__row}`] });
+    if (Number(row.tick_count) !== 180 || !/^#[0-9A-Fa-f]{6}$/.test(clean(row.color_hex) ?? "") || !["auto_extracted", "reviewed"].includes(clean(row.extraction_status) ?? "")) diagnostics.push({ severity: "error", code: "invalid_lifecycle_metadata", message: `Invalid lifecycle metadata for ${row.species}/${row.phase_key}`, sources: [`${row.__file}:${row.__row}`] });
+    return { speciesKey: key(row.species), phaseKey: clean(row.phase_key), labelDe: clean(row.label_de), ringOrder, segmentOrder, colorHex: clean(row.color_hex), startTick, endTick, wrapsYear: bool(row.wraps_year) ?? false, tickCount: Number(row.tick_count), sourceImageUrl: clean(row.source_image_url), sourceSha256: clean(row.source_sha256), extractionStatus: clean(row.extraction_status), naturalKey: `${key(row.species)}:${clean(row.phase_key)}:${segmentOrder}`, source: ref(row) };
+  });
+  if (new Set(lifecyclePhases.map((item) => item.naturalKey)).size !== lifecyclePhases.length) diagnostics.push({ severity: "error", code: "duplicate_lifecycle_segment", message: "Duplicate lifecycle phase segment identities", sources: [] });
+
   files.sort((a, b) => a.path.localeCompare(b.path));
-  return { manifestChecksum: hash(files.map((file) => `${file.path}:${file.checksum}`).join("\n")), files, diagnostics, species, definitions, plants, habitats, attributes, speciesImages, habitatImages, plantRelations, habitatRelations };
+  return { manifestChecksum: hash(files.map((file) => `${file.path}:${file.checksum}`).join("\n")), files, diagnostics, species, definitions, plants, habitats, attributes, speciesImages, habitatImages, plantRelations, habitatRelations, lifecyclePhases };
 }
