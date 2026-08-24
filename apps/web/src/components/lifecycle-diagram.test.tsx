@@ -24,7 +24,6 @@ describe("LifecycleDiagram", () => {
     const markup = renderToStaticMarkup(<LifecycleDiagram
       phases={phases}
       phaseDetails={[{ phaseKey: "adult", title: "Adulte", text: "Tagaktiv.", sources: "Quelle" }]}
-      originalImage={{ url: "/lifecycle.png", alt: "Original", attribution: "Studio", type: "lifecycle" }}
       fallbackAlt="Lebenszyklus"
     />);
 
@@ -32,7 +31,7 @@ describe("LifecycleDiagram", () => {
     expect((markup.match(/class="month-label"/g) ?? []).length).toBe(12);
     expect(markup).toContain("class=\"lifecycle-wheel\"");
     expect(markup).toContain("class=\"lifecycle-mobile\"");
-    expect(markup).toContain("Originalgrafik");
+    expect(markup).not.toContain("Originalgrafik");
     expect(markup).toContain("Lebensphase auswählen");
     expect(markup).not.toContain("Tagaktiv.");
     expect(markup).toContain("Beginn Brut &amp; Aufzucht");

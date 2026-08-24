@@ -382,12 +382,6 @@ footer div { display: flex; gap: 18px; }
 .lifecycle-image { position: relative; min-height: 540px; border-radius: 50%; background: white; overflow: hidden; }
 .lifecycle-image img { object-fit: contain; }
 .lifecycle-card { min-width: 0; overflow: hidden; padding: 18px; border: 1px solid rgba(23,53,46,.11); border-radius: 22px; background: #fffdfa; }
-.lifecycle-view-switcher { display: flex; width: fit-content; margin: 0 auto 10px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: #f2f0e8; }
-.lifecycle-view-switcher button { padding: 9px 15px; border: 0; border-radius: 999px; background: transparent; color: var(--ink-soft); cursor: pointer; font-size: 10px; font-weight: 800; }
-.lifecycle-view-switcher button[aria-selected="true"] { background: var(--forest); color: white; }
-.lifecycle-original { position: relative; min-height: 590px; overflow: hidden; border-radius: 16px; background: white; }
-.lifecycle-original img { object-fit: contain; padding: 18px; }
-.lifecycle-original small { position: absolute; right: 16px; bottom: 12px; z-index: 2; color: var(--ink-soft); font-size: 8px; }
 .lifecycle-diagram { min-width: 0; }
 .lifecycle-wheel { display: block; width: min(100%, 660px); margin: auto; overflow: visible; }
 .lifecycle-wheel .month-label { fill: #16231f; font: 600 13px var(--font-sans, sans-serif); }
@@ -687,7 +681,6 @@ footer div { display: flex; gap: 18px; }
   .lifecycle-wheel { display: none; }
   .lifecycle-mobile { display: grid; gap: 10px; }
   .lifecycle-card { padding: 12px; }
-  .lifecycle-original { min-height: 390px; }
   .lifecycle-mobile section { overflow: hidden; border: 1px solid var(--line); border-left: 7px solid var(--season-color); border-radius: 14px; background: #f7f6f0; }
   .lifecycle-mobile header { display: flex; justify-content: space-between; gap: 14px; padding: 15px 16px 11px; }
   .lifecycle-mobile header strong { font: 400 24px Georgia, serif; }

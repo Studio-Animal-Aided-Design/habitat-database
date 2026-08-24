@@ -142,7 +142,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
                 besonders sensibel geplant wird.
               </p>
             </div>
-            {species.lifecyclePhases.length ? <LifecycleDiagram phases={species.lifecyclePhases} phaseDetails={lifecyclePhaseDetails(species.lifecyclePhases, species.attributes)} originalImage={species.lifecycleImage} fallbackAlt={species.lifecycleImage.alt} /> : <div className="lifecycle-image"><Image src={species.lifecycleImage.url} alt={species.lifecycleImage.alt} fill sizes="(max-width: 820px) 90vw, 44vw" /></div>}
+            {species.lifecyclePhases.length ? <LifecycleDiagram phases={species.lifecyclePhases} phaseDetails={lifecyclePhaseDetails(species.lifecyclePhases, species.attributes)} fallbackAlt={species.lifecycleImage.alt} /> : <div className="lifecycle-image"><Image src={species.lifecycleImage.url} alt={species.lifecycleImage.alt} fill sizes="(max-width: 820px) 90vw, 44vw" /></div>}
           </section>
 
           <section className="planning-section" id="planning">

@@ -1,9 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { Leaf, Snowflake, Sprout, Sun, type LucideIcon } from "lucide-react";
 import { useId, useMemo, useState, type CSSProperties, type KeyboardEvent } from "react";
-import type { ImageAsset, LifecyclePhase, LifecycleSegment } from "@/lib/catalog/types";
+import type { LifecyclePhase, LifecycleSegment } from "@/lib/catalog/types";
 
 const C = 320;
 const TICKS = 180;
@@ -17,7 +16,7 @@ const seasons = [
 ];
 
 export type LifecyclePhaseDetail = { phaseKey: string; title: string; text?: string; sources?: string };
-type LifecycleDiagramProps = { phases: LifecyclePhase[]; phaseDetails?: LifecyclePhaseDetail[]; originalImage: ImageAsset; fallbackAlt: string };
+type LifecycleDiagramProps = { phases: LifecyclePhase[]; phaseDetails?: LifecyclePhaseDetail[]; fallbackAlt: string };
 
 function point(radius: number, tick: number) {
   const angle = -Math.PI / 2 + 2 * Math.PI * tick / TICKS;
@@ -70,11 +69,10 @@ function phasePeriod(phase: LifecyclePhase) {
   }).join(" · ");
 }
 
-export function LifecycleDiagram({ phases, phaseDetails = [], originalImage, fallbackAlt }: LifecycleDiagramProps) {
+export function LifecycleDiagram({ phases, phaseDetails = [], fallbackAlt }: LifecycleDiagramProps) {
   const id = useId().replaceAll(":", "");
   const sorted = useMemo(() => [...phases].sort((a, b) => a.ringOrder - b.ringOrder), [phases]);
   const [selected, setSelected] = useState("");
-  const [view, setView] = useState<"interactive" | "original">("interactive");
   if (!sorted.length) return <p className="lifecycle-unavailable">{fallbackAlt}</p>;
 
   const maxRings = Math.max(...sorted.map((phase) => phase.ringOrder));
@@ -97,15 +95,7 @@ export function LifecycleDiagram({ phases, phaseDetails = [], originalImage, fal
   };
 
   return <div className="lifecycle-card">
-    <div className="lifecycle-view-switcher" role="tablist" aria-label="Darstellung des Lebenszyklus">
-      <button type="button" role="tab" aria-selected={view === "interactive"} onClick={() => setView("interactive")}>Interaktiv</button>
-      <button type="button" role="tab" aria-selected={view === "original"} onClick={() => setView("original")}>Originalgrafik</button>
-    </div>
-
-    {view === "original" ? <div className="lifecycle-original">
-      <Image src={originalImage.url} alt={originalImage.alt} fill sizes="(max-width: 820px) 88vw, 55vw" />
-      {originalImage.attribution && <small>{originalImage.attribution}</small>}
-    </div> : <div className="lifecycle-diagram">
+    <div className="lifecycle-diagram">
       <svg className="lifecycle-wheel" viewBox="-24 -24 688 688" role="img" aria-label="Interaktives Jahresrad der Lebensphasen">
         <defs>
           <radialGradient id={`${id}-clock`} cx="42%" cy="35%"><stop stopColor="#dce990"/><stop offset="1" stopColor="#6fc49e"/></radialGradient>
@@ -154,6 +144,6 @@ export function LifecycleDiagram({ phases, phaseDetails = [], originalImage, fal
         <div><p className="eyebrow">Interaktives Jahresrad</p><h3>Lebensphase auswählen</h3></div>
         <p>Wählen Sie einen Ring aus, um Zeitraum, Beschreibung und Quellen der jeweiligen Lebensphase anzuzeigen.</p>
       </article>}
-    </div>}
+    </div>
   </div>;
 }
