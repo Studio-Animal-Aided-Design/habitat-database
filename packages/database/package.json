@@ -6,6 +6,7 @@
     "db:migrate": "tsx src/cli.ts migrate",
     "db:dry-run": "tsx src/cli.ts sync --dry-run",
     "db:apply": "tsx src/cli.ts sync --apply",
+    "lifecycle:extract": "python3 ../../scripts/extract-lifecycle-diagrams.py --repo-root ../..",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
   },

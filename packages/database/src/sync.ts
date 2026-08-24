@@ -41,6 +41,7 @@ function desiredMaps(snapshot: Snapshot): Record<string, Map<string, string>> {
     media_assets: map([...snapshot.speciesImages, ...snapshot.habitatImages], (item) => item.sourceKey),
     species_plant_relations: map(snapshot.plantRelations, (item) => item.semanticKey),
     species_habitat_relations: map(snapshot.habitatRelations, (item) => item.semanticKey),
+    species_lifecycle_phases: map(snapshot.lifecyclePhases, (item) => item.naturalKey),
   };
 }
 
@@ -53,12 +54,16 @@ export async function planSync(client: pg.PoolClient, repoRoot: string, mode: Sy
     species: "scientific_name_key", plants: "scientific_name_key", habitat_elements: "legacy_slug",
     species_attribute_definitions: "slug", species_attribute_values: "species_id::text || ':' || definition_id::text",
     media_assets: "source_key", species_plant_relations: "semantic_key", species_habitat_relations: "semantic_key",
+    species_lifecycle_phases: "species_id::text || ':' || phase_key || ':' || segment_order::text",
   };
   const datasets: Record<string, DatasetDiff> = {};
   for (const [name, desiredRows] of Object.entries(desired)) {
     if (name === "species_attribute_values") {
       const rows = await client.query<{ key: string; source_fingerprint: string }>(`SELECT s.scientific_name_key || ':' || d.slug AS key, v.source_fingerprint FROM species_attribute_values v JOIN species s ON s.id=v.species_id JOIN species_attribute_definitions d ON d.id=v.definition_id WHERE v.source_managed`);
       datasets[name] = diff(desiredRows, new Map(rows.rows.map((row) => [row.key, row.source_fingerprint])), mode);
+    } else if (name === "species_lifecycle_phases") {
+      const rows = await client.query<{ key: string; source_fingerprint: string }>(`SELECT s.scientific_name_key || ':' || p.phase_key || ':' || p.segment_order AS key,p.source_fingerprint FROM species_lifecycle_phases p JOIN species s ON s.id=p.species_id WHERE p.source_managed`);
+      datasets[name] = diff(desiredRows, new Map(rows.rows.map((row) => [row.key,row.source_fingerprint])), mode);
     } else datasets[name] = diff(
       desiredRows,
       await currentMap(client, name, keys[name], ["species", "plants", "habitat_elements"].includes(name)),
@@ -100,6 +105,10 @@ export async function applySync(client: pg.PoolClient, snapshot: Snapshot, repor
       const values = [speciesIds.get(item.speciesKey),definitionIds.get(item.definitionSlug),item.value,item.sources,fieldsFingerprint(item)];
       await client.query(`INSERT INTO species_attribute_values(species_id,definition_id,value,sources,source_managed,source_fingerprint) VALUES ($1,$2,$3,$4,true,$5) ON CONFLICT(species_id,definition_id) DO UPDATE SET value=EXCLUDED.value,sources=EXCLUDED.sources,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,updated_at=now() WHERE species_attribute_values.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint`, values);
     }
+    for (const item of snapshot.lifecyclePhases) {
+      const values = [speciesIds.get(item.speciesKey),item.phaseKey,item.labelDe,item.ringOrder,item.segmentOrder,item.colorHex,item.startTick,item.endTick,item.wrapsYear,item.tickCount,item.sourceImageUrl,item.sourceSha256,item.extractionStatus,fieldsFingerprint(item)];
+      await client.query(`INSERT INTO species_lifecycle_phases(species_id,phase_key,label_de,ring_order,segment_order,color_hex,start_tick,end_tick,wraps_year,tick_count,source_image_url,source_sha256,extraction_status,source_managed,source_fingerprint) VALUES (${placeholders(13)},true,$14) ON CONFLICT(species_id,phase_key,segment_order) DO UPDATE SET label_de=EXCLUDED.label_de,ring_order=EXCLUDED.ring_order,color_hex=EXCLUDED.color_hex,start_tick=EXCLUDED.start_tick,end_tick=EXCLUDED.end_tick,wraps_year=EXCLUDED.wraps_year,tick_count=EXCLUDED.tick_count,source_image_url=EXCLUDED.source_image_url,source_sha256=EXCLUDED.source_sha256,extraction_status=EXCLUDED.extraction_status,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,updated_at=now() WHERE species_lifecycle_phases.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint`, values);
+    }
     for (const item of snapshot.plantRelations) {
       const values = [speciesIds.get(item.speciesKey),plantIds.get(item.plantKey),item.purpose,item.annotations,item.sources,item.semanticKey,fieldsFingerprint(item)];
       await client.query(`INSERT INTO species_plant_relations(species_id,plant_id,purpose,annotations,sources,semantic_key,source_managed,source_fingerprint) VALUES (${placeholders(6)},true,$7) ON CONFLICT(semantic_key) DO UPDATE SET purpose=EXCLUDED.purpose,annotations=EXCLUDED.annotations,sources=EXCLUDED.sources,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,updated_at=now() WHERE species_plant_relations.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint`, values);
@@ -128,6 +137,7 @@ export async function applySync(client: pg.PoolClient, snapshot: Snapshot, repor
       };
       await removeMissing("species_plant_relations","semantic_key",[...desired.species_plant_relations.keys()]);
       await removeMissing("species_habitat_relations","semantic_key",[...desired.species_habitat_relations.keys()]);
+      await client.query(`DELETE FROM species_lifecycle_phases p USING species s WHERE p.species_id=s.id AND p.source_managed AND NOT ((s.scientific_name_key || ':' || p.phase_key || ':' || p.segment_order) = ANY($1::text[]))`, [[...desired.species_lifecycle_phases.keys()]]);
       await client.query(`DELETE FROM species_attribute_values v USING species s, species_attribute_definitions d WHERE v.species_id=s.id AND v.definition_id=d.id AND v.source_managed AND NOT ((s.scientific_name_key || ':' || d.slug) = ANY($1::text[]))`, [[...desired.species_attribute_values.keys()]]);
       await removeMissing("media_assets","source_key",[...desired.media_assets.keys()]);
       await removeMissing("species_attribute_definitions","slug",[...desired.species_attribute_definitions.keys()]);
@@ -154,6 +164,8 @@ export async function applySync(client: pg.PoolClient, snapshot: Snapshot, repor
     for (const item of snapshot.plantRelations) mappings.push({ dataset:"species_plant_relations",refs:[item.source],entityType:"species_plant_relation",entityId:plantRelationIds.get(item.semanticKey)!,naturalKey:item.semanticKey,fingerprint:fieldsFingerprint(item) });
     const habitatRelationIds = new Map((await client.query<{id:string;semantic_key:string}>("SELECT id,semantic_key FROM species_habitat_relations")).rows.map((row) => [row.semantic_key,row.id]));
     for (const item of snapshot.habitatRelations) mappings.push({ dataset:"species_habitat_relations",refs:item.sources,entityType:"species_habitat_relation",entityId:habitatRelationIds.get(item.semanticKey)!,naturalKey:item.semanticKey,fingerprint:fieldsFingerprint(item) });
+    const lifecycleIds = new Map((await client.query<{id:string;natural_key:string}>(`SELECT p.id,s.scientific_name_key || ':' || p.phase_key || ':' || p.segment_order AS natural_key FROM species_lifecycle_phases p JOIN species s ON s.id=p.species_id`)).rows.map((row) => [row.natural_key,row.id]));
+    for (const item of snapshot.lifecyclePhases) mappings.push({ dataset:"species_lifecycle_phases",refs:[item.source],entityType:"species_lifecycle_phase",entityId:lifecycleIds.get(item.naturalKey)!,naturalKey:item.naturalKey,fingerprint:fieldsFingerprint(item) });
     if (report.mode === "sync") await client.query("UPDATE import_record_mappings SET active=false WHERE dataset=ANY($1::text[])", [[...new Set(mappings.map((item) => item.dataset))]]);
     for (const mapping of mappings) for (const source of mapping.refs) await client.query(`INSERT INTO import_record_mappings(dataset,source_file,source_row,entity_type,entity_id,legacy_id,natural_key,fingerprint,last_seen_run_id,active) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,true) ON CONFLICT(dataset,source_file,source_row) DO UPDATE SET entity_type=EXCLUDED.entity_type,entity_id=EXCLUDED.entity_id,legacy_id=EXCLUDED.legacy_id,natural_key=EXCLUDED.natural_key,fingerprint=EXCLUDED.fingerprint,last_seen_run_id=EXCLUDED.last_seen_run_id,active=true`, [mapping.dataset,source.file,source.row,mapping.entityType,mapping.entityId,source.legacyId,mapping.naturalKey,mapping.fingerprint,run.rows[0].id]);
     await client.query("COMMIT");

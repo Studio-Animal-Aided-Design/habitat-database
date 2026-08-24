@@ -9,6 +9,7 @@ import { EditorialEyebrow, EditorialFactList } from "@/components/editorial-prim
 import { SpeciesAttributeBrowser } from "@/components/species-attribute-browser";
 import { SpeciesPlanningBrowser } from "@/components/species-planning-browser";
 import { SpeciesPortraitNav } from "@/components/species-portrait-nav";
+import { LifecycleDiagram } from "@/components/lifecycle-diagram";
 import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
@@ -108,9 +109,7 @@ export default async function SpeciesDetailPage({ params }: PageProps) {
                 besonders sensibel geplant wird.
               </p>
             </div>
-            <div className="lifecycle-image">
-              <Image src={species.lifecycleImage.url} alt={species.lifecycleImage.alt} fill sizes="(max-width: 820px) 90vw, 44vw" />
-            </div>
+            {species.lifecyclePhases.length ? <LifecycleDiagram phases={species.lifecyclePhases} fallbackAlt={species.lifecycleImage.alt} /> : <div className="lifecycle-image"><Image src={species.lifecycleImage.url} alt={species.lifecycleImage.alt} fill sizes="(max-width: 820px) 90vw, 44vw" /></div>}
           </section>
 
           <section className="planning-section" id="planning">

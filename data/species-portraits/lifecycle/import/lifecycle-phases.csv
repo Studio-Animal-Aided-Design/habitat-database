@@ -1,0 +1,57 @@
+species,image_file,ring_order,phase_key,label_de
+Passer domesticus,Haussperling-1.png,1,adult,Adult
+Passer domesticus,Haussperling-1.png,2,breeding,Brutzeit
+Passer domesticus,Haussperling-1.png,3,courtship,Balz & Paarung
+Plebejus idas,Idas_Blaeuling-1.png,1,adult,Adult
+Plebejus idas,Idas_Blaeuling-1.png,2,pupa,Puppe
+Plebejus idas,Idas_Blaeuling-1.png,3,caterpillar,Raupe
+Plebejus idas,Idas_Blaeuling-1.png,4,egg,Ei
+Plebejus idas,Idas_Blaeuling-1.png,5,courtship,Balz & Paarung
+Apus apus,Mauersegler-1.png,1,overwintering,Überwinterung
+Apus apus,Mauersegler-1.png,2,adult,Adult
+Apus apus,Mauersegler-1.png,3,breeding,Brut & Aufzucht
+Apus apus,Mauersegler-1.png,4,courtship,Balz & Paarung
+Papilio machaon,Schwalbenschwanz-1.png,1,overwintering_pupa,Überwinterung Puppe
+Papilio machaon,Schwalbenschwanz-1.png,2,adult_generations,Adult (2–3 Generationen)
+Papilio machaon,Schwalbenschwanz-1.png,3,pupa,Puppe
+Papilio machaon,Schwalbenschwanz-1.png,4,caterpillar,Raupe
+Papilio machaon,Schwalbenschwanz-1.png,5,egg,Ei
+Papilio machaon,Schwalbenschwanz-1.png,6,courtship,Balz & Paarung
+Anthidium oblongatum,Spaltenwollbiene-1.png,1,overwintering_larva,Überwinterung (Ruhelarve)
+Anthidium oblongatum,Spaltenwollbiene-1.png,2,adult,Adult
+Anthidium oblongatum,Spaltenwollbiene-1.png,3,larva_pupa,Larve / Puppe
+Anthidium oblongatum,Spaltenwollbiene-1.png,4,courtship,Balz & Paarung
+Lacerta agilis,Zauneidechse-1.png,1,overwintering,Überwinterung
+Lacerta agilis,Zauneidechse-1.png,2,adult,Adult
+Lacerta agilis,Zauneidechse-1.png,3,breeding,Brut & Aufzucht
+Lacerta agilis,Zauneidechse-1.png,4,courtship,Balz & Paarung
+Vespertilio murinus,Zweifarbfledermaus-1.png,1,overwintering,Überwinterung
+Vespertilio murinus,Zweifarbfledermaus-1.png,2,adult,Adult
+Vespertilio murinus,Zweifarbfledermaus-1.png,3,breeding,Brut & Aufzucht
+Vespertilio murinus,Zweifarbfledermaus-1.png,4,courtship,Balz & Paarung
+Pipistrellus pipistrellus,Zwergfledermaus-1.png,1,overwintering,Überwinterung
+Pipistrellus pipistrellus,Zwergfledermaus-1.png,2,adult,Adult
+Pipistrellus pipistrellus,Zwergfledermaus-1.png,3,breeding,Brut & Aufzucht
+Pipistrellus pipistrellus,Zwergfledermaus-1.png,4,courtship,Balz & Paarung
+Muscicapa striata,Grauschnaepper-1.png,1,overwintering,Überwinterung
+Muscicapa striata,Grauschnaepper-1.png,2,adult,Adult
+Muscicapa striata,Grauschnaepper-1.png,3,breeding,Brut & Aufzucht
+Muscicapa striata,Grauschnaepper-1.png,4,courtship,Balz & Paarung
+Andrena barbilabris,Baertige-Sandbiene-1.png,1,overwintering,Überwinterung
+Andrena barbilabris,Baertige-Sandbiene-1.png,2,adult,Adult
+Andrena barbilabris,Baertige-Sandbiene-1.png,3,breeding,Brutzeit
+Andrena barbilabris,Baertige-Sandbiene-1.png,4,courtship,Balz & Paarung
+Anthophora plumipes,Fruehlingspelzbiene-1.png,1,overwintering,Überwinterung
+Anthophora plumipes,Fruehlingspelzbiene-1.png,2,adult,Adult
+Anthophora plumipes,Fruehlingspelzbiene-1.png,3,larva_pupa,Larve / Puppe
+Anthophora plumipes,Fruehlingspelzbiene-1.png,4,courtship,Balz & Paarung
+Phoenicurus phoenicurus,Gartenrotschwanz-1.png,1,overwintering,Überwinterung
+Phoenicurus phoenicurus,Gartenrotschwanz-1.png,2,adult,Adult
+Phoenicurus phoenicurus,Gartenrotschwanz-1.png,3,breeding,Brut & Aufzucht
+Phoenicurus phoenicurus,Gartenrotschwanz-1.png,4,courtship,Balz & Paarung
+Pyrrhula pyrrhula,Gimpel-1.png,1,adult,Adult
+Pyrrhula pyrrhula,Gimpel-1.png,2,breeding,Brut & Aufzucht
+Pyrrhula pyrrhula,Gimpel-1.png,3,courtship,Balz & Paarung
+Picus viridis,Gruenspecht-1.png,1,adult,Adult
+Picus viridis,Gruenspecht-1.png,2,breeding,Brut & Aufzucht
+Picus viridis,Gruenspecht-1.png,3,courtship,Balz & Paarung

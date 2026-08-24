@@ -22,6 +22,11 @@ export const mockSpecies: SpeciesDetail[] = [
       attribution: "Studio Animal-Aided Design",
       type: "lifecycle"
     },
+    lifecyclePhases: [
+      { key: "adult", label: "Adult", ringOrder: 1, color: "#F5C76D", segments: [{ startTick: 52, endTick: 120, wrapsYear: false }] },
+      { key: "breeding", label: "Brut & Aufzucht", ringOrder: 2, color: "#6EB089", segments: [{ startTick: 37, endTick: 90, wrapsYear: false }] },
+      { key: "courtship", label: "Balz & Paarung", ringOrder: 3, color: "#A6CAB7", segments: [{ startTick: 0, endTick: 180, wrapsYear: false }] }
+    ],
     status: "published",
     taxonomy: {
       classCommon: "Vögel",
@@ -99,6 +104,11 @@ export const mockSpecies: SpeciesDetail[] = [
       attribution: "Studio Animal-Aided Design",
       type: "lifecycle"
     },
+    lifecyclePhases: [
+      { key: "adult", label: "Adult", ringOrder: 1, color: "#F5C76D", segments: [{ startTick: 0, endTick: 180, wrapsYear: false }] },
+      { key: "breeding", label: "Brut & Aufzucht", ringOrder: 2, color: "#6EB089", segments: [{ startTick: 52, endTick: 97, wrapsYear: false }] },
+      { key: "courtship", label: "Balz & Paarung", ringOrder: 3, color: "#A6CAB7", segments: [{ startTick: 15, endTick: 60, wrapsYear: false }] }
+    ],
     status: "published",
     taxonomy: {
       classCommon: "Vögel",
@@ -133,6 +143,12 @@ export const mockSpecies: SpeciesDetail[] = [
       attribution: "Studio Animal-Aided Design",
       type: "lifecycle"
     },
+    lifecyclePhases: [
+      { key: "overwintering", label: "Überwinterung", ringOrder: 1, color: "#7DBDC7", segments: [{ startTick: 99, endTick: 60, wrapsYear: true }] },
+      { key: "adult", label: "Adult", ringOrder: 2, color: "#F5C76D", segments: [{ startTick: 52, endTick: 121, wrapsYear: false }] },
+      { key: "breeding", label: "Brut & Aufzucht", ringOrder: 3, color: "#6EB089", segments: [{ startTick: 60, endTick: 113, wrapsYear: false }] },
+      { key: "courtship", label: "Balz & Paarung", ringOrder: 4, color: "#A6CAB7", segments: [{ startTick: 53, endTick: 75, wrapsYear: false }] }
+    ],
     status: "published",
     taxonomy: {
       classCommon: "Vögel",

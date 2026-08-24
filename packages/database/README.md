@@ -12,13 +12,16 @@ The importer resolves its source root from the repository containing this packag
 | Species attribute definitions | `data/species-portraits/attribute-definitions/import/out/species-attribute-definitions.csv` |
 | Species attribute values | `data/species-portraits/portraits/import/out/attributes/*_attributes.csv` |
 | Species images | `data/species-portraits/images/import/out/species-images.csv` |
+| Structured lifecycle phases | `data/species-portraits/lifecycle/import/out/species-lifecycle-phases.csv` |
 | Plants | `data/plants/import/out/plants/all_plants.csv` |
 | Species–plant relationships | `data/plants/import/out/relations/*_species_plant_relationship.csv` |
 | Habitat elements | `data/habitat-elements/import/out/habitat_elements.csv` |
 | Habitat-element images | `data/habitat-elements/import/out/habitat_element_images.csv` |
 | Species–habitat relationships | `data/habitat-elements/import/out/habitat_element_species_relation.csv` |
 
-All nine dataset groups form one snapshot. A run is not a partial-file importer: every singleton file and at least one file for each wildcard group must be present. Missing files, unexpected headers and broken references stop the run before canonical writes.
+All ten dataset groups form one snapshot. A run is not a partial-file importer: every singleton file and at least one file for each wildcard group must be present. Missing files, unexpected headers and broken references stop the run before canonical writes.
+
+Lifecycle rows are derived from the existing Studio lifecycle PNGs without changing the converter contracts. Regenerate them from the repository root with `python3 scripts/extract-lifecycle-diagrams.py`, or from this package with `npm run lifecycle:extract`. The reviewed phase labels are maintained in `data/species-portraits/lifecycle/import/lifecycle-phases.csv`; downloaded PNGs remain in an ignored temporary cache. See [`../../docs/replacement-app/lifecycle-data-contract.md`](../../docs/replacement-app/lifecycle-data-contract.md).
 
 The supported first-phase workflow is:
 
@@ -138,6 +141,7 @@ Merge performs these actions:
 - updates species attribute values by species plus attribute-definition identity;
 - updates media by owner plus image type;
 - inserts relationships by their complete semantic identity;
+- upserts lifecycle phase segments by species, phase key and segment order;
 - records all seen source rows and leaves missing source-owned database records untouched;
 - never performs sync-driven deletes or archives.
 - publishes every species, plant and habitat element present in the approved snapshot.
@@ -159,6 +163,7 @@ Sync first performs the same inserts and updates as merge, then reconciles absen
 
 - missing species attribute values are deleted;
 - missing species–plant and species–habitat relationships are deleted;
+- missing source-managed lifecycle phase segments are deleted;
 - missing media records and their entity links are deleted;
 - missing attribute definitions are deleted after their source-managed values are removed;
 - missing species, plants and habitat elements are archived rather than physically deleted;

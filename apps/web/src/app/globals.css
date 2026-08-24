@@ -382,6 +382,16 @@ footer div { display: flex; gap: 18px; }
 .lifecycle-section .eyebrow { color: var(--lime); }
 .lifecycle-image { position: relative; min-height: 540px; border-radius: 50%; background: white; overflow: hidden; }
 .lifecycle-image img { object-fit: contain; }
+.lifecycle-diagram { min-width: 0; }
+.lifecycle-wheel { display: block; width: min(100%, 690px); margin: auto; overflow: visible; }
+.lifecycle-wheel .month-label { fill: #16231f; font: 600 13px var(--font-sans, sans-serif); }
+.lifecycle-wheel .phase-label { fill: white; font: 700 9px var(--font-sans, sans-serif); letter-spacing: .08em; text-transform: uppercase; paint-order: stroke; stroke: var(--forest); stroke-width: 3px; stroke-linejoin: round; }
+.lifecycle-wheel .season-label { fill: #d7e4de; font: 700 9px var(--font-sans, sans-serif); letter-spacing: .14em; text-transform: uppercase; }
+.lifecycle-wheel .selected-label { fill: #16231f; font: 700 12px var(--font-sans, sans-serif); }
+.lifecycle-wheel g[role="button"] { cursor: pointer; outline: none; opacity: .86; transition: opacity .18s ease; }
+.lifecycle-wheel g[role="button"]:hover, .lifecycle-wheel g[role="button"]:focus, .lifecycle-wheel g.is-selected { opacity: 1; }
+.lifecycle-mobile { display: none; }
+.lifecycle-unavailable { padding: 40px; border: 1px solid rgba(255,255,255,.25); border-radius: 18px; }
 .planning-section { grid-template-columns: .7fr 1.3fr; }
 .planning-browser { min-width: 0; overflow: hidden; background: var(--paper); border-radius: 18px; }
 .planning-browser-toolbar { display: grid; grid-template-columns: minmax(220px, 1fr) auto; gap: 13px 18px; padding: 24px 26px 20px; border-bottom: 1px solid var(--line); }
@@ -653,6 +663,15 @@ footer div { display: flex; gap: 18px; }
   .portrait-nav.is-stuck { width: fit-content; justify-content: start; }
   .portrait-nav.is-stuck .portrait-nav-identity { display: none; }
   .portrait-section, .planning-section, .lifecycle-section { padding: 80px 22px; gap: 40px; }
+  .lifecycle-wheel { display: none; }
+  .lifecycle-mobile { display: grid; gap: 10px; }
+  .lifecycle-mobile section { overflow: hidden; border: 1px solid rgba(255,255,255,.18); border-left: 7px solid var(--season-color); border-radius: 14px; background: rgba(255,255,255,.07); }
+  .lifecycle-mobile header { display: flex; justify-content: space-between; gap: 14px; padding: 15px 16px 11px; }
+  .lifecycle-mobile header strong { font: 400 24px Georgia, serif; }
+  .lifecycle-mobile header span { color: rgba(255,255,255,.62); font-size: 10px; text-transform: uppercase; letter-spacing: .12em; }
+  .lifecycle-mobile section > div { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 16px 16px; }
+  .lifecycle-mobile section > div span { padding: 7px 9px; border-left: 4px solid var(--phase-color); border-radius: 7px; background: rgba(255,255,255,.1); font-size: 11px; }
+  .lifecycle-mobile section > div em { color: rgba(255,255,255,.5); font-size: 11px; }
   .attribute-browser { grid-template-columns: 1fr; gap: 34px; }
   .attribute-index { position: static; }
   .attribute-index ol { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 5px; }

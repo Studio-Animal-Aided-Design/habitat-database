@@ -160,9 +160,10 @@ export class PostgresCatalogApi implements CatalogApi {
   async getSpeciesBySlug(slug: string): Promise<SpeciesDetail | null> {
     const row = (await this.speciesRows()).find((item) => catalogSlug(item.common_name || item.scientific_name) === slug);
     if (!row) return null;
-    const [summary, lifecycle, attributes, plants, habitats] = await Promise.all([
+    const [summary, lifecycle, lifecyclePhases, attributes, plants, habitats] = await Promise.all([
       this.speciesSummary(row),
       this.database.query("SELECT m.* FROM media_assets m JOIN species_media sm ON sm.media_id=m.id WHERE sm.species_id=$1 AND m.image_type='lifecycle' ORDER BY sm.sort_order, m.created_at LIMIT 1", [row.id]),
+      this.database.query("SELECT phase_key,label_de,ring_order,segment_order,color_hex,start_tick,end_tick,wraps_year,extraction_status FROM species_lifecycle_phases WHERE species_id=$1 ORDER BY ring_order,segment_order", [row.id]),
       this.database.query("SELECT d.level1_display_name AS category,COALESCE(NULLIF(BTRIM(d.level2_display_name),''),d.level1_display_name) AS subcategory,d.display_name AS label,v.value,v.sources FROM species_attribute_values v JOIN species_attribute_definitions d ON d.id=v.definition_id WHERE v.species_id=$1 AND nullif(trim(v.value),'') IS NOT NULL ORDER BY d.primary_sort,d.secondary_sort", [row.id]),
       this.database.query("SELECT p.scientific_name,p.common_name,r.purpose FROM species_plant_relations r JOIN plants p ON p.id=r.plant_id WHERE r.species_id=$1 AND p.publication_status='published' ORDER BY p.scientific_name", [row.id]),
       this.database.query("SELECT h.legacy_slug,h.name,r.purpose,r.purpose_element,r.lifecycle_stage FROM species_habitat_relations r JOIN habitat_elements h ON h.id=r.habitat_element_id WHERE r.species_id=$1 AND h.publication_status='published' ORDER BY h.name", [row.id])
@@ -181,6 +182,10 @@ export class PostgresCatalogApi implements CatalogApi {
       },
       attributes: attributes.rows.map((item) => ({ category: item.category, subcategory: item.subcategory, label: item.label, value: item.value, sources: item.sources || undefined })),
       lifecycleImage: imageFromRow(lifecycle.rows[0], row.common_name, "lifecycle"),
+      lifecyclePhases: lifecyclePhases.rows.length > 0 && lifecyclePhases.rows.every((item) => item.extraction_status === "reviewed") ? [...new Map(lifecyclePhases.rows.map((item) => [item.phase_key, item.phase_key])).keys()].map((phaseKey) => {
+        const segments = lifecyclePhases.rows.filter((item) => item.phase_key === phaseKey);
+        return { key: phaseKey, label: segments[0].label_de, ringOrder: segments[0].ring_order, color: segments[0].color_hex, segments: segments.map((item) => ({ startTick: item.start_tick, endTick: item.end_tick, wrapsYear: item.wraps_year })) };
+      }) : [],
       plants: plants.rows.map((item) => ({ slug: catalogSlug(item.scientific_name), scientificName: item.scientific_name, commonName: item.common_name || item.scientific_name, purpose: item.purpose || "" })),
       habitats: habitats.rows.map((item) => ({ slug: catalogSlug(item.legacy_slug), name: item.name, purpose: item.purpose || "", purposeElement: item.purpose_element || "", lifecycleStage: item.lifecycle_stage || "" }))
     };

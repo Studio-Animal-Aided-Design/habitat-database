@@ -41,6 +41,15 @@ export type SpeciesAttribute = {
   sources?: string;
 };
 
+export type LifecycleSegment = { startTick: number; endTick: number; wrapsYear: boolean };
+export type LifecyclePhase = {
+  key: string;
+  label: string;
+  ringOrder: number;
+  color: string;
+  segments: LifecycleSegment[];
+};
+
 export type SpeciesDetail = SpeciesSummary & {
   alternativeName?: string;
   taxonomy: {
@@ -54,6 +63,7 @@ export type SpeciesDetail = SpeciesSummary & {
   };
   attributes: SpeciesAttribute[];
   lifecycleImage: ImageAsset;
+  lifecyclePhases: LifecyclePhase[];
   plants: RelatedPlant[];
   habitats: RelatedHabitat[];
 };
