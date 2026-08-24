@@ -381,7 +381,7 @@ footer div { display: flex; gap: 18px; }
 .lifecycle-section > div:first-child > p:not(.eyebrow) { max-width: 480px; color: var(--ink-soft); line-height: 1.7; }
 .lifecycle-image { position: relative; min-height: 540px; border-radius: 50%; background: white; overflow: hidden; }
 .lifecycle-image img { object-fit: contain; }
-.lifecycle-card { min-width: 0; overflow: hidden; padding: 18px; border: 1px solid rgba(23,53,46,.11); border-radius: 22px; background: #fffdfa; box-shadow: 0 18px 55px rgba(23,53,46,.08); }
+.lifecycle-card { min-width: 0; overflow: hidden; padding: 18px; border: 1px solid rgba(23,53,46,.11); border-radius: 22px; background: #fffdfa; }
 .lifecycle-view-switcher { display: flex; width: fit-content; margin: 0 auto 10px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: #f2f0e8; }
 .lifecycle-view-switcher button { padding: 9px 15px; border: 0; border-radius: 999px; background: transparent; color: var(--ink-soft); cursor: pointer; font-size: 10px; font-weight: 800; }
 .lifecycle-view-switcher button[aria-selected="true"] { background: var(--forest); color: white; }
@@ -393,9 +393,11 @@ footer div { display: flex; gap: 18px; }
 .lifecycle-wheel .month-label { fill: #16231f; font: 600 13px var(--font-sans, sans-serif); }
 .lifecycle-wheel .phase-label { fill: #16231f; font: 700 10px var(--font-sans, sans-serif); letter-spacing: .075em; text-transform: uppercase; paint-order: stroke; stroke: rgba(255,253,250,.75); stroke-width: 2px; stroke-linejoin: round; }
 .lifecycle-wheel .season-label { fill: var(--ink-soft); font: 700 8px var(--font-sans, sans-serif); letter-spacing: .15em; text-transform: uppercase; }
-.lifecycle-wheel g[role="button"] { cursor: pointer; outline: none; transition: filter .18s ease; }
+.lifecycle-wheel .season-annotation > svg { color: var(--ink-soft); fill: none; }
+.lifecycle-wheel g[role="button"] { cursor: pointer; outline: none; opacity: 1; transition: filter .18s ease, opacity .22s ease; }
 .lifecycle-wheel g[role="button"]:hover, .lifecycle-wheel g[role="button"]:focus, .lifecycle-wheel g.is-selected { filter: saturate(1.14) brightness(.98); }
-.lifecycle-wheel g[role="button"]:focus-visible circle:last-of-type { stroke: var(--orange); stroke-width: 3px; }
+.lifecycle-wheel g.is-muted { opacity: .24; }
+.lifecycle-wheel g[role="button"]:focus-visible .phase-label { fill: var(--orange); }
 .lifecycle-mobile { display: none; }
 .lifecycle-phase-detail { display: grid; grid-template-columns: minmax(150px,.55fr) 1fr; gap: 22px 34px; margin: 2px 18px 14px; padding: 24px 0 2px; border-top: 1px solid var(--line); }
 .lifecycle-phase-detail > div { position: relative; padding-left: 13px; }
@@ -403,9 +405,13 @@ footer div { display: flex; gap: 18px; }
 .lifecycle-phase-detail .eyebrow { margin: 0 0 5px; color: var(--orange); }
 .lifecycle-phase-detail h3 { margin: 0 0 5px; font: 400 clamp(23px,2vw,31px)/1.1 Georgia,serif; }
 .lifecycle-phase-detail small { color: var(--ink-soft); font-size: 9px; }
+.lifecycle-reset { display: block; margin-top: 13px; padding: 0; border: 0; border-bottom: 1px solid currentColor; background: transparent; color: var(--ink-soft); cursor: pointer; font-size: 9px; }
+.lifecycle-reset:hover, .lifecycle-reset:focus-visible { color: var(--orange); }
 .lifecycle-phase-detail > p { margin: 0; color: var(--ink-soft); font-size: 13px; line-height: 1.65; }
 .lifecycle-phase-detail footer { grid-column: 2; display: grid; gap: 4px; padding-top: 12px; border-top: 1px solid rgba(187,200,192,.65); color: #71837d; font-size: 9px; }
 .lifecycle-phase-detail footer strong { color: var(--ink); font-size: 8px; letter-spacing: .12em; text-transform: uppercase; }
+.lifecycle-phase-empty > div { padding-left: 0; }
+.lifecycle-phase-empty .eyebrow { color: var(--ink-soft); }
 .lifecycle-unavailable { padding: 40px; border: 1px solid var(--line); border-radius: 18px; }
 .planning-section { grid-template-columns: .7fr 1.3fr; }
 .planning-browser { min-width: 0; overflow: hidden; background: var(--paper); border-radius: 18px; }
@@ -689,6 +695,7 @@ footer div { display: flex; gap: 18px; }
   .lifecycle-mobile section > div { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 16px 16px; }
   .lifecycle-mobile section > div button { padding: 7px 9px; border: 1px solid transparent; border-left: 4px solid var(--phase-color); border-radius: 7px; background: white; color: var(--ink); cursor: pointer; font-size: 11px; }
   .lifecycle-mobile section > div button[aria-pressed="true"] { border-color: var(--phase-color); }
+  .lifecycle-mobile.has-selection section > div button[aria-pressed="false"] { opacity: .42; }
   .lifecycle-mobile section > div em { color: var(--ink-soft); font-size: 11px; }
   .lifecycle-phase-detail { grid-template-columns: 1fr; margin: 16px 4px 8px; }
   .lifecycle-phase-detail footer { grid-column: 1; }
