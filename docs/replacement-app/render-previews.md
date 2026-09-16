@@ -20,6 +20,9 @@ The preview gate stores a signed, HTTP-only, same-site cookie. It applies to the
 no-index response headers, disables the preview sitemap, and disallows crawlers. It is deliberately
 not a replacement for the later local-account authentication and role model.
 
+Login and logout responses use same-origin relative redirects. Render's `HOSTNAME=0.0.0.0` and
+runtime port identify only the internal listener and must never be exposed as the browser destination.
+
 ## Generate the customer password hash
 
 Run this from `apps/web`. The plaintext is read into a temporary shell variable and must not be
