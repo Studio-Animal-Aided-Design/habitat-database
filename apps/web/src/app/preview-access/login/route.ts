@@ -1,10 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 import {
   previewAccessCookieName,
   resolvePreviewAccessConfig,
   sanitizePreviewReturnTo
 } from "@/lib/preview-access/config";
 import { verifyPreviewPassword } from "@/lib/preview-access/password";
+import { sameOriginRedirect } from "@/lib/preview-access/redirect";
 import { createPreviewSessionToken } from "@/lib/preview-access/session";
 
 const FAILED_LOGIN_DELAY_MS = 350;
@@ -12,7 +13,7 @@ const FAILED_LOGIN_DELAY_MS = 350;
 export async function POST(request: NextRequest) {
   const config = resolvePreviewAccessConfig();
   if (!config.enabled) {
-    return NextResponse.redirect(new URL("/", request.url), 303);
+    return sameOriginRedirect("/", 303);
   }
 
   const formData = await request.formData();
@@ -21,15 +22,13 @@ export async function POST(request: NextRequest) {
 
   if (!(await verifyPreviewPassword(password, config.passwordHash))) {
     await new Promise((resolve) => setTimeout(resolve, FAILED_LOGIN_DELAY_MS));
-    const loginUrl = new URL("/preview-access", request.url);
-    loginUrl.searchParams.set("error", "invalid");
-    loginUrl.searchParams.set("returnTo", returnTo);
-    return NextResponse.redirect(loginUrl, 303);
+    const loginParams = new URLSearchParams({ error: "invalid", returnTo });
+    return sameOriginRedirect(`/preview-access?${loginParams}`, 303);
   }
 
   const expiresAt = Math.floor(Date.now() / 1_000) + config.sessionDurationSeconds;
   const token = await createPreviewSessionToken(config.sessionSecret, expiresAt);
-  const response = NextResponse.redirect(new URL(returnTo, request.url), 303);
+  const response = sameOriginRedirect(returnTo, 303);
   response.cookies.set(previewAccessCookieName, token, {
     httpOnly: true,
     sameSite: "lax",
