@@ -1,0 +1,31 @@
+services:
+  - type: web
+    name: aad-habitat-preview
+    runtime: node
+    plan: free
+    region: frankfurt
+    rootDir: apps/web
+    buildCommand: npm ci && npm run build && mkdir -p .next/standalone/.next && cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/
+    startCommand: node .next/standalone/server.js
+    healthCheckPath: /health
+    previews:
+      generation: automatic
+    envVars:
+      - key: NODE_VERSION
+        value: 24.13.0
+      - key: HOSTNAME
+        value: 0.0.0.0
+      - key: APP_ENV
+        value: preview
+      - key: CATALOG_DATA_SOURCE
+        value: mock
+      - key: ALLOW_MOCK_CATALOG_IN_PREVIEW
+        value: "true"
+      - key: PREVIEW_ACCESS_MODE
+        value: shared-password
+      - key: PREVIEW_ACCESS_PASSWORD_HASH
+        sync: false
+      - key: PREVIEW_ACCESS_SESSION_SECRET
+        generateValue: true
+      - key: PREVIEW_ACCESS_SESSION_DURATION_SECONDS
+        value: "604800"

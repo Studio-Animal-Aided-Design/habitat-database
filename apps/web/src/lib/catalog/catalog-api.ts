@@ -1,18 +1,9 @@
 import type { CatalogApi } from "./types";
 import { MockCatalogApi } from "./mock-api";
 import { createPostgresCatalogApi } from "./postgres-api";
+import { resolveCatalogRuntimeConfig } from "./runtime-config";
 
-type CatalogDataSource = "auto" | "postgres" | "mock";
-
-const isDevelopmentOrTest = process.env.NODE_ENV !== "production";
-const configuredSource = (process.env.CATALOG_DATA_SOURCE || (isDevelopmentOrTest ? "auto" : "postgres")) as CatalogDataSource;
-
-if (!["auto", "postgres", "mock"].includes(configuredSource)) {
-  throw new Error("CATALOG_DATA_SOURCE must be auto, postgres, or mock.");
-}
-if (configuredSource === "mock" && !isDevelopmentOrTest) {
-  throw new Error("The mock catalog is restricted to development and test environments.");
-}
+const runtimeConfig = resolveCatalogRuntimeConfig();
 
 class DevelopmentFallbackCatalogApi implements CatalogApi {
   private warned = false;
@@ -43,9 +34,9 @@ class DevelopmentFallbackCatalogApi implements CatalogApi {
 
 function selectCatalogApi(): CatalogApi {
   const mock = new MockCatalogApi();
-  if (configuredSource === "mock") return mock;
-  const postgres = createPostgresCatalogApi(process.env.DATABASE_URL || (isDevelopmentOrTest ? "postgresql://aad:aad-local-only@localhost:5432/aad_habitat" : undefined));
-  return configuredSource === "auto" && isDevelopmentOrTest
+  if (runtimeConfig.source === "mock") return mock;
+  const postgres = createPostgresCatalogApi(runtimeConfig.databaseUrl);
+  return runtimeConfig.allowPostgresFallback
     ? new DevelopmentFallbackCatalogApi(postgres, mock)
     : postgres;
 }
