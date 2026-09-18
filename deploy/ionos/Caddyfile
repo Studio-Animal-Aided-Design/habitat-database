@@ -1,0 +1,25 @@
+{
+	email {$ACME_EMAIL}
+	admin off
+}
+
+{$PREVIEW_DOMAIN} {
+	encode zstd gzip
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+	reverse_proxy preview-app:3000
+}
+
+{$PRODUCTION_DOMAIN} {
+	encode zstd gzip
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		-Server
+	}
+	reverse_proxy production-app:3000
+}

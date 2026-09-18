@@ -1,0 +1,174 @@
+name: aad-habitat
+
+x-app-security: &app-security
+  init: true
+  read_only: true
+  tmpfs:
+    - /tmp:size=64m,mode=1777
+  security_opt:
+    - no-new-privileges:true
+  restart: unless-stopped
+
+x-logging: &bounded-logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "5"
+
+services:
+  caddy:
+    image: caddy:2.10-alpine
+    restart: unless-stopped
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL:?Set ACME_EMAIL in deploy/ionos/.env}
+      PREVIEW_DOMAIN: ${PREVIEW_DOMAIN:?Set PREVIEW_DOMAIN in deploy/ionos/.env}
+      PRODUCTION_DOMAIN: ${PRODUCTION_DOMAIN:?Set PRODUCTION_DOMAIN in deploy/ionos/.env}
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - edge
+    depends_on:
+      preview-app:
+        condition: service_healthy
+      production-app:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    logging: *bounded-logging
+
+  preview-app:
+    <<: *app-security
+    image: ${AAD_APP_IMAGE:-aad-habitat-web}:${AAD_APP_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+    env_file:
+      - ${PREVIEW_APP_ENV_FILE:-.env.preview-app}
+    environment:
+      APP_BASE_URL: https://${PREVIEW_DOMAIN:?Set PREVIEW_DOMAIN in deploy/ionos/.env}
+    networks:
+      - edge
+      - preview-database
+    depends_on:
+      preview-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      start_period: 20s
+      retries: 5
+    logging: *bounded-logging
+
+  preview-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - ${PREVIEW_DB_ENV_FILE:-.env.preview-db}
+    volumes:
+      - preview_postgres_data:/var/lib/postgresql/data
+    networks:
+      - preview-database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    security_opt:
+      - no-new-privileges:true
+    logging: *bounded-logging
+
+  production-app:
+    <<: *app-security
+    image: ${AAD_APP_IMAGE:-aad-habitat-web}:${AAD_APP_TAG:-local}
+    build:
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+    env_file:
+      - ${PRODUCTION_APP_ENV_FILE:-.env.production-app}
+    environment:
+      APP_BASE_URL: https://${PRODUCTION_DOMAIN:?Set PRODUCTION_DOMAIN in deploy/ionos/.env}
+    networks:
+      - edge
+      - production-database
+    depends_on:
+      production-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      start_period: 20s
+      retries: 5
+    logging: *bounded-logging
+
+  production-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    env_file:
+      - ${PRODUCTION_DB_ENV_FILE:-.env.production-db}
+    volumes:
+      - production_postgres_data:/var/lib/postgresql/data
+    networks:
+      - production-database
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    security_opt:
+      - no-new-privileges:true
+    logging: *bounded-logging
+
+  preview-db-tools:
+    profiles: [ops]
+    build:
+      context: ../..
+      dockerfile: packages/database/Dockerfile
+    env_file:
+      - ${PREVIEW_APP_ENV_FILE:-.env.preview-app}
+    networks:
+      - preview-database
+    depends_on:
+      preview-db:
+        condition: service_healthy
+    volumes:
+      - ./reports/preview:/workspace/packages/database/reports
+    security_opt:
+      - no-new-privileges:true
+
+  production-db-tools:
+    profiles: [ops]
+    build:
+      context: ../..
+      dockerfile: packages/database/Dockerfile
+    env_file:
+      - ${PRODUCTION_APP_ENV_FILE:-.env.production-app}
+    networks:
+      - production-database
+    depends_on:
+      production-db:
+        condition: service_healthy
+    volumes:
+      - ./reports/production:/workspace/packages/database/reports
+    security_opt:
+      - no-new-privileges:true
+
+networks:
+  edge:
+  preview-database:
+    internal: true
+  production-database:
+    internal: true
+
+volumes:
+  caddy_data:
+  caddy_config:
+  preview_postgres_data:
+  production_postgres_data:

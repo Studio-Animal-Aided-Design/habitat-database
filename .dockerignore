@@ -1,0 +1,16 @@
+.git
+.github
+**/.DS_Store
+**/node_modules
+**/.next
+**/*.tsbuildinfo
+**/__pycache__
+**/.pytest_cache
+build
+dist
+private
+deploy/ionos/.env
+deploy/ionos/.env.*
+!deploy/ionos/.env.example
+!deploy/ionos/.env.*.example
+deploy/ionos/reports
