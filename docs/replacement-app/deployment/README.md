@@ -8,13 +8,13 @@ IONOS ist wegen der bestehenden Kundenbeziehung die bevorzugte Wahl. Falls Vertr
 | --- | --- |
 | [`installation.md`](installation.md) | Server vorbereiten, Release installieren, Datenbank initialisieren und Erstinbetriebnahme prüfen |
 | [`konfiguration.md`](konfiguration.md) | Kundenentscheidungen, Domains, DNS, Zugang, Secrets und Umgebungswerte |
-| [`betrieb.md`](betrieb.md) | Health, Logs, Updates, Neustart, Rollback, Wiederaufbau und Render-Ablösung |
+| [`betrieb.md`](betrieb.md) | Health, Logs, Updates, Neustart, Rollback, Wiederaufbau und der Betrieb der Render-PR-Previews |
 | [`handbuch.docx`](handbuch.docx) | Weitergebbares deutschsprachiges Handbuch aus den drei Markdown-Dateien |
 
 ## Zuständigkeit und Status
 
 - **#105 Entwicklung:** Compose- und Image-Vorlage, Schutzgrenzen, Beispielkonfiguration und Dokumentation. Dieses Ticket benötigt keinen IONOS-Vertrag oder Serverzugang und kann nach technischer Verifikation abgeschlossen werden.
-- **#117 Bereitstellung:** Tarif und deutscher Standort, Vertrag und AVV, Domains und DNS, Serverzugang, Installation, Live-Prüfung und Übergabe. Diese Angaben sind zur realen Inbetriebnahme und zur M1-Gesamtabnahme erforderlich.
+- **#117 Bereitstellung:** Tarif und deutscher Standort, Vertrag und AVV, Domains und DNS, Serverzugang, Installation, Live-Prüfung und Übergabe. Diese Angaben sind zur realen Inbetriebnahme und zur M1-Gesamtabnahme erforderlich. Die bestehenden Render-PR-Previews bleiben dabei aktiv; ihre Ablösung ist nicht Teil von #117.
 - **#107 Produktfunktion:** Gesicherter dauerhafter Importweg über API/Converter. Der dokumentierte Operator-CSV-Import kann für die erste Inbetriebnahme verwendet werden, ersetzt #107 aber nicht.
 - **#114 und #115:** Daten- und Ansichtsprüfung sowie M1-Abnahme und öffentliche Freigabe.
 - **#79 M4:** Wiederkehrende Backups, Aufbewahrung und getestete Wiederherstellung; im M1-Handbuch ist nur ein bewusster Wiederaufbau aus Migrationen und freigegebenen CSVs beschrieben.

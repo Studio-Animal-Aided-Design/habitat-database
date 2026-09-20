@@ -53,9 +53,9 @@ M1 besitzt noch keine automatisierte Backup-Wiederherstellung. Der dokumentierte
 
 Vor einem Wiederaufbau den Vorfall sichern, betroffene Umgebung und exakten Volume-Namen mit einer zweiten Person prüfen und den zu verwendenden Snapshot freigeben. Dann die betroffene App stoppen, ausschließlich das ausdrücklich bestätigte Datenbankvolume entfernen, Datenbank neu starten, Migration ausführen, Dry-Run-Bericht prüfen, Checksum freigeben und CSVs anwenden. Danach App starten und Health, Mengen, Beziehungen und Stichproben prüfen. Ein pauschaler Löschbefehl steht absichtlich nicht in diesem Handbuch. Wiederkehrende Backups, Aufbewahrung und ein getesteter Restore bleiben #79 / Kunden-M4.
 
-## Render Preview ablösen
+## Render-PR-Previews beibehalten
 
-Die temporäre Render-Mock-Preview bis zur akzeptierten PostgreSQL-gestützten IONOS-Preview weiterbetreiben. Nach deren Abnahme die akzeptierte IONOS-URL und Prüfnachweise in #117 festhalten, Render-Blueprint und automatische PR-Previews entfernen, Render-Passworthash und Session-Secret entfernen oder rotieren und prüfen, dass keine DNS-Einträge mehr auf Render zeigen. Das Datum und die Änderung in [`render-previews.md`](../render-previews.md) nachtragen. Die Abschaltung ist eine Betriebsänderung und gehört nicht zum Abschluss der Entwicklungsvorlage #105.
+Die bestehende Render-Mock-Preview und die automatischen PR-Previews bleiben aktiv. IONOS stellt die Release-Candidate- und Produktionsumgebung bereit; die dafür nötigen Nachweise werden in #117 festgehalten. Render-Blueprint, PR-Preview-Service, Preview-Passworthash und Session-Secret dürfen im Rahmen von #117 nicht entfernt oder deaktiviert werden. Eine spätere Ablösung von Render braucht eine eigene Entscheidung, ein eigenes Issue und einen dokumentierten Migrations- beziehungsweise Rollback-Plan. Den Status beider Hosting-Pfade in [`render-previews.md`](../render-previews.md) synchron halten.
 
 ## Handbuchpflege
 

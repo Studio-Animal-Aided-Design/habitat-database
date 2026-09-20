@@ -83,10 +83,11 @@ Next.js standalone server produced by the Blueprint build command. For ordinary 
   application itself.
 - Before service APIs or persistent preview data are deployed, complete the deployment template in
   #105 and the actual IONOS commissioning in #117. #117 owns tariff, German location, contract,
-  AVV, server access, domains/DNS, live TLS/network checks, and Render retirement. The Compose
-  setup remains provider-portable, with Hetzner documented only as a fallback. The maintained
-  operator handbook is in [`deployment/README.md`](deployment/README.md). Recurring backup and
-  tested restore remain the separate M4 work in #79.
+  AVV, server access, domains/DNS, and live TLS/network checks. Render's Blueprint, service, and
+  automatic PR previews remain active; Render retirement is not part of #117 and requires a future
+  explicit decision. The Compose setup remains provider-portable, with Hetzner documented only as
+  a fallback. The maintained operator handbook is in [`deployment/README.md`](deployment/README.md).
+  Recurring backup and tested restore remain the separate M4 work in #79.
 
 References: [Render Blueprints](https://render.com/docs/blueprint-spec),
 [service previews](https://render.com/docs/service-previews), and

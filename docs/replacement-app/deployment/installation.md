@@ -109,4 +109,4 @@ Zusätzlich im Browser prüfen: Preview leitet ohne Zugang zur Passwortseite, an
 
 ## Schritt 10 Übergabe dokumentieren
 
-In #117 Commit, Standort- und Vertragsnachweis, Domains, Betreiberkontakt, TLS- und Netztests, verwendeten CSV-Manifest-Checksum und Prüfergebnis ohne Secrets festhalten. Das Betriebskapitel an die zuständige Person übergeben. Render erst nach akzeptierter IONOS-Preview nach dem dort beschriebenen Ablauf außer Betrieb nehmen.
+In #117 Commit, Standort- und Vertragsnachweis, Domains, Betreiberkontakt, TLS- und Netztests, verwendeten CSV-Manifest-Checksum und Prüfergebnis ohne Secrets festhalten. Das Betriebskapitel an die zuständige Person übergeben. Die bestehenden Render-PR-Previews bleiben aktiv; IONOS übernimmt die Release-Candidate- beziehungsweise Produktionsumgebung. Eine spätere Ablösung von Render ist eine separate, ausdrücklich zu entscheidende Betriebsänderung.

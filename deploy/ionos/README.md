@@ -10,5 +10,6 @@ preview and production environments. The maintained German documentation lives u
 - [`handbuch.docx`](../../docs/replacement-app/deployment/handbuch.docx) — editable operator handbook.
 
 Issue #105 covers the deployable template. Issue #117 covers IONOS account/contract choices,
-German site confirmation, server provisioning, DNS/TLS, live checks, and Render retirement.
+German site confirmation, server provisioning, DNS/TLS, and live checks. Render's Blueprint and
+automatic PR previews remain active; retiring Render is a separate future decision.
 Do not put secrets or real customer account details in this directory's tracked files.
