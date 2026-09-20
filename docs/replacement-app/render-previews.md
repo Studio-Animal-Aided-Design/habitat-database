@@ -81,11 +81,12 @@ Next.js standalone server produced by the Blueprint build command. For ordinary 
 - Render resources may be created manually in the dashboard. They can later be managed via Render's
   API/CLI after a narrowly scoped API token is supplied; no account credential is required by the
   application itself.
-- Before service APIs or persistent preview data are deployed, execute issue #105 and move preview
-  and production to the customer's IONOS account. That work includes isolated PostgreSQL services,
-  private database networking, secrets, domains/TLS, basic health/log inspection and Render
-  retirement. The Compose setup remains provider-portable, with Hetzner documented only as a
-  fallback. Recurring backup and tested restore remain the separate M4 work in #79.
+- Before service APIs or persistent preview data are deployed, complete the deployment template in
+  #105 and the actual IONOS commissioning in #117. #117 owns tariff, German location, contract,
+  AVV, server access, domains/DNS, live TLS/network checks, and Render retirement. The Compose
+  setup remains provider-portable, with Hetzner documented only as a fallback. The maintained
+  operator handbook is in [`deployment/README.md`](deployment/README.md). Recurring backup and
+  tested restore remain the separate M4 work in #79.
 
 References: [Render Blueprints](https://render.com/docs/blueprint-spec),
 [service previews](https://render.com/docs/service-previews), and
