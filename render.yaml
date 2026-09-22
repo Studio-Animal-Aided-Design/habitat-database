@@ -21,6 +21,8 @@ services:
         value: mock
       - key: ALLOW_MOCK_CATALOG_IN_PREVIEW
         value: "true"
+      - key: IMPORT_API_ENABLED
+        value: "false"
       - key: PREVIEW_ACCESS_MODE
         value: shared-password
       - key: PREVIEW_ACCESS_PASSWORD_HASH

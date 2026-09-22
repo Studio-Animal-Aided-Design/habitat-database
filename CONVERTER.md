@@ -14,6 +14,36 @@ Alternativ: `./run_converter.command`
 python3 -m converter_app.cli --input-root data --output-root dist/conversion-output
 ```
 
+## Import in die neue App
+
+Die Desktop-App bietet nach der Konvertierung die Aktion **„An App senden“**. Sie überträgt die
+vollständigen CSV-Ausgaben zunächst als Dry-Run, zeigt die Änderungen und fragt vor dem eigentlichen
+Import nochmals nach einer Bestätigung. API-Zugangsdaten werden nicht in der Converter-Konfiguration
+gespeichert.
+
+Vor dem Start der Desktop-App setzen:
+
+```bash
+export AAD_IMPORT_API_URL=http://localhost:3000
+export AAD_IMPORT_API_TOKEN='<vom Betreiber bereitgestelltes Token>'
+python3 -m converter_app.gui
+```
+
+CLI-Dry-Run:
+
+```bash
+python3 -m converter_app.cli --input-root data --output-root dist/conversion-output --publish-dry-run
+```
+
+Ein bereits geprüfter Lauf wird nur mit ausdrücklicher Freigabe angewendet:
+
+```bash
+python3 -m converter_app.cli --apply-run <run-id> --approve
+```
+
+Die Lebenszyklus-CSV wird aktuell nicht vom Converter erzeugt. Der Client übernimmt sie deshalb
+aus dem gewählten Quelldatenordner, sofern sie nicht im Ausgabeordner liegt.
+
 ## Ausgaben
 Im Ausgabeordner werden erzeugt:
 - `conversion-report.json`

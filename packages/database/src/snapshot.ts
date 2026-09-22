@@ -1,5 +1,5 @@
 import path from "node:path";
-import { bool, clean, completeness, findCsvFiles, hash, key, readCsv, semanticKey, type CsvRow } from "./lib.js";
+import { bool, clean, completeness, CsvInputError, findCsvFiles, hash, key, readCsv, semanticKey, type CsvRow } from "./lib";
 
 const headers = {
   species: ["id", "scientific_name", "alternative_scientific_name", "common_name", "alternative_common_name", "class_common", "class_scientific", "order_common", "order_scientific", "family_common", "family_scientific", "genus_common", "genus_scientific"],
@@ -34,6 +34,13 @@ export interface Snapshot {
   lifecyclePhases: any[];
 }
 
+export class SnapshotValidationError extends Error {
+  constructor(public readonly diagnostics: Diagnostic[]) {
+    super(diagnostics.map((item) => item.message).join("\n"));
+    this.name = "SnapshotValidationError";
+  }
+}
+
 const ref = (row: CsvRow): SourceRef => ({ file: row.__file, row: Number(row.__row), legacyId: clean(row.id) });
 
 export async function buildSnapshot(repoRoot: string): Promise<Snapshot> {
@@ -44,17 +51,33 @@ export async function buildSnapshot(repoRoot: string): Promise<Snapshot> {
 
   async function load(suffix: string, expected: readonly string[]): Promise<CsvRow[]> {
     const file = allFiles.find((candidate) => candidate.endsWith(suffix));
-    if (!file) throw new Error(`Required CSV is missing: ${suffix}`);
-    const loaded = await readCsv(file, repoRoot, [...expected]);
+    if (!file) throw new SnapshotValidationError([{ severity: "error", code: "missing_file", message: `Required CSV is missing: ${suffix}`, sources: [suffix] }]);
+    let loaded;
+    try {
+      loaded = await readCsv(file, repoRoot, [...expected]);
+    } catch (error) {
+      if (error instanceof CsvInputError) {
+        throw new SnapshotValidationError([{ severity: "error", code: error.code, message: error.message, sources: [`${error.file}${error.row ? `:${error.row}` : ""}`] }]);
+      }
+      throw error;
+    }
     files.push({ path: path.relative(repoRoot, file), checksum: loaded.checksum, rowCount: loaded.rows.length });
     return loaded.rows;
   }
   async function loadMany(fragment: string, expected: readonly string[]): Promise<CsvRow[]> {
     const selected = allFiles.filter((candidate) => candidate.includes(fragment));
-    if (!selected.length) throw new Error(`No CSV files found for: ${fragment}`);
+    if (!selected.length) throw new SnapshotValidationError([{ severity: "error", code: "missing_file_group", message: `No CSV files found for: ${fragment}`, sources: [fragment] }]);
     const rows: CsvRow[] = [];
     for (const file of selected) {
-      const loaded = await readCsv(file, repoRoot, [...expected]);
+      let loaded;
+      try {
+        loaded = await readCsv(file, repoRoot, [...expected]);
+      } catch (error) {
+        if (error instanceof CsvInputError) {
+          throw new SnapshotValidationError([{ severity: "error", code: error.code, message: error.message, sources: [`${error.file}${error.row ? `:${error.row}` : ""}`] }]);
+        }
+        throw error;
+      }
       files.push({ path: path.relative(repoRoot, file), checksum: loaded.checksum, rowCount: loaded.rows.length });
       rows.push(...loaded.rows);
     }

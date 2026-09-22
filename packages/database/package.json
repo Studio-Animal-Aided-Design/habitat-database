@@ -2,6 +2,9 @@
   "name": "@aad/database",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
     "db:migrate": "tsx src/cli.ts migrate",
     "db:dry-run": "tsx src/cli.ts sync --dry-run",
