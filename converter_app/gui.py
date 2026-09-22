@@ -11,7 +11,8 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import pandas as pd
 
-from .models import RunConfig
+from .api_client import ImportApiClient, ImportApiError, collect_import_files, diagnostics_to_issues
+from .models import RunConfig, StageResult
 from .output_viewer import open_output_data_viewer
 from .pipeline import run_pipeline
 from .reporting import write_html_report, write_json_report
@@ -410,6 +411,7 @@ DEPENDENCY_FAILED (blockierend)
         self.toolbar_buttons: list[tuple[ttk.Button, str, str]] = []
         self._add_toolbar_button(btns, "🧪 Preflight prüfen", "🧪 Preflight", self.preflight, padx=0)
         self._add_toolbar_button(btns, "▶️ Konvertierung starten", "▶️ Start", self.run_conversion, padx=8)
+        self._add_toolbar_button(btns, "☁️ An App senden", "☁️ App", self.publish_to_app, padx=8)
         self._add_toolbar_button(btns, "💾 Konfiguration speichern", "💾 Speichern", self.save_config, padx=8)
         self._add_toolbar_button(btns, "❓ Hilfe", "❓", self.open_help_window, padx=8)
 
@@ -1445,6 +1447,89 @@ DEPENDENCY_FAILED (blockierend)
 
         self._run_conversion_async(cfg, on_line=on_line, on_done=on_done)
 
+    def publish_to_app(self) -> None:
+        """Send generated CSV files to the configured app without persisting credentials."""
+        cfg = self._build_config()
+        try:
+            files = collect_import_files(cfg.output_root, cfg.input_root)
+            client = ImportApiClient()
+        except (ValueError, OSError) as exc:
+            messagebox.showerror("App-Import", str(exc))
+            return
+        self.status_var.set("App-Dry-Run läuft...")
+        self._append_log(f"[APP-IMPORT] Sende {len(files)} CSV-Dateien zum Dry-Run...")
+
+        def worker() -> None:
+            try:
+                dry_run = client.dry_run(files)
+                self.after(0, lambda value=dry_run: offer_apply(value))
+            except ImportApiError as exc:
+                self.after(0, lambda error=exc: show_error(error))
+            except Exception as exc:  # noqa: BLE001
+                wrapped = ImportApiError(0, "client_error", str(exc), [])
+                self.after(0, lambda error=wrapped: show_error(error))
+
+        def record_diagnostics(diagnostics: list[dict], status: str) -> None:
+            issues = diagnostics_to_issues(diagnostics)
+            if self.last_result is not None and issues:
+                self.last_result.stage_results.append(StageResult(
+                    stage="app_import",
+                    status=status,
+                    issues=issues,
+                    blocking=any(issue.severity == "error" for issue in issues),
+                ))
+                self._populate_issues_table(self.last_result)
+            for issue in issues:
+                location = f" {issue.file}:{issue.row}" if issue.file else ""
+                self._append_log(f"[APP-IMPORT][{issue.severity.upper()}]{location} {issue.message}")
+
+        def show_error(error: ImportApiError) -> None:
+            record_diagnostics(error.diagnostics, "failed")
+            self.status_var.set("App-Import fehlgeschlagen")
+            self._append_log(f"[APP-IMPORT][FEHLER] {error}")
+            messagebox.showerror("App-Import", str(error))
+
+        def offer_apply(dry_run: dict) -> None:
+            report = dry_run.get("report", {})
+            diagnostics = list(report.get("diagnostics") or [])
+            record_diagnostics(diagnostics, "warning" if diagnostics else "success")
+            datasets = report.get("datasets", {})
+            inserted = sum(int(item.get("inserted", 0)) for item in datasets.values())
+            updated = sum(int(item.get("updated", 0)) for item in datasets.values())
+            removed = sum(int(item.get("removedOrArchived", 0)) for item in datasets.values())
+            run_id = dry_run.get("id")
+            checksum = dry_run.get("manifestChecksum")
+            self.status_var.set("App-Dry-Run abgeschlossen")
+            self._append_log(f"[APP-IMPORT] Dry-Run {run_id} abgeschlossen; Checksumme {checksum}")
+            approved = messagebox.askyesno(
+                "App-Import bestätigen",
+                f"Dry-Run erfolgreich.\n\nNeu: {inserted}\nGeändert: {updated}\nArchiviert/entfernt: {removed}"
+                f"\nHinweise: {len(diagnostics)}\n\nImport jetzt anwenden?",
+            )
+            if not approved:
+                self._append_log("[APP-IMPORT] Apply wurde nicht bestätigt; Dry-Run bleibt bis zum Ablauf erhalten.")
+                return
+            self.status_var.set("App-Import wird angewendet...")
+
+            def apply_worker() -> None:
+                try:
+                    applied = client.apply(str(run_id), str(checksum))
+                    self.after(0, lambda value=applied: apply_done(value))
+                except ImportApiError as exc:
+                    self.after(0, lambda error=exc: show_error(error))
+                except Exception as exc:  # noqa: BLE001
+                    wrapped = ImportApiError(0, "client_error", str(exc), [])
+                    self.after(0, lambda error=wrapped: show_error(error))
+
+            threading.Thread(target=apply_worker, daemon=True).start()
+
+        def apply_done(applied: dict) -> None:
+            self.status_var.set("App-Import abgeschlossen")
+            self._append_log(f"[APP-IMPORT] Importlauf {applied.get('id')} erfolgreich angewendet.")
+            messagebox.showinfo("App-Import", "Die Daten wurden erfolgreich in die App übernommen.")
+
+        threading.Thread(target=worker, daemon=True).start()
+
     def open_wizard(self) -> None:
         WizardWindow(self)
 
@@ -1617,6 +1702,7 @@ class WizardWindow(tk.Toplevel):
             actions.pack(fill="x", pady=(8, 0))
             ttk.Button(actions, text="Ausgabeordner im Finder öffnen", command=self._open_output).pack(side="left")
             ttk.Button(actions, text="Ergebnisdaten prüfen", command=self._open_output_viewer).pack(side="left", padx=8)
+            ttk.Button(actions, text="An App senden", command=self._publish_to_app).pack(side="left", padx=8)
             ttk.Button(actions, text="Tooljet-Datenbank öffnen", command=self.app.open_tooljet_database).pack(side="left", padx=8)
 
             nb = ttk.Notebook(self.step_body)
@@ -1739,6 +1825,11 @@ class WizardWindow(tk.Toplevel):
             os.system(f'open "{target}"')
         else:
             messagebox.showerror("Wizard", f"Ausgabeordner fehlt:\n{target}")
+
+    def _publish_to_app(self) -> None:
+        self.app.input_var.set(self.input_var.get())
+        self.app.output_var.set(self.output_var.get())
+        self.app.publish_to_app()
 
     def _open_output_viewer(self) -> None:
         out = Path(self.output_var.get().strip())
