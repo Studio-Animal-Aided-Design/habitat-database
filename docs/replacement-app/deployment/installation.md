@@ -43,7 +43,7 @@ Den verwendeten Commit, die Freigabe und den Betreiber in #117 dokumentieren. Ni
 
 ## Schritt 4 Konfiguration als eigenes Arbeitspaket abschließen
 
-Die fünf Beispiel-Umgebungsdateien kopieren, Domains, ACME-Kontakt, unterschiedliche Datenbank-Passwörter und Preview-Zugangsschutz nach „Konfiguration“ eintragen. Die Dateien bleiben auf dem Server und werden nicht committet. Vor dem Start müssen Preview- und Produktions-Datenbankpasswörter jeweils zwischen `POSTGRES_PASSWORD` und `DATABASE_URL` übereinstimmen.
+Die fünf Beispiel-Umgebungsdateien kopieren, Domains, ACME-Kontakt, unterschiedliche Datenbank-Passwörter, Preview-Zugangsschutz und je Umgebung einen Import-Token-Hash nach „Konfiguration“ eintragen. Die Dateien bleiben auf dem Server und werden nicht committet. Vor dem Start müssen Preview- und Produktions-Datenbankpasswörter jeweils zwischen `POSTGRES_PASSWORD` und `DATABASE_URL` übereinstimmen. Die Klartext-Import-Tokens werden getrennt und sicher an den Converter-Arbeitsplatz übergeben; sie gehören nicht auf den Server oder in das Repository.
 
 Die Produktionsdomain darf erst nach der Freigabe in #115 öffentlich auf den Server zeigen. Bis dahin kann die Produktions-App intern aufgebaut und geprüft werden; der öffentliche Produktionszugang ist kein Installationsschritt vor der Abnahme. Für die Preview muss die freigegebene Domain bereits korrekt auf den Server zeigen, damit Caddy ein gültiges Zertifikat beziehen kann.
 
@@ -60,7 +60,7 @@ Fehlschläge zuerst anhand der Umgebungsdateien, der Docker-Version und des Rele
 
 ## Schritt 6 Datenbanken starten und migrieren
 
-Preview und Produktion haben getrennte Datenbanken, Volumes und interne Netzwerke. Zuerst nur die Datenbanken starten, dann die Migration für jede Umgebung ausführen:
+Preview und Produktion haben getrennte Datenbanken, Import-Staging-Volumes und interne Netzwerke. Zuerst nur die Datenbanken starten, dann die Migration für jede Umgebung ausführen:
 
 ```bash
 docker compose up -d preview-db production-db
@@ -73,7 +73,7 @@ Der Datenbankdienst hat keinen öffentlichen Host-Port. Die Migrationswerkzeuge 
 
 ## Schritt 7 Freigegebenen CSV Stand einspielen
 
-Der Erstimport nutzt den bereits vorhandenen Operator-Weg. Vor jedem schreibenden Lauf den vollständigen Snapshot und den `sync`-Bericht prüfen. Der in `db:dry-run` ausgegebene Manifest-Checksum muss exakt beim zugehörigen `db:apply` eingesetzt werden; `CHECKSUM` ist ein Platzhalter:
+Der Erstimport kann den bereits vorhandenen Operator-Weg verwenden. Vor jedem schreibenden Lauf den vollständigen Snapshot und den `sync`-Bericht prüfen. Der in `db:dry-run` ausgegebene Manifest-Checksum muss exakt beim zugehörigen `db:apply` eingesetzt werden; `CHECKSUM` ist ein Platzhalter:
 
 ```bash
 docker compose --profile ops run --rm preview-db-tools db:dry-run -- --mode sync
@@ -82,7 +82,7 @@ docker compose --profile ops run --rm production-db-tools db:dry-run -- --mode s
 docker compose --profile ops run --rm production-db-tools db:apply -- --mode sync --approve CHECKSUM
 ```
 
-Preview und Produktion können unterschiedliche Checksum-Werte nur dann haben, wenn absichtlich unterschiedliche Dateien verwendet werden; für die M1-Abnahme ist der freigegebene Datenstand je Umgebung nachzuweisen. Vor `apply` die Anzahl der Inserts, Änderungen und Entfernungen, Warnungen und die Quell-Dateien kontrollieren. Berichte liegen unter `deploy/ionos/reports/preview` und `deploy/ionos/reports/production`. Für Importdetails gilt [`packages/database/README.md`](../../../packages/database/README.md). Der gesicherte dauerhafte Importweg aus #107 bleibt ein eigenes M1-Produkt-Issue.
+Preview und Produktion können unterschiedliche Checksum-Werte nur dann haben, wenn absichtlich unterschiedliche Dateien verwendet werden; für die M1-Abnahme ist der freigegebene Datenstand je Umgebung nachzuweisen. Vor `apply` die Anzahl der Inserts, Änderungen und Entfernungen, Warnungen und die Quell-Dateien kontrollieren. Berichte liegen unter `deploy/ionos/reports/preview` und `deploy/ionos/reports/production`. Für Importdetails gilt [`packages/database/README.md`](../../../packages/database/README.md). Nach Integration von PR #121 wird derselbe fachliche Dry-Run- und Apply-Ablauf über die gesicherte API aus dem Converter ausgelöst; der Operator-Weg bleibt für Erstinbetriebnahme und Wiederherstellung verfügbar.
 
 ## Schritt 8 Apps und Reverse Proxy starten
 
@@ -106,6 +106,8 @@ docker compose logs --tail 200 caddy preview-app production-app preview-db produ
 ```
 
 Zusätzlich im Browser prüfen: Preview leitet ohne Zugang zur Passwortseite, angemeldete Preview zeigt den kanonischen Datenstand, Produktion zeigt nach Freigabe öffentliche Leseansichten ohne Preview-Login. Ein externer Porttest muss bestätigen, dass PostgreSQL nicht erreichbar ist. `/health` allein belegt weder fachliche Datenrichtigkeit noch den Standort. Diese Nachweise gehen in #114 und #115 ein.
+
+Zusätzlich mit dem Converter je Umgebung einen autorisierten API-Dry-Run durchführen, die zurückgegebenen Dateianzahlen, Prüfsumme und Diagnosen prüfen und erst danach einen ausdrücklich bestätigten Apply auslösen. Ein Request ohne Token muss mit `401` abgewiesen werden. Nach erfolgreichem Apply eine repräsentative öffentliche Seite neu laden und den Datensatz prüfen. Run-Status, Audit-Ereignisse und die Bereinigung des Staging-Verzeichnisses ohne Secret-Werte in #117 dokumentieren.
 
 ## Schritt 10 Übergabe dokumentieren
 

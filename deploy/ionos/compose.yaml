@@ -52,6 +52,8 @@ services:
       - ${PREVIEW_APP_ENV_FILE:-.env.preview-app}
     environment:
       APP_BASE_URL: https://${PREVIEW_DOMAIN:?Set PREVIEW_DOMAIN in deploy/ionos/.env}
+    volumes:
+      - preview_import_staging:/var/lib/aad/import-staging
     networks:
       - edge
       - preview-database
@@ -94,6 +96,8 @@ services:
       - ${PRODUCTION_APP_ENV_FILE:-.env.production-app}
     environment:
       APP_BASE_URL: https://${PRODUCTION_DOMAIN:?Set PRODUCTION_DOMAIN in deploy/ionos/.env}
+    volumes:
+      - production_import_staging:/var/lib/aad/import-staging
     networks:
       - edge
       - production-database
@@ -172,3 +176,5 @@ volumes:
   caddy_config:
   preview_postgres_data:
   production_postgres_data:
+  preview_import_staging:
+  production_import_staging:

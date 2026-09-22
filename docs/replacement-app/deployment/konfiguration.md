@@ -1,6 +1,6 @@
 # Konfiguration und offene Entscheidungen
 
-Dieses Kapitel trennt externe Voraussetzungen von Konfigurationsarbeit und fehlender Produktimplementierung. Stand 20. September 2026 sind in #117 noch keine konkreten IONOS-Werte als bestätigt dokumentiert. Die Übersicht ist eine Arbeitsliste für die reale Inbetriebnahme, keine Liste von Programmierfehlern. Echte Zugangsdaten dürfen nur in einem geeigneten Secret-Speicher und in den geschützten Serverdateien stehen, niemals hier.
+Dieses Kapitel trennt externe Voraussetzungen von Konfigurationsarbeit und fehlender Produktimplementierung. Stand 22. September 2026 sind in #117 noch keine konkreten IONOS-Werte als bestätigt dokumentiert. Die Übersicht ist eine Arbeitsliste für die reale Inbetriebnahme, keine Liste von Programmierfehlern. Echte Zugangsdaten dürfen nur in einem geeigneten Secret-Speicher und in den geschützten Serverdateien stehen, niemals hier.
 
 ## Was vor der IONOS Bereitstellung fehlt
 
@@ -14,11 +14,11 @@ Dieses Kapitel trennt externe Voraussetzungen von Konfigurationsarbeit und fehle
 | DNS-Zugriff und Records | Berechtigung und Konfiguration | Nein | Ja | Verantwortliche Person, A/AAAA-Werte und Änderung dokumentieren |
 | Server-, SSH- und Konsolenzugang | Berechtigung und Betrieb | Nein | Ja | Benannte Betreiber, Schlüssel und Notfallweg bereitstellen |
 | ACME-Kontakt, DB-Secrets, Preview-Passwort | Laufzeitkonfiguration | Nein | Ja | Getrennt erzeugen und geschützt ablegen |
-| Gesicherte Import-API und Converter-Anbindung | Produktimplementierung #107 | Eigenes Ticket | M1 insgesamt | Nicht durch Serverkonfiguration ersetzbar |
+| Gesicherte Import-API und Converter-Anbindung | Produktimplementierung #107 und Laufzeitkonfiguration | Staging-Volume und Vorlagen | Ja | Code aus PR #121 deployen, Token erzeugen, Hash eintragen und End-to-End-Test dokumentieren |
 | Fachliche Daten- und Ansichtsprüfung | Prüfung #114 | Nein | M1 insgesamt | Berichte und Stichproben abnehmen |
 | Öffentliche Produktionsfreigabe | Entscheidung #115 | Nein | Ja | DNS und Zugriff erst nach Abnahme freigeben |
 
-Die ersten acht Zeilen blockieren einen realen Serverstart oder eine verantwortbare Live-Schaltung, nicht den Abschluss der Code-Vorlage in #105. Der Import per Operator-Kommando ist für die Erstinbetriebnahme vorhanden; der dauerhafte gesicherte Produktworkflow bleibt #107. Wiederkehrende Backups gehören zu #79 in M4 und sind nicht stillschweigend Teil dieser M1-Konfiguration.
+Die ersten acht Zeilen blockieren einen realen Serverstart oder eine verantwortbare Live-Schaltung, nicht den Abschluss der Code-Vorlage in #105. Der Import per Operator-Kommando bleibt für Erstinbetriebnahme und Wiederherstellung vorhanden. Der gesicherte Produktworkflow wird durch #107 beziehungsweise PR #121 geliefert und benötigt bei der Bereitstellung zusätzlich die unten beschriebene Laufzeitkonfiguration. Wiederkehrende Backups gehören zu #79 in M4 und sind nicht stillschweigend Teil dieser M1-Konfiguration.
 
 ## Umgebungsdateien auf dem Server
 
@@ -53,6 +53,14 @@ Die Vorlage verwendet bis zur späteren Benutzerverwaltung einen gemeinsamen Pas
 
 Die konkrete Preview-Zugangsregelung und Passwortverantwortung sind vor dem Livebetrieb in #117 zu bestätigen. Der gemeinsame Schutz ist keine Lösung für spätere rollenbasierte Redaktionskonten.
 
+## Import API und Staging Volume
+
+Preview und Produktion besitzen jeweils ein eigenes benanntes Docker-Volume, das ausschließlich unter `/var/lib/aad/import-staging` in den ansonsten schreibgeschützten App-Container eingehängt wird. `IMPORT_STAGING_ROOT` muss exakt auf diesen Pfad zeigen. Das Volume hält den geprüften Upload zwischen Dry-Run und Apply beziehungsweise einem sicheren Wiederholungsversuch. Es ist weder die kanonische Datenbank noch ein Backup und darf nicht zwischen Preview und Produktion geteilt werden.
+
+In beiden App-Dateien wird die API mit `IMPORT_API_ENABLED=true` ausdrücklich aktiviert. `IMPORT_API_TOKEN_HASH` enthält nur den Scrypt-Hash eines je Umgebung eigenen, zufälligen Import-Tokens. Den Hash im Web-Paket mit `AAD_IMPORT_API_TOKEN='<zufälliger Wert>' npm run import:hash-token` erzeugen. Der Klartextwert gehört ausschließlich in die geschützte Laufzeitumgebung des Converter-Arbeitsplatzes als `AAD_IMPORT_API_TOKEN`; dort steht zusätzlich die jeweilige Basis-URL als `AAD_IMPORT_API_URL`. Hash und Klartext dürfen nicht verwechselt, committet oder in Tickets, Screenshots und Diagnoseberichten abgelegt werden.
+
+`IMPORT_MAX_UPLOAD_BYTES`, `IMPORT_MAX_FILES` und `IMPORT_RUN_TTL_SECONDS` begrenzen Upload und Lebensdauer. Die Vorlagen verwenden 25 MiB, 128 Dateien und 24 Stunden. Änderungen müssen zur realen Datenmenge passen und in #117 begründet werden. Abgelaufene oder erfolgreich angewendete Staging-Daten können entfernt werden; eine Bereinigung darf niemals das PostgreSQL-Volume betreffen.
+
 ## Konfigurationsprüfung vor dem Start
 
-`docker compose config --quiet` muss erfolgreich sein. Zusätzlich alle Umgebungsdateien auf Platzhalter, getrennte Passwörter, passende `DATABASE_URL`-Werte, korrekte Domains und Dateirechte prüfen. Nicht die vollständige Ausgabe von `docker compose config` in ein öffentliches Ticket kopieren: je nach Compose-Version können darin Geheimnisse erscheinen. Die technischen Einzelheiten der Importdateien stehen in [`packages/database/README.md`](../../../packages/database/README.md).
+`docker compose config --quiet` muss erfolgreich sein. Zusätzlich alle Umgebungsdateien auf Platzhalter, getrennte Passwörter und Import-Tokens, passende `DATABASE_URL`-Werte, korrekte Domains, Staging-Pfade und Dateirechte prüfen. Nicht die vollständige Ausgabe von `docker compose config` in ein öffentliches Ticket kopieren: je nach Compose-Version können darin Geheimnisse erscheinen. Die technischen Einzelheiten der Importdateien stehen in [`packages/database/README.md`](../../../packages/database/README.md); API-Vertrag und lokaler Testablauf stehen in [`import-api.md`](../import-api.md).

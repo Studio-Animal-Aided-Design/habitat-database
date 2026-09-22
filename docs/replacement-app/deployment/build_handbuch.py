@@ -227,7 +227,7 @@ def main() -> None:
         "Schrittweise Anleitung für die erstmalige Bereitstellung und den späteren Betrieb "
         "der Replacement App auf einem IONOS Server. Die drei Kapitel unterscheiden "
         "Installationsschritte, externe Entscheidungen und Laufzeitkonfiguration sowie "
-        "den laufenden Betrieb. Stand 20. September 2026."
+        "den laufenden Betrieb. Stand 22. September 2026."
     )
     intro.paragraph_format.space_after = Pt(10)
 

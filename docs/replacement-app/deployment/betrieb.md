@@ -53,6 +53,12 @@ M1 besitzt noch keine automatisierte Backup-Wiederherstellung. Der dokumentierte
 
 Vor einem Wiederaufbau den Vorfall sichern, betroffene Umgebung und exakten Volume-Namen mit einer zweiten Person prüfen und den zu verwendenden Snapshot freigeben. Dann die betroffene App stoppen, ausschließlich das ausdrücklich bestätigte Datenbankvolume entfernen, Datenbank neu starten, Migration ausführen, Dry-Run-Bericht prüfen, Checksum freigeben und CSVs anwenden. Danach App starten und Health, Mengen, Beziehungen und Stichproben prüfen. Ein pauschaler Löschbefehl steht absichtlich nicht in diesem Handbuch. Wiederkehrende Backups, Aufbewahrung und ein getesteter Restore bleiben #79 / Kunden-M4.
 
+## Gesicherte Importe betreiben
+
+Ein regulärer Datenimport beginnt im Converter mit einem vollständigen lokalen Lauf. Anschließend sendet die verantwortliche Person einen Dry-Run an die gewählte Umgebung, prüft Prüfsumme, Diagnosen sowie eingefügte, geänderte und entfernte Datensätze und bestätigt Apply getrennt. Preview und Produktion verwenden unterschiedliche Basis-URLs, Tokens, Datenbanken und Staging-Volumes. Ein Preview-Run darf nicht in Produktion angewendet werden.
+
+Bei einer unsicheren Netzwerkantwort nach Apply nicht mit einem neuen Upload fortfahren. Zuerst den bestehenden Run-Status über die API beziehungsweise die Tabellen `import_runs`, `import_files` und `audit_events` prüfen und denselben Run idempotent wiederholen. Ein erfolgreicher Apply entfernt die Staging-Dateien und aktualisiert die öffentlichen Leseansichten; Metadaten und Audit-Ereignisse bleiben in PostgreSQL. Fehlgeschlagene oder abgelaufene Runs dürfen bereinigt werden, nachdem Ursache und benötigte Diagnoseinformationen gesichert sind. Import-Tokens niemals in Logs oder Support-Tickets kopieren; bei Verdacht auf Offenlegung neues Token und neuen Hash konfigurieren und die App kontrolliert neu starten.
+
 ## Render-PR-Previews beibehalten
 
 Die bestehende Render-Mock-Preview und die automatischen PR-Previews bleiben aktiv. IONOS stellt die Release-Candidate- und Produktionsumgebung bereit; die dafür nötigen Nachweise werden in #117 festgehalten. Render-Blueprint, PR-Preview-Service, Preview-Passworthash und Session-Secret dürfen im Rahmen von #117 nicht entfernt oder deaktiviert werden. Eine spätere Ablösung von Render braucht eine eigene Entscheidung, ein eigenes Issue und einen dokumentierten Migrations- beziehungsweise Rollback-Plan. Den Status beider Hosting-Pfade in [`render-previews.md`](../render-previews.md) synchron halten.
