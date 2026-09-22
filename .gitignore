@@ -27,6 +27,13 @@ out/
 *.tsbuildinfo
 .env*.local
 
+# IONOS deployment secrets and generated operational reports
+/deploy/ionos/.env
+/deploy/ionos/.env.*
+!/deploy/ionos/.env.example
+!/deploy/ionos/.env.*.example
+/deploy/ionos/reports/
+
 # Client-confidential feasibility studies and commercial planning artifacts
 /private/
 
