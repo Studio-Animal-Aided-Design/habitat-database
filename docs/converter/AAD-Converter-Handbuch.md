@@ -1,21 +1,22 @@
-# AAD Tooljet Converter Handbuch
+# AAD Converter Handbuch
 
 ## 1. Zweck des Tools
 
-Der AAD Tooljet Converter ist die lokale Desktop-Anwendung zur Umwandlung der fachlichen Excel-Quelldaten in CSV-Dateien für die Habitat-Datenbank in Tooljet.
+Der AAD Converter ist die lokale Desktop-Anwendung zur Umwandlung der fachlichen Excel-Quelldaten in CSV-Dateien für die neue Habitat-App. Der bisherige manuelle Tooljet-Import bleibt als dokumentierter Legacy-Weg erhalten.
 
 Das Tool ersetzt die bisherigen Jupyter-Notebooks für den Normalbetrieb. Es richtet sich an nicht-technische Anwenderinnen und Anwender, die:
 
 - Excel-Dateien aus der Facharbeit erhalten oder pflegen
 - diese Dateien lokal prüfen und konvertieren müssen
-- die generierten CSV-Dateien anschließend in Tooljet importieren
+- die geprüften Ergebnisse anschließend über die gesicherte Import-API an die Habitat-App senden
 
 Das Tool deckt nicht nur die Konvertierung selbst ab, sondern auch:
 
 - Vorprüfung der Eingangsdaten
 - Sichtprüfung von Eingabe- und Ausgabedateien
 - strukturierte Fehler- und Warnhinweise
-- Import-Hilfe für Tooljet
+- geführte Übergabe an die Habitat-App mit Dry-Run und separater Bestätigung
+- Import-Hilfe für Tooljet als dokumentierter Legacy-Weg
 - Konvertierungsberichte für Support und Nachvollziehbarkeit
 
 ## 2. Gesamtprozess Ende zu Ende
@@ -25,7 +26,7 @@ Der Gesamtprozess besteht aus drei Phasen:
 ```mermaid
 flowchart TD
     A["Vor dem Tool<br/>Excel-Dateien sammeln<br/>Ordnerstruktur prüfen<br/>Dubletten bereinigen"] --> B["Im Tool<br/>Quell- und Ausgabeordner wählen<br/>Preflight und Daten-Inventar prüfen<br/>Konvertierung ausführen"]
-    B --> C["Nach dem Tool<br/>Ergebnisdateien und Reports prüfen<br/>CSV-Dateien in Tooljet importieren<br/>Stichproben und Beziehungen kontrollieren"]
+    B --> C["Nach dem Tool<br/>Ergebnisdateien und Reports prüfen<br/>Dry-Run prüfen und Apply bestätigen<br/>Stichproben und Beziehungen kontrollieren"]
 ```
 
 1. Vor dem Tool
@@ -40,9 +41,10 @@ flowchart TD
 - Warnungen, Fehler, Reports und Ergebnisdateien prüfen
 
 3. Nach dem Tool
-- CSV-Dateien in Tooljet in der richtigen Reihenfolge importieren
+- Ergebnisse über `An App senden` zunächst als Dry-Run übertragen
+- Änderungen prüfen und Apply separat bestätigen
 - Zeilenanzahlen und Beziehungen kontrollieren
-- in der Tooljet-App fachliche Stichproben durchführen
+- in der Habitat-App fachliche Stichproben durchführen
 - Berichte archivieren oder an den Support weitergeben
 
 ## 3. Voraussetzungen
@@ -322,7 +324,7 @@ Wichtig:
 |---|---|---|
 | `species-portraits/classification/import/out/species.csv` | Artenstammdaten | Basis für fast alle Folgeimporte |
 | `species-portraits/attribute-definitions/import/out/species-attribute-definitions.csv` | Metadaten für Artenattribute | Steuert den Eigenschaftsbrowser |
-| `species-portraits/images/import/out/species-images.csv` | Portrait- und Lebenszyklusbilder | Bilddarstellung in Tooljet |
+| `species-portraits/images/import/out/species-images.csv` | Portrait- und Lebenszyklusbilder | Bilddarstellung in der Habitat-App |
 | `species-portraits/portraits/import/out/attributes/*_attributes.csv` | Attributwerte pro Art | Inhalt für Lebenszyklus und Eigenschaftsbrowser |
 | `plants/import/out/plants/all_plants.csv` | Pflanzenstammdaten | Grundlage für Pflanzenbeziehungen |
 | `plants/import/out/relations/*_species_plant_relationship.csv` | Beziehungen Art ↔ Pflanze | Pflanzenansicht pro Art |
@@ -342,8 +344,8 @@ Zusaetzlich entstehen im Ausgabeordner:
 
 | Status | Bedeutung | Handlung |
 |---|---|---|
-| `success` | alles fachlich und technisch ohne Fehler | Ergebnisse prüfen und importieren |
-| `warning` | Ausgabe wurde erzeugt, aber es gibt Warnungen oder tolerierte Probleme | Warnungen bewerten, dann gezielt importieren |
+| `success` | alles fachlich und technisch ohne Fehler | Ergebnisse prüfen und an die Habitat-App senden |
+| `warning` | Ausgabe wurde erzeugt, aber es gibt Warnungen oder tolerierte Probleme | Warnungen bewerten, dann den Dry-Run gezielt prüfen |
 | `failed` | mindestens eine blockierende Stufe ist fehlgeschlagen | Fehler beheben, dann erneut konvertieren |
 
 ## 8. Pipeline-Stufen
@@ -365,8 +367,8 @@ Was Sie als Anwender konkret tun sollten:
 
 | Situation | Was tun |
 |---|---|
-| Konvertierung erfolgreich | Ergebnisdateien prüfen und mit dem Tooljet-Import fortfahren |
-| Konvertierung mit Warnungen | Warnungen bewerten, betroffene Dateien im Viewer prüfen und dann entscheiden, ob ein Import fachlich vertretbar ist |
+| Konvertierung erfolgreich | Ergebnisdateien prüfen und mit dem App-Dry-Run fortfahren |
+| Konvertierung mit Warnungen | Warnungen bewerten, betroffene Dateien im Viewer prüfen und dann entscheiden, ob die Übergabe fachlich vertretbar ist |
 | Konvertierung fehlgeschlagen | In `Probleme & Lösungen`, `conversion-report.html` und den betroffenen Eingabedateien die erste blockierende Ursache suchen |
 | Spätere Stufe schlägt fehl | Nicht erst die letzte Fehlermeldung bearbeiten, sondern die erste frühere blockierende Stufe prüfen |
 
@@ -400,7 +402,7 @@ Blockierende Folgelogik:
 Faustregel für Anwender:
 
 - Fehler in frühen Stufen zuerst beheben, weil sie Folgefehler auslösen können
-- bei Warnungen immer prüfen, ob die spätere Tooljet-Nutzung fachlich trotzdem noch sinnvoll ist
+- bei Warnungen immer prüfen, ob die spätere Nutzung in der Habitat-App fachlich trotzdem noch sinnvoll ist
 - nicht nur auf den Stufennamen schauen, sondern im Diagramm die Zeile `Bei Fehlern:` verwenden, um direkt die richtige Quelldatei zu öffnen
 
 ## 9. Tool-Bedienung im Direktmodus
@@ -409,7 +411,7 @@ Faustregel für Anwender:
 |---|---|---|
 | Quelldaten | Dateien ansehen, Inventar aktualisieren | Eingaben prüfen und Probleme früh erkennen |
 | Ausgabeordner | Ergebnisdaten-Viewer öffnen, Finder öffnen | Ergebnisse prüfen und weiterverwenden |
-| Globale Aktionen | Preflight, Konvertierung, Konfiguration, Hilfe | Lauf steuern |
+| Globale Aktionen | Preflight, Konvertierung, App-Verbindung, An App senden, Konfiguration, Hilfe | Lauf und sicheren App-Import steuern |
 | Bottom-Bereich | Logs, Probleme & Lösungen, Ergebnis-Dateien | Status und Resultate nachvollziehen |
 
 ### 9.1 Quelldaten
@@ -433,6 +435,8 @@ Im Bereich `Ausgabeordner`:
 
 - `Preflight prüfen`
 - `Konvertierung starten`
+- `App-Verbindung`
+- `An App senden`
 - `Konfiguration speichern`
 - `Hilfe`
 
@@ -474,7 +478,7 @@ Die App startet mit einer Modusauswahl:
 
 ## 11. Sichtprüfung vor dem Import
 
-Vor dem Import in Tooljet sollte mindestens Folgendes kontrolliert werden:
+Vor der Übergabe an die Habitat-App sollte mindestens Folgendes kontrolliert werden:
 
 - sind alle erwarteten Hauptdateien erzeugt worden
 - ist der Gesamtlauf `success` oder nachvollziehbar `warning`
@@ -488,9 +492,38 @@ Besonders wichtig:
 - Species-Attributbeziehungen verwenden `attribute_slug`
 - Habitat-Beziehungen verwenden `habitat_elements.id`
 
-## 12. Import der generierten Dateien in Tooljet
+## 12. Import in die neue Habitat-App
 
-### 12.1 Vor dem Import
+### 12.1 Einmalige Einrichtung
+
+Wenn beim ersten Öffnen weder gespeicherte App-Einstellungen noch passende Umgebungsvariablen gefunden werden, zeigt der Converter automatisch den Dialog `App-Verbindung einmalig einrichten`.
+
+1. Die vom Betreiber mitgeteilte App-URL eingeben. Entfernte Umgebungen müssen `https://` verwenden; für lokale Tests ist `http://localhost` zulässig.
+2. Den separat und sicher erhaltenen Import-Token eingeben.
+3. `Verbindung testen` wählen. Der Test prüft gleichzeitig die Erreichbarkeit, die Aktivierung der Import-API und die Gültigkeit des Tokens.
+4. Erst nach erfolgreichem Test `Speichern` wählen.
+
+Die URL wird in der lokalen Benutzerkonfiguration gespeichert. Der Token wird auf macOS im Schlüsselbund abgelegt. Er steht nicht in der JSON-Konfiguration, erscheint nicht in Protokollen und wird in der Oberfläche später nicht wieder angezeigt. Ein leer gelassenes Token-Feld behält einen bereits gespeicherten Token bei.
+
+Der Dialog kann später jederzeit über `Datei` -> `App-Verbindung einrichten …` oder den Button `App-Verbindung` geöffnet werden. Bei einem Token-Wechsel den neuen Token eingeben, Verbindung testen und erneut speichern. URL und Token für Preview und Produktion dürfen nicht versehentlich vermischt werden.
+
+### 12.2 Daten senden und anwenden
+
+1. Die Konvertierung vollständig ausführen und lokale Warnungen beziehungsweise Fehler prüfen.
+2. `An App senden` wählen. Der Converter überträgt den vollständigen bekannten CSV-Satz zunächst nur als Dry-Run.
+3. Die angezeigten Zahlen für neue, geänderte und entfernte beziehungsweise archivierte Datensätze sowie alle Diagnosen prüfen.
+4. Apply nur bestätigen, wenn Prüfsumme und fachliche Änderungen nachvollziehbar sind.
+5. Nach erfolgreichem Apply eine repräsentative Seite in der Habitat-App prüfen.
+
+Der Dry-Run verändert keine kanonischen Daten. Apply verwendet exakt den zuvor geprüften Lauf und ist separat zu bestätigen. Bei einer unsicheren Netzwerkantwort keinen neuen Upload starten; zuerst den bestehenden Run-Status prüfen oder Support hinzuziehen.
+
+### 12.3 CLI und Automation
+
+Für CLI-Läufe können `AAD_IMPORT_API_URL` und `AAD_IMPORT_API_TOKEN` weiterhin als Umgebungsvariablen gesetzt werden. Dieser Weg ist für technische Automation gedacht, nicht als Voraussetzung für normale GUI-Anwender.
+
+## 13. Manueller Legacy-Import der generierten Dateien in Tooljet
+
+### 13.1 Vor dem Import
 
 | Prüfung | Warum |
 |---|---|
@@ -499,7 +532,7 @@ Besonders wichtig:
 | prüfen, ob keine alten Testimporte die Integrität stören | vermeidet Doppelungen und widersprüchliche Daten |
 | sicherstellen, dass CSV-Dateien UTF-8 kodiert sind | verhindert Zeichensatzprobleme beim Import |
 
-### 12.2 Empfohlene Import-Reihenfolge
+### 13.2 Empfohlene Import-Reihenfolge
 
 | Reihenfolge | Datei / Muster | Tooljet-Zieltabelle |
 |---|---|---|
@@ -515,7 +548,7 @@ Besonders wichtig:
 
 Teilimporte sind möglich, wenn die fachlichen Abhängigkeiten der Zieltabelle bereits in Tooljet vorhanden und aktuell sind. Beispiel: `SpeciesAttributes` dürfen nur dann isoliert importiert werden, wenn `Species` und `SpeciesAttributeDefinitions` bereits passend vorhanden sind. Für vollständige Neuimporte gilt immer die vollständige Reihenfolge 1 bis 9.
 
-### 12.3 Warum diese Reihenfolge wichtig ist
+### 13.3 Warum diese Reihenfolge wichtig ist
 
 ```mermaid
 flowchart TD
@@ -530,7 +563,7 @@ flowchart TD
 
 Es gibt derzeit keine dokumentierten stabilen Deep Links direkt auf einzelne Tooljet-Tabellen. Öffnen Sie daher die Datenbankansicht in Tooljet, wählen Sie links die angegebene Tabelle aus und verwenden Sie dort `Add new data` -> `Bulk upload data`.
 
-### 12.4 Prüfungen nach jedem Import
+### 13.4 Prüfungen nach jedem Import
 
 Nach jedem Import:
 
@@ -538,7 +571,7 @@ Nach jedem Import:
 - Pflichtfelder auf Leerwerte prüfen
 - bei Relationstabellen prüfen, ob alle Referenzwerte auf vorhandene Datensätze zeigen
 
-### 12.5 Tooljet-Oberfläche beim Import
+### 13.5 Tooljet-Oberfläche beim Import
 
 Die Tooljet-Datenbank ist unter [https://app.tooljet.ai/studio-animal-aided-design/database](https://app.tooljet.ai/studio-animal-aided-design/database) erreichbar.
 
@@ -562,7 +595,7 @@ Bulk-Upload-Dialog zum Auswählen der CSV-Datei
 
 ![Tooljet Bulk Upload Dialog](images/tooljet-bulk-upload-dialog.png)
 
-### 12.6 Fachliche Stichprobe nach dem Import
+### 13.6 Fachliche Stichprobe nach dem Import
 
 Empfohlen:
 
@@ -572,9 +605,9 @@ Empfohlen:
 4. Pflanzenbeziehungen prüfen
 5. Habitatbeziehungen prüfen
 
-## 13. Reports und Fehleranalyse
+## 14. Reports und Fehleranalyse
 
-### 13.1 `conversion-report.json`
+### 14.1 `conversion-report.json`
 
 | Inhalt | Nutzen |
 |---|---|
@@ -586,11 +619,11 @@ Empfohlen:
 | Zeilenanzahlen | Plausibilitätsprüfung |
 | Issues je Stufe | technische und fachliche Fehlersuche |
 
-### 13.2 `conversion-report.html`
+### 14.2 `conversion-report.html`
 
 Einfacher menschenlesbarer HTML-Bericht für Support und Nachvollziehbarkeit.
 
-### 13.3 `tooljet-import-guide.md`
+### 14.3 `tooljet-import-guide.md`
 
 Laufspezifische Import-Hilfe mit:
 
@@ -598,7 +631,7 @@ Laufspezifische Import-Hilfe mit:
 - empfohlener Import-Reihenfolge
 - Checkliste nach dem Import
 
-## 14. Typische Probleme und ihre Bedeutung
+## 15. Typische Probleme und ihre Bedeutung
 
 | Code | Bedeutung | Typische Ursache | Was tun |
 |---|---|---|---|
@@ -611,12 +644,12 @@ Laufspezifische Import-Hilfe mit:
 | `ROW_DROPPED` | einzelne Zeilen wurden verworfen | unvollständige, ungültige oder nicht referenzierbare Daten | Hinweise im Report zeilenweise prüfen |
 | `DEPENDENCY_FAILED` | spätere Stufe kann nicht laufen | Vorstufe war blockierend fehlerhaft | zuerst die frühere Stufe beheben |
 
-## 15. Konkrete Freigabekriterien für einen fachlich guten Lauf
+## 16. Konkrete Freigabekriterien für einen fachlich guten Lauf
 
 Ein Lauf ist fachlich freigabefähig, wenn:
 
 - alle benötigten Hauptdateien erzeugt wurden
 - keine blockierenden Fehler offen sind
 - alle Warnungen verstanden und bewertet wurden
-- Tooljet-Importreihenfolge eingehalten wurde
-- Stichproben in Tooljet fachlich plausibel sind
+- der geprüfte Dry-Run unverändert angewendet wurde
+- Stichproben in der Habitat-App fachlich plausibel sind

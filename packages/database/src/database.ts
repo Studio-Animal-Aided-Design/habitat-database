@@ -2,7 +2,7 @@ import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import pg from "pg";
-import { hash } from "./lib.js";
+import { hash } from "./lib";
 
 export const defaultDatabaseUrl = "postgresql://aad:aad-local-only@localhost:5432/aad_habitat";
 export const databaseUrl = (): string => process.env.DATABASE_URL ?? defaultDatabaseUrl;

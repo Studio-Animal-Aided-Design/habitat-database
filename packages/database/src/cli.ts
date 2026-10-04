@@ -1,7 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { migrate, withDatabase } from "./database.js";
-import { applySync, persistReport, planSync, type SyncMode } from "./sync.js";
+import { migrate, withDatabase } from "./database";
+import { applySync, persistReport, planSync, type SyncMode } from "./sync";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../..");
 const [command, ...args] = process.argv.slice(2);

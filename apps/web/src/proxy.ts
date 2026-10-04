@@ -12,6 +12,11 @@ export async function proxy(request: NextRequest) {
   }
 
   const { pathname, search } = request.nextUrl;
+  // Import Route Handlers have their own bearer authentication. Requiring the
+  // browser-only preview cookie here would make the converter client unusable.
+  if (pathname === "/api/imports" || pathname.startsWith("/api/imports/")) {
+    return noIndex(NextResponse.next());
+  }
   if (pathname.startsWith("/preview-access") || PUBLIC_PREVIEW_PATHS.has(pathname)) {
     return noIndex(NextResponse.next());
   }

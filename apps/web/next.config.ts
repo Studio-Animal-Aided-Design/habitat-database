@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
+import path from "node:path";
+
+const workspaceRoot = path.join(process.cwd(), "../..");
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  outputFileTracingRoot: workspaceRoot,
   images: {
     remotePatterns: [
       { protocol: "https", hostname: "upload.wikimedia.org" },
