@@ -1,6 +1,6 @@
 # ADR-005: Keep the M1 import API inside the Next.js application
 
-- **Status:** Proposed
+- **Status:** Accepted (implemented in #121)
 - **Date:** 2026-09-20
 - **Issue:** [#119](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/119)
 - **Depends on:** [#107](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/107)
@@ -27,13 +27,16 @@ repository root.
 
 Uploads are written to a per-run directory on a named, writable import-staging volume mounted into
 the web container. The database stores run metadata, checksums, status and the dry-run report; the
-CSV bytes remain on the staging volume until the run is applied or expires. This avoids holding a
-complete upload in process memory and preserves the exact reviewed input. The volume is an M1
+CSV bytes remain on the staging volume until the run is applied or expires. This preserves the exact
+reviewed input. The current Route Handler parses a bounded multipart request with `request.formData()`
+before writing files, so upload parsing can still consume request-sized memory. The volume is an M1
 single-host assumption and is not presented as a highly available shared store.
 
-The API uses a high-entropy operator bearer token supplied through the deployment secret store. The
-server compares it in constant time, never logs it and applies route/body rate limits. A future
-account/role system may replace this token without changing the import state machine.
+The API uses a high-entropy operator bearer token. The server stores its scrypt hash as a deployment
+secret, verifies the supplied token without logging it, and limits repeated failed authentication
+attempts. The app checks upload size and file count; a reverse-proxy body limit is still required for
+the IONOS deployment. A future account/role system may replace this token without changing the
+import state machine.
 
 ## Consequences
 
@@ -64,13 +67,14 @@ Trade-offs and constraints:
 4. **Shelling out to the CLI from the web request:** couples the API to repository paths and a
    runtime toolchain; the importer should be called as a typed library instead.
 
-## Follow-up decisions required by implementation
+## Implementation and operational follow-up
 
-- add staging-run tables/columns and a migration;
-- define the maximum multipart size, retention window and cleanup-on-start policy;
-- define the exact bearer-secret configuration name and operator rotation procedure;
-- add route-level Caddy limits and no-store headers;
-- add an audit event for dry-run, apply, failure and expiry.
+Issue #107 / PR #121 added the run migration, `IMPORT_API_TOKEN_HASH`, bounded upload defaults
+(25 MiB and 128 files), a 24-hour run lifetime, `no-store` responses and import audit events.
+Expired runs are marked and their staged files removed when accessed; automatic cleanup of
+unvisited expired runs is not yet implemented. IONOS deployment still needs the persistent volume,
+reverse-proxy request limits, secret rotation procedure and operator checks tracked by #105/#117.
+The current API contract and setup instructions are in [import-api.md](import-api.md).
 
 ## References
 

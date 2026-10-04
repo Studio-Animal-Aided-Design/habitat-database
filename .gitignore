@@ -26,6 +26,7 @@ node_modules/
 out/
 *.tsbuildinfo
 .env*.local
+.local/
 
 # Client-confidential feasibility studies and commercial planning artifacts
 /private/

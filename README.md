@@ -44,6 +44,7 @@ space for future services or shared packages without making the repository root 
 
 - Local development: [`docs/replacement-app/local-development.md`](docs/replacement-app/local-development.md)
 - PostgreSQL import and sync: [`packages/database/README.md`](packages/database/README.md)
+- Secure converter import API: [`docs/replacement-app/import-api.md`](docs/replacement-app/import-api.md)
 - Architecture decisions: [`ADR-002 PostgreSQL`](docs/replacement-app/adr-002-postgresql-database.md), [`ADR-003 server-side catalogue adapter`](docs/replacement-app/adr-003-server-side-catalog-adapter.md), [`ADR-004 temporary Render previews`](docs/replacement-app/adr-004-render-mock-previews.md), and [`ADR-005 integrated import API`](docs/replacement-app/adr-005-import-api-boundary.md)
 - Import API architecture: [`architecture and endpoint contract`](docs/replacement-app/import-api-architecture.md)
 - Customer preview hosting: [`docs/replacement-app/render-previews.md`](docs/replacement-app/render-previews.md)

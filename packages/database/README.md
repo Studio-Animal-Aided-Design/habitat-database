@@ -33,6 +33,11 @@ The supported first-phase workflow is:
 
 Do not copy the CSV files into `packages/database` and do not edit importer-owned copies: there are none.
 
+The package also exports its snapshot, planning, apply and import-run functions as the private
+`@aad/database` library. The Next.js Route Handlers use that same implementation; the HTTP API does
+not duplicate CSV validation or SQL reconciliation. See
+[`../../docs/replacement-app/import-api.md`](../../docs/replacement-app/import-api.md).
+
 ## Local database
 
 From the repository root:
