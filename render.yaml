@@ -4,10 +4,14 @@ services:
     runtime: node
     plan: free
     region: frankfurt
-    rootDir: apps/web
-    buildCommand: npm ci && npm ci --prefix ../../packages/database && npm run build && mkdir -p .next/standalone/apps/web/.next && cp -r public .next/standalone/apps/web/ && cp -r .next/static .next/standalone/apps/web/.next/
-    startCommand: node .next/standalone/apps/web/server.js
+    buildCommand: npm ci --prefix apps/web && npm ci --prefix packages/database && npm run build --prefix apps/web && mkdir -p apps/web/.next/standalone/apps/web/.next && cp -r apps/web/public apps/web/.next/standalone/apps/web/ && cp -r apps/web/.next/static apps/web/.next/standalone/apps/web/.next/
+    startCommand: node apps/web/.next/standalone/apps/web/server.js
     healthCheckPath: /health
+    buildFilter:
+      paths:
+        - apps/web/**
+        - packages/database/**
+      ignoredPaths: []
     previews:
       generation: automatic
     envVars:
