@@ -171,6 +171,9 @@ class ImportApiClient:
             idempotency_key=idempotency_key or str(uuid.uuid4()),
         )["run"]
 
+    def test_connection(self) -> dict[str, Any]:
+        return self._request("GET", "/api/imports/connection")["connection"]
+
     def get_status(self, run_id: str) -> dict[str, Any]:
         return self._request("GET", f"/api/imports/{run_id}")["run"]
 

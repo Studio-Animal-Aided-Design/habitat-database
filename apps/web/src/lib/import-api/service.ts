@@ -17,7 +17,7 @@ import { resolveImportApiConfig, type ImportApiConfig } from "./config";
 import { ImportApiError } from "./errors";
 import { removeStagedRun, resolveStagedRunRoot, stageImportForm } from "./staging";
 
-async function authorize(request: Request): Promise<ImportApiConfig> {
+export async function authorizeImportRequest(request: Request): Promise<ImportApiConfig> {
   const config = resolveImportApiConfig();
   if (!config.enabled || !config.tokenHash) {
     throw new ImportApiError(404, "not_found", "Die Import-API ist in dieser Umgebung nicht aktiviert.");
@@ -34,7 +34,7 @@ function assertRequestSize(request: Request, config: ImportApiConfig): void {
 }
 
 export async function createImportDryRun(request: Request): Promise<ImportRunRecord> {
-  const config = await authorize(request);
+  const config = await authorizeImportRequest(request);
   assertRequestSize(request, config);
   const idempotencyKey = requireIdempotencyKey(request);
   const existing = await withDatabase((client) => findImportRunByIdempotencyKey(client, idempotencyKey));
@@ -72,7 +72,7 @@ export async function createImportDryRun(request: Request): Promise<ImportRunRec
 }
 
 export async function getImportStatus(request: Request, runId: string): Promise<ImportRunRecord> {
-  const config = await authorize(request);
+  const config = await authorizeImportRequest(request);
   const run = await withDatabase((client) => getImportRun(client, runId));
   if (!run) throw new ImportApiError(404, "run_not_found", "Der Importlauf wurde nicht gefunden.");
   if (run.status !== "applied" && run.status !== "expired" && Date.parse(run.expiresAt) <= Date.now()) {
@@ -88,7 +88,7 @@ export async function applyImportRun(
   runId: string,
   expectedManifestChecksum: string,
 ): Promise<ImportRunRecord> {
-  const config = await authorize(request);
+  const config = await authorizeImportRequest(request);
   const idempotencyKey = requireIdempotencyKey(request);
   const run = await withDatabase((client) => getImportRun(client, runId));
   if (!run) throw new ImportApiError(404, "run_not_found", "Der Importlauf wurde nicht gefunden.");

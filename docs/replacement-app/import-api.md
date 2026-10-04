@@ -88,9 +88,14 @@ The command prints the run ID, checksum, dataset diff and diagnostics. Apply onl
 python3 -m converter_app.cli --apply-run <run-id> --approve
 ```
 
-The GUI uses the same environment variables and offers **„An App senden“** in the main toolbar and
-wizard result step. It always performs a dry run first and opens a separate confirmation dialog for
-apply.
+The GUI prompts for one-time setup when neither saved settings nor environment credentials are
+available. **Datei → App-Verbindung einrichten …** and **⚙️ App-Verbindung** open the same settings
+panel. The URL is stored in the current user's application-support directory; on macOS the plaintext
+token is stored in the login keychain, never in the JSON settings file or logs. **Verbindung testen**
+calls the authenticated `GET /api/imports/connection` endpoint and therefore verifies reachability,
+feature enablement and the bearer token together. Environment variables remain available for CLI
+and automation. **An App senden** always performs a dry run first and opens a separate confirmation
+dialog for apply.
 
 ## Staging storage
 
@@ -115,7 +120,8 @@ and databases.
 | `IMPORT_MAX_FILES` | Maximum files per snapshot | `128` |
 | `IMPORT_RUN_TTL_SECONDS` | Dry-run lifetime | `86400` |
 
-Client-only variables are `AAD_IMPORT_API_URL` and `AAD_IMPORT_API_TOKEN`. Do not place the plaintext
+Client-only variables are `AAD_IMPORT_API_URL` and `AAD_IMPORT_API_TOKEN`. For the macOS GUI they
+are an optional runtime fallback; saved UI credentials take precedence. Do not place the plaintext
 token in repository files, converter JSON configurations, screenshots or support reports.
 
 ## Operational checks

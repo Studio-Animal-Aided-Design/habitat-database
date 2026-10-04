@@ -54,6 +54,22 @@ class ImportApiClientTests(unittest.TestCase):
         self.assertEqual(captured["authorization"], "Bearer secret")
         self.assertEqual(captured["idempotency"], "fixed-key")
 
+    def test_connection_check_uses_authenticated_import_endpoint(self) -> None:
+        captured = {}
+
+        def opener(request, timeout):
+            captured["url"] = request.full_url
+            captured["authorization"] = request.headers["Authorization"]
+            return FakeResponse({
+                "ok": True,
+                "connection": {"authenticated": True, "importApiEnabled": True},
+            })
+
+        connection = ImportApiClient("https://preview.example", "secret", opener=opener).test_connection()
+        self.assertEqual(captured["url"], "https://preview.example/api/imports/connection")
+        self.assertEqual(captured["authorization"], "Bearer secret")
+        self.assertTrue(connection["authenticated"])
+
     def test_maps_api_diagnostics_to_existing_issue_model(self) -> None:
         issues = diagnostics_to_issues([{
             "code": "missing_file",
