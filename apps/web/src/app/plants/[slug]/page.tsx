@@ -9,11 +9,6 @@ import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  const plants = await catalogApi.listPlants();
-  return plants.filter((plant) => plant.status === "published").map(({ slug }) => ({ slug }));
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const plant = await catalogApi.getPlantBySlug((await params).slug);
   return plant?.status === "published" ? { title: plant.commonName, description: plant.teaser } : {};
