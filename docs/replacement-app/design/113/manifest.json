@@ -1,0 +1,274 @@
+{
+  "date": "2026-11-13",
+  "timezone": "Europe/Berlin",
+  "issue": 113,
+  "baseline_commit": "45014714ef6b18babb05247ba3434a56f2955fa3",
+  "branch": "feat/113-studio-corporate-identity",
+  "data_mode": "mock, identical fixtures before and after",
+  "fixture_sha256": "a9f54ac272f6bee280aca139628b1dca4370d890c70bc4f08093722db9ab9a1d",
+  "sources": [
+    {
+      "file": "_StudioAAD_CDManual.pdf",
+      "description": "CI manual, June 2018",
+      "sha256": "648db8ab5b1a3890d53b81ce9213ad883d9cbbed2c4e22b6ebe3b69d0848547f"
+    },
+    {
+      "file": "StudioAAD_LogoWortmRGB.jpg",
+      "description": "Original RGB wordmark on white",
+      "sha256": "77656d5edf9d331e3b75f4740b4d79f156e8fce706197b3fd63b30437d74c39b"
+    },
+    {
+      "file": "StudioAAD_LogoWortmWeiss.png",
+      "description": "Original white wordmark",
+      "sha256": "67b783cfe642b10e031fd61b83ff99d675fda44df58242bdb0f4987f6053e640"
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "screenshots/after/empty-state-mobile.jpg",
+      "sha256": "2112bf9f05f1534e91006540e27c546005bda299f5b7b1fa45f6b854838a37e5",
+      "bitmap_width": 375,
+      "bitmap_height": 1462
+    },
+    {
+      "file": "screenshots/after/gimpel-desktop.jpg",
+      "sha256": "9b58b526d94e7f133d7cfa4a3d0c4f27f6a231976f1e18023efe37479f249ecc",
+      "bitmap_width": 1425,
+      "bitmap_height": 4627
+    },
+    {
+      "file": "screenshots/after/gimpel-mobile.jpg",
+      "sha256": "fc98f2bc9bf1d241bfc957c05ea59777fb6e91312163ea9750922df6d8c96589",
+      "bitmap_width": 375,
+      "bitmap_height": 5748
+    },
+    {
+      "file": "screenshots/after/gimpel-tablet.jpg",
+      "sha256": "57a5efb5bd5b9ca3ea025159dae12ec8be78f70a8b1b3aca15e9b2ef461166a3",
+      "bitmap_width": 819,
+      "bitmap_height": 5039
+    },
+    {
+      "file": "screenshots/after/habitat-desktop.jpg",
+      "sha256": "cb31e037caec3a97bd0bdf1f60048c6a9da58a0ab302af18ed78870659eb5831",
+      "bitmap_width": 1425,
+      "bitmap_height": 2330
+    },
+    {
+      "file": "screenshots/after/home-desktop-viewport.jpg",
+      "sha256": "3593e672ae2d33ff5d3205ffcf3666bd67b3efb1671ec244129e49e61f24ab8e",
+      "bitmap_width": 1440,
+      "bitmap_height": 1000
+    },
+    {
+      "file": "screenshots/after/home-desktop.jpg",
+      "sha256": "5334a4af4713123f4bf6ba8081d6035580d842f68d94e2456316668325b4db63",
+      "bitmap_width": 1425,
+      "bitmap_height": 4748
+    },
+    {
+      "file": "screenshots/after/home-mobile-viewport.jpg",
+      "sha256": "bcf9c4ae4b05f74cd27f283020d5015c07cff1a8c1fe98b3cd524783a2fc1419",
+      "bitmap_width": 390,
+      "bitmap_height": 844
+    },
+    {
+      "file": "screenshots/after/home-mobile.jpg",
+      "sha256": "9cea2269cdd1119961c6d02a9250d8cfa68aa7018076cbb26d08dcca7bfef4b3",
+      "bitmap_width": 375,
+      "bitmap_height": 9088
+    },
+    {
+      "file": "screenshots/after/home-tablet-viewport.jpg",
+      "sha256": "812e1deff2a7c163a5ed62a97e6b53be012a14192b4fd9ab3474673e0bd51024",
+      "bitmap_width": 834,
+      "bitmap_height": 1112
+    },
+    {
+      "file": "screenshots/after/home-tablet.jpg",
+      "sha256": "f96c7b4f1ced9f0e8579ed59b41b37df0713a4779f86972463b0c64044ad8e8b",
+      "bitmap_width": 819,
+      "bitmap_height": 6671
+    },
+    {
+      "file": "screenshots/after/keyboard-focus-desktop.jpg",
+      "sha256": "55121683f51c3339ca863a740cc4f5d3917cac1614a31e94d0823a6986633f8e",
+      "bitmap_width": 1425,
+      "bitmap_height": 990
+    },
+    {
+      "file": "screenshots/after/menu-mobile.jpg",
+      "sha256": "187f0c3eaca2b39db8159e87fb1efc16359707afd068cd37b9a196cde51ca6e4",
+      "bitmap_width": 375,
+      "bitmap_height": 812
+    },
+    {
+      "file": "screenshots/after/plant-desktop.jpg",
+      "sha256": "da9ca44e2321e46b0796fe727f8935a76112ff4bc1aa3eb110cce28e035771f6",
+      "bitmap_width": 1425,
+      "bitmap_height": 2604
+    },
+    {
+      "file": "screenshots/after/species-desktop.jpg",
+      "sha256": "6857798a8b211b4a61aad946dbf5fcd8ac3aed1d55eb218b5b5556a848e33c61",
+      "bitmap_width": 1425,
+      "bitmap_height": 1659
+    },
+    {
+      "file": "screenshots/after/species-mobile.jpg",
+      "sha256": "50ebbf7c7aa090f1b4f83a9cccedcbd05c00dd0f8544df52c41a42289cad81d9",
+      "bitmap_width": 375,
+      "bitmap_height": 2855
+    },
+    {
+      "file": "screenshots/after/species-tablet.jpg",
+      "sha256": "d8f4dc3b3e6d4c448fe6b6ca777bee31cf7476e881dcc571a3eff2eb88751a23",
+      "bitmap_width": 819,
+      "bitmap_height": 2079
+    },
+    {
+      "file": "screenshots/before/gimpel-desktop.jpg",
+      "sha256": "c448a1fbd7482d008bd16582902ba26161c6f23f03228ae06d5212912e65d7d1",
+      "bitmap_width": 1425,
+      "bitmap_height": 4525
+    },
+    {
+      "file": "screenshots/before/gimpel-mobile.jpg",
+      "sha256": "b41bfe8907fa2ee99270cb61a984a417dc7cea9c837dd8f270cb59cfc3fa6fa7",
+      "bitmap_width": 375,
+      "bitmap_height": 5584
+    },
+    {
+      "file": "screenshots/before/gimpel-tablet.jpg",
+      "sha256": "1e36f50a57346adbe2ef6d396adac6ec086687a5fc83d670d4aa07a26e652715",
+      "bitmap_width": 819,
+      "bitmap_height": 5251
+    },
+    {
+      "file": "screenshots/before/home-desktop-viewport.jpg",
+      "sha256": "c93ee9793296176cb927be77219b9eca48d78122e0d7b7ba675b4db5aaeb75dc",
+      "bitmap_width": 1440,
+      "bitmap_height": 1000
+    },
+    {
+      "file": "screenshots/before/home-desktop.jpg",
+      "sha256": "e49d83b0d31f40905f685e9303a8b7cff6e5aedbf2024866d00e43615080f631",
+      "bitmap_width": 1425,
+      "bitmap_height": 4642
+    },
+    {
+      "file": "screenshots/before/home-mobile-viewport.jpg",
+      "sha256": "dd5357a5462442ae6d9a0bff9b7423a864683c8b46d5a6919d341d15d700afee",
+      "bitmap_width": 390,
+      "bitmap_height": 844
+    },
+    {
+      "file": "screenshots/before/home-mobile.jpg",
+      "sha256": "b47cc4b047f752e7581afbac171db50301a568a27a87b8335ee4fc56b5045031",
+      "bitmap_width": 375,
+      "bitmap_height": 9093
+    },
+    {
+      "file": "screenshots/before/home-tablet-viewport.jpg",
+      "sha256": "97bf95b5cd26fcfcb263c27a376f64a3ffbb4ff1624ac8cc3448e8359aa00c19",
+      "bitmap_width": 528,
+      "bitmap_height": 1112
+    },
+    {
+      "file": "screenshots/before/home-tablet.jpg",
+      "sha256": "598536949b823f67f840a18f4d3aae7ff211bc22cf054e601eba188b3058b989",
+      "bitmap_width": 819,
+      "bitmap_height": 6620
+    },
+    {
+      "file": "screenshots/before/species-desktop.jpg",
+      "sha256": "a2acb6b36b143e7f57d6896e17ae43eeb4882165efb99f975519992589240cab",
+      "bitmap_width": 1425,
+      "bitmap_height": 1477
+    },
+    {
+      "file": "screenshots/before/species-mobile.jpg",
+      "sha256": "5dde74ed5cf0d23cd7a161ac3b650359c1d619276c5765822062e21aee87bdd3",
+      "bitmap_width": 375,
+      "bitmap_height": 2761
+    },
+    {
+      "file": "screenshots/before/species-tablet.jpg",
+      "sha256": "3d5576a38cce4034eda91af64e0b9001955fce86a1cd1dd7a5a299785c54c0b4",
+      "bitmap_width": 819,
+      "bitmap_height": 2014
+    },
+    {
+      "file": "screenshots/reference/ci-manual.png",
+      "sha256": "a5a5b7162920a3613c61d3b5c06b805d6cd35b26ebc28008b81f227d40a5bc52",
+      "bitmap_width": 1132,
+      "bitmap_height": 1600
+    },
+    {
+      "file": "screenshots/reference/customer-home-desktop-viewport.jpg",
+      "sha256": "8aa9e9d87a03d0eb4c29fd59c93f9b8da7d6ed267696ee6c4b3cf788d1f1c3c5",
+      "bitmap_width": 1425,
+      "bitmap_height": 990
+    },
+    {
+      "file": "screenshots/reference/customer-home-desktop.jpg",
+      "sha256": "b8c6d576db17f1a3eb633434540596eb67502de394e790f357679e84de0c384e",
+      "bitmap_width": 1265,
+      "bitmap_height": 11485
+    },
+    {
+      "file": "screenshots/reference/customer-home-mobile-viewport.jpg",
+      "sha256": "d692dfd1668823ac18257e533c06d4ddcdd64fb157c0d8709d4f384d349d320d",
+      "bitmap_width": 375,
+      "bitmap_height": 812
+    },
+    {
+      "file": "screenshots/reference/customer-method-desktop-viewport.jpg",
+      "sha256": "d737ff0a3699cd56b8a4029f3c3e4986071f5b2421444775016aec489b4a0ca2",
+      "bitmap_width": 1425,
+      "bitmap_height": 990
+    },
+    {
+      "file": "screenshots/reference/customer-method-mobile-viewport.jpg",
+      "sha256": "b92a116ad75ed0b17aa377a2dd0ecb50a8b73f8ba48982dacc4d81f261b46d1b",
+      "bitmap_width": 375,
+      "bitmap_height": 260
+    }
+  ],
+  "fonts": {
+    "license": "SIL Open Font License 1.1, original Lato files",
+    "source": "https://github.com/google/fonts/tree/main/ofl/lato",
+    "files": [
+      {
+        "file": "apps/web/public/fonts/lato/OFL.txt",
+        "sha256": "74ba064d03f1f1c4a952da936c3eb71866c34404916734de3cae73b34357e59e"
+      },
+      {
+        "file": "apps/web/public/fonts/lato/lato-latin-400.woff2",
+        "sha256": "918b7dc3e2e2d015c16ce08b57bcb64d2253bafc1707658f361e72865498e537"
+      },
+      {
+        "file": "apps/web/public/fonts/lato/lato-latin-700.woff2",
+        "sha256": "c447dd7677b419db7b21dbdfc6277c7816a913ffda76fd2e52702df538de0e49"
+      },
+      {
+        "file": "apps/web/public/fonts/lato/lato-latin-ext-400.woff2",
+        "sha256": "8b9fc9737043f88c1a9a7195c27a239bd329cc33d928ffb67736c61ae7a1dbbd"
+      },
+      {
+        "file": "apps/web/public/fonts/lato/lato-latin-ext-700.woff2",
+        "sha256": "3a5797f440bc67b59830cad81e59a71011e35cb45ed7f747b61a69b0a9b0d6ae"
+      }
+    ]
+  },
+  "checks": {
+    "lint": "passed",
+    "typescript": "passed",
+    "optimized_build": "passed; explicit preview/mock mode",
+    "responsive_pairs": 9,
+    "canonical_data_acceptance": "not performed; identical mock fixtures",
+    "customer_approval": "pending",
+    "full_manual_uat": "not run",
+    "unit_tests": "71 passed in 21 files"
+  }
+}

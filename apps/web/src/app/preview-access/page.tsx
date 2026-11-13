@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandMark } from "@/components/brand-mark";
 import { redirect } from "next/navigation";
 import { resolvePreviewAccessConfig, sanitizePreviewReturnTo } from "@/lib/preview-access/config";
 
@@ -18,7 +18,7 @@ export default async function PreviewAccessPage({ searchParams }: PreviewAccessP
   return (
     <main className="preview-access-shell">
       <section className="preview-access-card" aria-labelledby="preview-access-title">
-        <Image src="/logo.webp" alt="Studio Animal-Aided Design" width={300} height={154} className="preview-access-logo" priority />
+        <div className="preview-access-logo"><BrandMark /></div>
         <p className="preview-access-eyebrow">Geschützte Projektvorschau</p>
         <h1 id="preview-access-title">Habitat-Datenbank</h1>
         <p>
