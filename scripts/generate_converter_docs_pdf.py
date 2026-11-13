@@ -466,7 +466,7 @@ def main() -> int:
         story.append(img)
         story.append(Spacer(1, 0.4 * cm))
 
-    story.append(Paragraph("AAD Tooljet Converter", styles["TitleCenter"]))
+    story.append(Paragraph("AAD Converter", styles["TitleCenter"]))
     story.append(Paragraph("Benutzerhandbuch und Prozessdokumentation", styles["TitleCenter"]))
     story.append(Spacer(1, 0.6 * cm))
     story.append(Paragraph("Inhaltsverzeichnis", styles["TOCHeaderAAD"]))
@@ -483,7 +483,7 @@ def main() -> int:
         rightMargin=1.8 * cm,
         topMargin=1.5 * cm,
         bottomMargin=1.6 * cm,
-        title="AAD Tooljet Converter Handbuch",
+        title="AAD Converter Handbuch",
         author="OpenAI Codex",
     )
     doc.multiBuild(story)

@@ -5,6 +5,18 @@ import { parse } from "csv-parse/sync";
 
 export type CsvRow = Record<string, string> & { __file: string; __row: string };
 
+export class CsvInputError extends Error {
+  constructor(
+    public readonly code: "invalid_csv" | "unexpected_headers",
+    message: string,
+    public readonly file: string,
+    public readonly row?: number,
+  ) {
+    super(message);
+    this.name = "CsvInputError";
+  }
+}
+
 export const clean = (value?: string): string | null => {
   const normalized = value?.replace(/^\uFEFF/, "").trim();
   return normalized ? normalized : null;
@@ -42,14 +54,26 @@ export async function findCsvFiles(root: string): Promise<string[]> {
 
 export async function readCsv(file: string, root: string, expectedHeaders: string[]): Promise<{ rows: CsvRow[]; checksum: string }> {
   const contents = await readFile(file, "utf8");
-  const records = parse(contents.replace(/^\uFEFF/, ""), {
-    columns: true,
-    skip_empty_lines: true,
-    relax_quotes: true,
-  }) as Record<string, string>[];
+  const relativeFile = path.relative(root, file);
+  let records: Record<string, string>[];
+  try {
+    records = parse(contents.replace(/^\uFEFF/, ""), {
+      columns: true,
+      skip_empty_lines: true,
+      relax_quotes: true,
+    }) as Record<string, string>[];
+  } catch (error) {
+    const csvError = error as Error & { lines?: number };
+    throw new CsvInputError("invalid_csv", `Invalid CSV in ${relativeFile}: ${csvError.message}`, relativeFile, csvError.lines);
+  }
   const actualHeaders = records.length ? Object.keys(records[0]) : [];
   if (actualHeaders.join("\u001f") !== expectedHeaders.join("\u001f")) {
-    throw new Error(`Unexpected headers in ${path.relative(root, file)}\nExpected: ${expectedHeaders.join(",")}\nActual: ${actualHeaders.join(",")}`);
+    throw new CsvInputError(
+      "unexpected_headers",
+      `Unexpected headers in ${relativeFile}\nExpected: ${expectedHeaders.join(",")}\nActual: ${actualHeaders.join(",")}`,
+      relativeFile,
+      1,
+    );
   }
   return {
     rows: records.map((row, index) => ({ ...row, __file: path.relative(root, file), __row: String(index + 2) })),

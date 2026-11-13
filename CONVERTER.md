@@ -1,7 +1,7 @@
-# AAD Tooljet Converter (Notebook Replacement)
+# AAD Converter (Notebook Replacement)
 
 ## Ziel
-Lokale Desktop-Anwendung zur Konvertierung der Excel-Quelldaten in Tooljet-importierbare CSV-Dateien inklusive Berichten und Import-Hilfe.
+Lokale Desktop-Anwendung zur Konvertierung der Excel-Quelldaten und zur gesicherten Übergabe an die Habitat-App. Berichte und der manuelle Tooljet-Import bleiben für Prüfung beziehungsweise Legacy-Betrieb verfügbar.
 
 ## Schnellstart (GUI)
 1. `python3 -m pip install -r requirements-converter.txt`
@@ -13,6 +13,41 @@ Alternativ: `./run_converter.command`
 ```bash
 python3 -m converter_app.cli --input-root data --output-root dist/conversion-output
 ```
+
+## Import in die neue App
+
+Die Desktop-App bietet nach der Konvertierung die Aktion **„An App senden“**. Sie überträgt die
+vollständigen CSV-Ausgaben zunächst als Dry-Run, zeigt die Änderungen und fragt vor dem eigentlichen
+Import nochmals nach einer Bestätigung.
+
+Beim ersten Start fordert die App zur einmaligen Einrichtung auf. Die Einstellungen sind danach
+über **Datei → App-Verbindung einrichten …** oder **⚙️ App-Verbindung** erreichbar. Dort werden
+App-URL und Import-Token eingegeben und mit **Verbindung testen** gegen die authentifizierte
+Import-API geprüft. Die URL liegt in der lokalen Benutzerkonfiguration; der Token wird auf macOS im
+Schlüsselbund gespeichert und weder in JSON-Dateien noch in Logs geschrieben.
+
+Die Umgebungsvariablen bleiben als Alternative für CLI und Automation erhalten:
+
+```bash
+export AAD_IMPORT_API_URL=http://localhost:3000
+export AAD_IMPORT_API_TOKEN='<vom Betreiber bereitgestelltes Token>'
+python3 -m converter_app.gui
+```
+
+CLI-Dry-Run:
+
+```bash
+python3 -m converter_app.cli --input-root data --output-root dist/conversion-output --publish-dry-run
+```
+
+Ein bereits geprüfter Lauf wird nur mit ausdrücklicher Freigabe angewendet:
+
+```bash
+python3 -m converter_app.cli --apply-run <run-id> --approve
+```
+
+Die Lebenszyklus-CSV wird aktuell nicht vom Converter erzeugt. Der Client übernimmt sie deshalb
+aus dem gewählten Quelldatenordner, sofern sie nicht im Ausgabeordner liegt.
 
 ## Ausgaben
 Im Ausgabeordner werden erzeugt:

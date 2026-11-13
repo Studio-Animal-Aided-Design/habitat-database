@@ -26,6 +26,7 @@ node_modules/
 out/
 *.tsbuildinfo
 .env*.local
+.local/
 
 # IONOS deployment secrets and generated operational reports
 /deploy/ionos/.env

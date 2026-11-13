@@ -11,7 +11,9 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 import pandas as pd
 
-from .models import RunConfig
+from .api_client import ImportApiClient, ImportApiError, collect_import_files, diagnostics_to_issues
+from .import_settings import CredentialStorageError, ImportSettingsStore, normalize_import_api_url
+from .models import RunConfig, StageResult
 from .output_viewer import open_output_data_viewer
 from .pipeline import run_pipeline
 from .reporting import write_html_report, write_json_report
@@ -29,6 +31,138 @@ FIX_HINTS_DE = {
     "ROW_DROPPED": "Hinweise prüfen; einzelne Zeilen enthalten unvollständige oder ungültige Daten.",
     "DUPLICATE_INPUT": "Nur eine Datei soll aktiv sein. Alte/duplizierte Versionen verschieben oder umbenennen.",
 }
+
+
+class ImportSettingsDialog(tk.Toplevel):
+    def __init__(self, parent: tk.Misc, store: ImportSettingsStore, first_run: bool = False) -> None:
+        super().__init__(parent)
+        self.store = store
+        self.saved = False
+        self.title("Einmalige App-Einrichtung" if first_run else "App-Verbindung")
+        self.geometry("640x410")
+        self.minsize(580, 380)
+        self.transient(parent)
+        self.grab_set()
+
+        credentials = store.resolve()
+        self.url_var = tk.StringVar(value=credentials.base_url)
+        self.token_var = tk.StringVar()
+        self.status_var = tk.StringVar(value="Noch nicht getestet")
+        self._tested_values: tuple[str, str] | None = None
+
+        root = ttk.Frame(self, padding=18)
+        root.pack(fill="both", expand=True)
+        heading = "App-Verbindung einmalig einrichten" if first_run else "App-Verbindung einrichten"
+        ttk.Label(root, text=heading, font=("Helvetica", 14, "bold")).pack(anchor="w")
+        ttk.Label(
+            root,
+            text=(
+                "Der Converter benötigt die Adresse der Habitat-App und den vom Betreiber bereitgestellten "
+                "Import-Token. Die URL wird lokal gespeichert. Der Token wird auf macOS im Schlüsselbund "
+                "abgelegt und erscheint weder in der Konfigurationsdatei noch in Protokollen."
+            ),
+            wraplength=590,
+            justify="left",
+        ).pack(anchor="w", pady=(8, 16))
+
+        form = ttk.Frame(root)
+        form.pack(fill="x")
+        form.grid_columnconfigure(1, weight=1)
+        ttk.Label(form, text="App-URL").grid(row=0, column=0, sticky="w", padx=(0, 12), pady=6)
+        self.url_entry = ttk.Entry(form, textvariable=self.url_var)
+        self.url_entry.grid(row=0, column=1, sticky="ew", pady=6)
+        ttk.Label(form, text="Import-Token").grid(row=1, column=0, sticky="w", padx=(0, 12), pady=6)
+        self.token_entry = ttk.Entry(form, textvariable=self.token_var, show="•")
+        self.token_entry.grid(row=1, column=1, sticky="ew", pady=6)
+
+        if credentials.token_source == "keychain":
+            token_hint = "Ein Token ist im macOS-Schlüsselbund gespeichert. Leer lassen, um ihn beizubehalten."
+        elif credentials.token_source == "environment":
+            token_hint = "Für diese Sitzung wurde ein Token aus AAD_IMPORT_API_TOKEN erkannt."
+        else:
+            token_hint = "Der Token wird nur für die Import-API verwendet und nie angezeigt."
+        ttk.Label(root, text=token_hint, wraplength=590, justify="left").pack(anchor="w", pady=(4, 14))
+
+        status = ttk.LabelFrame(root, text="Verbindungstest", padding=10)
+        status.pack(fill="x")
+        ttk.Label(status, textvariable=self.status_var, wraplength=560, justify="left").pack(anchor="w")
+
+        actions = ttk.Frame(root)
+        actions.pack(side="bottom", fill="x", pady=(18, 0))
+        self.test_button = ttk.Button(actions, text="Verbindung testen", command=self._test_connection)
+        self.test_button.pack(side="left")
+        self.save_button = ttk.Button(actions, text="Speichern", command=self._save, state="disabled")
+        self.save_button.pack(side="right")
+        ttk.Button(actions, text="Später" if first_run else "Abbrechen", command=self.destroy).pack(side="right", padx=8)
+
+        self.url_var.trace_add("write", self._inputs_changed)
+        self.token_var.trace_add("write", self._inputs_changed)
+        self.protocol("WM_DELETE_WINDOW", self.destroy)
+        self.after(50, self.url_entry.focus_set if not self.url_var.get() else self.token_entry.focus_set)
+
+    def _inputs_changed(self, *_args: object) -> None:
+        if self._tested_values is not None:
+            self._tested_values = None
+            self.save_button.configure(state="disabled")
+            self.status_var.set("Einstellungen geändert. Bitte Verbindung erneut testen.")
+
+    def _values(self) -> tuple[str, str]:
+        url = normalize_import_api_url(self.url_var.get())
+        token = self.token_var.get().strip()
+        if not token:
+            token = self.store.resolve().token
+        if not token:
+            raise ValueError("Bitte den vom Betreiber bereitgestellten Import-Token eingeben.")
+        return url, token
+
+    def _test_connection(self) -> None:
+        try:
+            url, token = self._values()
+        except (ValueError, CredentialStorageError) as exc:
+            messagebox.showerror("App-Verbindung", str(exc), parent=self)
+            return
+
+        self.test_button.configure(state="disabled")
+        self.status_var.set("Verbindung und Token werden geprüft …")
+
+        def worker() -> None:
+            try:
+                ImportApiClient(url, token, timeout=15).test_connection()
+                self.after(0, lambda: self._test_succeeded(url, token))
+            except (ImportApiError, ValueError, OSError) as exc:
+                self.after(0, lambda error=exc: self._test_failed(error))
+
+        threading.Thread(target=worker, daemon=True).start()
+
+    def _test_succeeded(self, url: str, token: str) -> None:
+        self._tested_values = (url, token)
+        self.test_button.configure(state="normal")
+        self.save_button.configure(state="normal")
+        self.status_var.set("✓ Verbindung erfolgreich. Import-API und Token sind gültig.")
+
+    def _test_failed(self, error: Exception) -> None:
+        self._tested_values = None
+        self.test_button.configure(state="normal")
+        self.save_button.configure(state="disabled")
+        self.status_var.set(f"✗ Verbindung fehlgeschlagen: {error}")
+
+    def _save(self) -> None:
+        try:
+            url, token = self._values()
+            if self._tested_values != (url, token):
+                raise ValueError("Bitte die aktuelle App-Verbindung vor dem Speichern erfolgreich testen.")
+            credentials = self.store.save(url, self.token_var.get())
+        except (ValueError, OSError, CredentialStorageError) as exc:
+            messagebox.showerror("App-Verbindung", str(exc), parent=self)
+            return
+        self.saved = True
+        self.status_var.set("Einstellungen gespeichert.")
+        messagebox.showinfo(
+            "App-Verbindung",
+            f"Die App-URL wurde gespeichert. Token-Quelle: {credentials.token_source}.",
+            parent=self,
+        )
+        self.destroy()
 
 
 class App(tk.Tk):
@@ -119,14 +253,15 @@ class App(tk.Tk):
         "Überblick": """AAD Converter – Hilfe
 
 Ziel:
-Diese App konvertiert Excel-Quelldaten in CSV-Dateien für den Tooljet-Import.
+Diese App prüft und konvertiert Excel-Quelldaten und überträgt die geprüften Ergebnisse sicher an die Habitat-App.
 
 So funktioniert es:
 1) Quellordner wählen (normal: .../habitat-database/data)
 2) Ausgabeordner wählen (z. B. .../dist/conversion-output)
 3) Daten-Inventar prüfen (grün/rot, Duplikate, fehlende Dateien)
 4) Konvertierung starten
-5) Ergebnisdateien + conversion-report + tooljet-import-guide prüfen
+5) Ergebnisdateien + conversion-report prüfen
+6) Über "An App senden" einen Dry-Run ausführen, Änderungen prüfen und Apply bestätigen
 
 Wichtig:
 - Die GUI und die CLI nutzen dieselbe Pipeline-Logik.
@@ -269,7 +404,7 @@ DEPENDENCY_FAILED (blockierend)
         "Ausgabe": "Wählen Sie einen Ausgabeordner. Dort schreibt die App CSV-Dateien, den JSON/HTML-Report und die Tooljet-Import-Hilfe.",
         "Preflight": "Die Vorprüfung prüft Kernordner und Daten-Inventar. Rot/DUPlIKAT/FEHLT zuerst bereinigen, dann weiter.",
         "Konvertierung": "Die Konvertierung läuft in Stufen. Bei blockierenden Fehlern stoppt sie und zeigt Ursachen + Lösungshinweise.",
-        "Ergebnis": "Nutzen Sie die Importübersicht in diesem Schritt, um die erzeugten CSV-Dateien in der richtigen Reihenfolge nach Tooljet hochzuladen.",
+        "Ergebnis": "Prüfen Sie die Ergebnisse und senden Sie sie über 'An App senden' zunächst als Dry-Run an die Habitat-App. Der Tooljet-Import bleibt nur als Legacy-Weg verfügbar.",
     }
     TOOLJET_UPLOAD_HINT_DE = """Tooljet-Import (Habitat-Datenbank)
 1) Öffnen Sie die Tabelle in Tooljet.
@@ -295,6 +430,7 @@ DEPENDENCY_FAILED (blockierend)
         self.input_var = tk.StringVar(value=str(Path("data").resolve()))
         self.output_var = tk.StringVar(value=str((Path("dist") / "conversion-output").resolve()))
         self.status_var = tk.StringVar(value="Bereit")
+        self.import_settings = ImportSettingsStore()
         self.last_result = None
         self._issues_paths: dict[str, str] = {}
         self._wiz_issues_paths: dict[str, str] = {}
@@ -306,7 +442,7 @@ DEPENDENCY_FAILED (blockierend)
         self._build_ui()
         self._show_source_inventory()
         self.bind("<Configure>", self._on_window_resize)
-        self.after(120, self._ask_start_mode)
+        self.after(120, self._startup_flow)
 
     def _set_app_icon(self) -> None:
         assets_dir = Path(__file__).resolve().parents[1] / "assets"
@@ -331,6 +467,8 @@ DEPENDENCY_FAILED (blockierend)
         file_menu.add_command(label="Ergebnisdaten prüfen", command=self.open_output_viewer)
         file_menu.add_command(label="Quellordner im Finder öffnen", command=self.open_source_in_finder)
         file_menu.add_command(label="Ausgabeordner im Finder öffnen", command=self.open_output_in_finder)
+        file_menu.add_separator()
+        file_menu.add_command(label="App-Verbindung einrichten …", command=self.open_import_settings)
         file_menu.add_separator()
         file_menu.add_command(label="Beenden", command=self.destroy)
         menubar.add_cascade(label="Datei", menu=file_menu)
@@ -410,6 +548,8 @@ DEPENDENCY_FAILED (blockierend)
         self.toolbar_buttons: list[tuple[ttk.Button, str, str]] = []
         self._add_toolbar_button(btns, "🧪 Preflight prüfen", "🧪 Preflight", self.preflight, padx=0)
         self._add_toolbar_button(btns, "▶️ Konvertierung starten", "▶️ Start", self.run_conversion, padx=8)
+        self._add_toolbar_button(btns, "☁️ An App senden", "☁️ App", self.publish_to_app, padx=8)
+        self._add_toolbar_button(btns, "⚙️ App-Verbindung", "⚙️ Verbindung", self.open_import_settings, padx=8)
         self._add_toolbar_button(btns, "💾 Konfiguration speichern", "💾 Speichern", self.save_config, padx=8)
         self._add_toolbar_button(btns, "❓ Hilfe", "❓", self.open_help_window, padx=8)
 
@@ -764,6 +904,24 @@ DEPENDENCY_FAILED (blockierend)
 
         ttk.Button(btns, text="Wizard (geführt)", command=use_wizard).pack(side="left")
         ttk.Button(btns, text="Direktmodus (freie Arbeitsansicht)", command=dlg.destroy).pack(side="left", padx=8)
+
+    def _startup_flow(self) -> None:
+        if not self.import_settings.is_configured():
+            self.open_import_settings(first_run=True)
+        self._ask_start_mode()
+
+    def open_import_settings(self, first_run: bool = False) -> bool:
+        try:
+            dialog = ImportSettingsDialog(self, self.import_settings, first_run=first_run)
+        except CredentialStorageError as exc:
+            messagebox.showerror("App-Verbindung", str(exc), parent=self)
+            return False
+        self.wait_window(dialog)
+        if dialog.saved:
+            self._append_log("[APP-IMPORT] App-Verbindung wurde gespeichert.")
+        elif first_run and not self.import_settings.is_configured():
+            self._append_log("[APP-IMPORT] Einrichtung übersprungen; 'An App senden' fordert später erneut dazu auf.")
+        return dialog.saved
 
     def _build_config_from_values(self, input_root: str, output_root: str) -> RunConfig:
         return RunConfig(
@@ -1445,6 +1603,93 @@ DEPENDENCY_FAILED (blockierend)
 
         self._run_conversion_async(cfg, on_line=on_line, on_done=on_done)
 
+    def publish_to_app(self) -> None:
+        """Send generated CSV files using the GUI settings or environment fallback."""
+        cfg = self._build_config()
+        try:
+            files = collect_import_files(cfg.output_root, cfg.input_root)
+            credentials = self.import_settings.resolve()
+            if not credentials.base_url or not credentials.token:
+                self.open_import_settings(first_run=True)
+                credentials = self.import_settings.resolve()
+            client = ImportApiClient(credentials.base_url, credentials.token)
+        except (CredentialStorageError, ValueError, OSError) as exc:
+            messagebox.showerror("App-Import", str(exc))
+            return
+        self.status_var.set("App-Dry-Run läuft...")
+        self._append_log(f"[APP-IMPORT] Sende {len(files)} CSV-Dateien zum Dry-Run...")
+
+        def worker() -> None:
+            try:
+                dry_run = client.dry_run(files)
+                self.after(0, lambda value=dry_run: offer_apply(value))
+            except ImportApiError as exc:
+                self.after(0, lambda error=exc: show_error(error))
+            except Exception as exc:  # noqa: BLE001
+                wrapped = ImportApiError(0, "client_error", str(exc), [])
+                self.after(0, lambda error=wrapped: show_error(error))
+
+        def record_diagnostics(diagnostics: list[dict], status: str) -> None:
+            issues = diagnostics_to_issues(diagnostics)
+            if self.last_result is not None and issues:
+                self.last_result.stage_results.append(StageResult(
+                    stage="app_import",
+                    status=status,
+                    issues=issues,
+                    blocking=any(issue.severity == "error" for issue in issues),
+                ))
+                self._populate_issues_table(self.last_result)
+            for issue in issues:
+                location = f" {issue.file}:{issue.row}" if issue.file else ""
+                self._append_log(f"[APP-IMPORT][{issue.severity.upper()}]{location} {issue.message}")
+
+        def show_error(error: ImportApiError) -> None:
+            record_diagnostics(error.diagnostics, "failed")
+            self.status_var.set("App-Import fehlgeschlagen")
+            self._append_log(f"[APP-IMPORT][FEHLER] {error}")
+            messagebox.showerror("App-Import", str(error))
+
+        def offer_apply(dry_run: dict) -> None:
+            report = dry_run.get("report", {})
+            diagnostics = list(report.get("diagnostics") or [])
+            record_diagnostics(diagnostics, "warning" if diagnostics else "success")
+            datasets = report.get("datasets", {})
+            inserted = sum(int(item.get("inserted", 0)) for item in datasets.values())
+            updated = sum(int(item.get("updated", 0)) for item in datasets.values())
+            removed = sum(int(item.get("removedOrArchived", 0)) for item in datasets.values())
+            run_id = dry_run.get("id")
+            checksum = dry_run.get("manifestChecksum")
+            self.status_var.set("App-Dry-Run abgeschlossen")
+            self._append_log(f"[APP-IMPORT] Dry-Run {run_id} abgeschlossen; Checksumme {checksum}")
+            approved = messagebox.askyesno(
+                "App-Import bestätigen",
+                f"Dry-Run erfolgreich.\n\nNeu: {inserted}\nGeändert: {updated}\nArchiviert/entfernt: {removed}"
+                f"\nHinweise: {len(diagnostics)}\n\nImport jetzt anwenden?",
+            )
+            if not approved:
+                self._append_log("[APP-IMPORT] Apply wurde nicht bestätigt; Dry-Run bleibt bis zum Ablauf erhalten.")
+                return
+            self.status_var.set("App-Import wird angewendet...")
+
+            def apply_worker() -> None:
+                try:
+                    applied = client.apply(str(run_id), str(checksum))
+                    self.after(0, lambda value=applied: apply_done(value))
+                except ImportApiError as exc:
+                    self.after(0, lambda error=exc: show_error(error))
+                except Exception as exc:  # noqa: BLE001
+                    wrapped = ImportApiError(0, "client_error", str(exc), [])
+                    self.after(0, lambda error=wrapped: show_error(error))
+
+            threading.Thread(target=apply_worker, daemon=True).start()
+
+        def apply_done(applied: dict) -> None:
+            self.status_var.set("App-Import abgeschlossen")
+            self._append_log(f"[APP-IMPORT] Importlauf {applied.get('id')} erfolgreich angewendet.")
+            messagebox.showinfo("App-Import", "Die Daten wurden erfolgreich in die App übernommen.")
+
+        threading.Thread(target=worker, daemon=True).start()
+
     def open_wizard(self) -> None:
         WizardWindow(self)
 
@@ -1599,7 +1844,7 @@ class WizardWindow(tk.Toplevel):
         elif step_name == "Ergebnis":
             status = getattr(self.last_result, "overall_status", "") if self.last_result is not None else ""
             if status == "success":
-                text = "Konvertierung erfolgreich. Sie können jetzt die Ergebnisdateien prüfen und in Tooljet importieren."
+                text = "Konvertierung erfolgreich. Prüfen Sie die Ergebnisdateien und senden Sie sie anschließend an die Habitat-App."
             elif status == "warning":
                 text = (
                     "Konvertierung mit Warnungen abgeschlossen (unvollständig/teilweise fehlerhaft). "
@@ -1617,6 +1862,7 @@ class WizardWindow(tk.Toplevel):
             actions.pack(fill="x", pady=(8, 0))
             ttk.Button(actions, text="Ausgabeordner im Finder öffnen", command=self._open_output).pack(side="left")
             ttk.Button(actions, text="Ergebnisdaten prüfen", command=self._open_output_viewer).pack(side="left", padx=8)
+            ttk.Button(actions, text="An App senden", command=self._publish_to_app).pack(side="left", padx=8)
             ttk.Button(actions, text="Tooljet-Datenbank öffnen", command=self.app.open_tooljet_database).pack(side="left", padx=8)
 
             nb = ttk.Notebook(self.step_body)
@@ -1624,7 +1870,7 @@ class WizardWindow(tk.Toplevel):
 
             import_tab = ttk.Frame(nb)
             issues_tab = ttk.Frame(nb)
-            nb.add(import_tab, text="Import in Tooljet")
+            nb.add(import_tab, text="Legacy-Import in Tooljet")
             nb.add(issues_tab, text="Probleme & Lösungen")
 
             self._build_wizard_import_plan_ui(import_tab)
@@ -1739,6 +1985,11 @@ class WizardWindow(tk.Toplevel):
             os.system(f'open "{target}"')
         else:
             messagebox.showerror("Wizard", f"Ausgabeordner fehlt:\n{target}")
+
+    def _publish_to_app(self) -> None:
+        self.app.input_var.set(self.input_var.get())
+        self.app.output_var.set(self.output_var.get())
+        self.app.publish_to_app()
 
     def _open_output_viewer(self) -> None:
         out = Path(self.output_var.get().strip())

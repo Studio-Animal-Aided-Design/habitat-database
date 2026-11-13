@@ -164,7 +164,9 @@ def _resolve_single_source(
     issues: list[Issue],
     required: bool = True,
 ) -> Path | None:
-    candidates = sorted(base_dir.glob(pattern))
+    # Excel leaves tiny `~$...xlsx` owner files next to open workbooks. They are not
+    # valid input documents and may have a slightly newer timestamp than the source.
+    candidates = sorted(path for path in base_dir.glob(pattern) if not path.name.startswith("~$"))
     ctx.log(f"[{stage}] Suche Input unter: {base_dir}")
     ctx.log(f"[{stage}] Pattern: {pattern}")
 

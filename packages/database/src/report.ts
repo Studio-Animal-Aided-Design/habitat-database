@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { Snapshot } from "./snapshot.js";
+import type { Snapshot } from "./snapshot";
 
 export interface DatasetDiff { incoming: number; inserted: number; updated: number; unchanged: number; removedOrArchived: number }
 export interface ImportReport {

@@ -25,6 +25,9 @@
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@aad/database": [
+        "../../packages/database/src/index.ts"
       ]
     }
   },

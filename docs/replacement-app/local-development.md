@@ -52,6 +52,10 @@ npm run dev
 
 Open `http://localhost:3000`; management routes begin at `http://localhost:3000/management`.
 
+To test converter uploads and the two-step import locally, additionally follow
+[`import-api.md`](import-api.md). Its staged files live under the ignored
+`.local/import-staging` directory; PostgreSQL remains the durable store for run status and reports.
+
 The default development configuration is equivalent to:
 
 ```dotenv
@@ -90,8 +94,9 @@ clean rebuild.
 ## Current integration boundary
 
 Catalogue and detail pages now read the canonical PostgreSQL schema. The management routes use the
-same read adapter, but forms are not yet persistent. Authentication, write validation, audit events,
-preview and publication commands are the next boundary.
+same read adapter, but forms are not yet persistent. The converter import API is the first
+authenticated write boundary. General management authentication, form persistence, preview and
+publication commands remain subsequent work.
 
 Public detail routes reject non-published records. Approved converter snapshots publish their core
 species, plant and habitat records; future editorial records continue to default to `draft`.

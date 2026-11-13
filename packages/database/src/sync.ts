@@ -1,10 +1,15 @@
 import path from "node:path";
 import type pg from "pg";
-import { hash } from "./lib.js";
-import { writeReport, type DatasetDiff, type ImportReport } from "./report.js";
-import { buildSnapshot, type Snapshot, type SourceRef } from "./snapshot.js";
+import { hash } from "./lib";
+import { writeReport, type DatasetDiff, type ImportReport } from "./report";
+import { buildSnapshot, SnapshotValidationError, type Snapshot, type SourceRef } from "./snapshot";
 
 export type SyncMode = "merge" | "sync";
+export interface ApplySyncOptions {
+  runId?: string;
+  applyIdempotencyKey?: string;
+  sourceRoot?: string;
+}
 const importedPublicationStatus = "published" as const;
 
 const fingerprint = (value: unknown): string => hash(JSON.stringify(value));
@@ -48,7 +53,7 @@ function desiredMaps(snapshot: Snapshot): Record<string, Map<string, string>> {
 export async function planSync(client: pg.PoolClient, repoRoot: string, mode: SyncMode): Promise<{ snapshot: Snapshot; report: ImportReport }> {
   const snapshot = await buildSnapshot(repoRoot);
   const errors = snapshot.diagnostics.filter((item) => item.severity === "error");
-  if (errors.length) throw new Error(`CSV validation failed:\n${errors.map((item) => `- ${item.message} (${item.sources.join(", ")})`).join("\n")}`);
+  if (errors.length) throw new SnapshotValidationError(errors);
   const desired = desiredMaps(snapshot);
   const keys: Record<string, string> = {
     species: "scientific_name_key", plants: "scientific_name_key", habitat_elements: "legacy_slug",
@@ -76,9 +81,37 @@ export async function planSync(client: pg.PoolClient, repoRoot: string, mode: Sy
 const fieldsFingerprint = (item: any): string => fingerprint(item);
 const placeholders = (count: number, offset = 1): string => Array.from({ length: count }, (_, i) => `$${i + offset}`).join(",");
 
-export async function applySync(client: pg.PoolClient, snapshot: Snapshot, report: ImportReport): Promise<ImportReport> {
+export async function applySync(
+  client: pg.PoolClient,
+  snapshot: Snapshot,
+  report: ImportReport,
+  options: ApplySyncOptions = {},
+): Promise<ImportReport> {
   await client.query("BEGIN");
   try {
+    let runId = options.runId;
+    if (runId) {
+      const locked = await client.query<{ status: string; manifest_checksum: string; report: ImportReport; expires_at: Date; apply_idempotency_key: string | null }>(
+        "SELECT status,manifest_checksum,report,expires_at,apply_idempotency_key FROM import_runs WHERE id=$1 FOR UPDATE",
+        [runId],
+      );
+      const run = locked.rows[0];
+      if (!run) throw new Error("Import run not found.");
+      if (run.manifest_checksum !== snapshot.manifestChecksum) throw new Error("Import run checksum does not match the staged snapshot.");
+      if (run.status === "applied") {
+        await client.query("COMMIT");
+        return run.report;
+      }
+      if (run.expires_at.getTime() <= Date.now()) throw new Error("Import run has expired.");
+      if (!["dry_run_succeeded", "apply_failed"].includes(run.status)) throw new Error(`Import run cannot be applied from status ${run.status}.`);
+      if (run.apply_idempotency_key && run.apply_idempotency_key !== options.applyIdempotencyKey) {
+        throw new Error("Import run was already claimed by a different apply request.");
+      }
+      await client.query(
+        "UPDATE import_runs SET status='applying',apply_idempotency_key=COALESCE(apply_idempotency_key,$2),updated_at=now() WHERE id=$1",
+        [runId, options.applyIdempotencyKey ?? null],
+      );
+    }
     for (const item of snapshot.species) {
       const values = [item.scientific_name, item.naturalKey, item.alternative_scientific_name, item.common_name, item.alternative_common_name, item.class_common, item.class_scientific, item.order_common, item.order_scientific, item.family_common, item.family_scientific, item.genus_common, item.genus_scientific, fieldsFingerprint(item)];
       await client.query(`INSERT INTO species(scientific_name,scientific_name_key,alternative_scientific_name,common_name,alternative_common_name,class_common,class_scientific,order_common,order_scientific,family_common,family_scientific,genus_common,genus_scientific,publication_status,source_managed,source_fingerprint) VALUES (${placeholders(13)},'published',true,$14) ON CONFLICT(scientific_name_key) DO UPDATE SET scientific_name=EXCLUDED.scientific_name,alternative_scientific_name=EXCLUDED.alternative_scientific_name,common_name=EXCLUDED.common_name,alternative_common_name=EXCLUDED.alternative_common_name,class_common=EXCLUDED.class_common,class_scientific=EXCLUDED.class_scientific,order_common=EXCLUDED.order_common,order_scientific=EXCLUDED.order_scientific,family_common=EXCLUDED.family_common,family_scientific=EXCLUDED.family_scientific,genus_common=EXCLUDED.genus_common,genus_scientific=EXCLUDED.genus_scientific,source_managed=true,source_fingerprint=EXCLUDED.source_fingerprint,publication_status='published',updated_at=now() WHERE species.source_fingerprint IS DISTINCT FROM EXCLUDED.source_fingerprint OR species.publication_status IS DISTINCT FROM 'published'`, values);
@@ -145,8 +178,33 @@ export async function applySync(client: pg.PoolClient, snapshot: Snapshot, repor
     }
 
     const appliedReport = { ...report, applied: true, generatedAt: new Date().toISOString() };
-    const run = await client.query<{ id: string }>("INSERT INTO import_runs(manifest_checksum,mode,status,source_root,report) VALUES ($1,$2,'applied',$3,$4::jsonb) RETURNING id", [snapshot.manifestChecksum,report.mode,"data/**/import/out",JSON.stringify(appliedReport)]);
-    for (const file of snapshot.files) await client.query("INSERT INTO import_files(import_run_id,path,checksum,row_count) VALUES ($1,$2,$3,$4)", [run.rows[0].id,file.path,file.checksum,file.rowCount]);
+    if (runId) {
+      await client.query(
+        `UPDATE import_runs
+         SET status='applied', report=$2::jsonb, finished_at=now(), updated_at=now()
+         WHERE id=$1`,
+        [runId, JSON.stringify(appliedReport)],
+      );
+    } else {
+      const run = await client.query<{ id: string }>(
+        `INSERT INTO import_runs(
+          manifest_checksum,mode,status,source_root,staging_key,report,expires_at,finished_at
+        ) VALUES ($1,$2,'applied',$3,'cli',$4::jsonb,now(),now()) RETURNING id`,
+        [
+          snapshot.manifestChecksum,
+          report.mode,
+          options.sourceRoot ?? "data/**/import/out",
+          JSON.stringify(appliedReport),
+        ],
+      );
+      runId = run.rows[0].id;
+      for (const file of snapshot.files) {
+        await client.query(
+          "INSERT INTO import_files(import_run_id,path,checksum,row_count) VALUES ($1,$2,$3,$4)",
+          [runId,file.path,file.checksum,file.rowCount],
+        );
+      }
+    }
 
     const mappings: Array<{ dataset: string; refs: SourceRef[]; entityType: string; entityId: string; naturalKey: string; fingerprint: string }> = [];
     for (const item of snapshot.species) mappings.push({ dataset:"species",refs:[item.source],entityType:"species",entityId:speciesIds.get(item.naturalKey)!,naturalKey:item.naturalKey,fingerprint:fieldsFingerprint(item) });
@@ -167,7 +225,11 @@ export async function applySync(client: pg.PoolClient, snapshot: Snapshot, repor
     const lifecycleIds = new Map((await client.query<{id:string;natural_key:string}>(`SELECT p.id,s.scientific_name_key || ':' || p.phase_key || ':' || p.segment_order AS natural_key FROM species_lifecycle_phases p JOIN species s ON s.id=p.species_id`)).rows.map((row) => [row.natural_key,row.id]));
     for (const item of snapshot.lifecyclePhases) mappings.push({ dataset:"species_lifecycle_phases",refs:[item.source],entityType:"species_lifecycle_phase",entityId:lifecycleIds.get(item.naturalKey)!,naturalKey:item.naturalKey,fingerprint:fieldsFingerprint(item) });
     if (report.mode === "sync") await client.query("UPDATE import_record_mappings SET active=false WHERE dataset=ANY($1::text[])", [[...new Set(mappings.map((item) => item.dataset))]]);
-    for (const mapping of mappings) for (const source of mapping.refs) await client.query(`INSERT INTO import_record_mappings(dataset,source_file,source_row,entity_type,entity_id,legacy_id,natural_key,fingerprint,last_seen_run_id,active) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,true) ON CONFLICT(dataset,source_file,source_row) DO UPDATE SET entity_type=EXCLUDED.entity_type,entity_id=EXCLUDED.entity_id,legacy_id=EXCLUDED.legacy_id,natural_key=EXCLUDED.natural_key,fingerprint=EXCLUDED.fingerprint,last_seen_run_id=EXCLUDED.last_seen_run_id,active=true`, [mapping.dataset,source.file,source.row,mapping.entityType,mapping.entityId,source.legacyId,mapping.naturalKey,mapping.fingerprint,run.rows[0].id]);
+    for (const mapping of mappings) for (const source of mapping.refs) await client.query(`INSERT INTO import_record_mappings(dataset,source_file,source_row,entity_type,entity_id,legacy_id,natural_key,fingerprint,last_seen_run_id,active) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,true) ON CONFLICT(dataset,source_file,source_row) DO UPDATE SET entity_type=EXCLUDED.entity_type,entity_id=EXCLUDED.entity_id,legacy_id=EXCLUDED.legacy_id,natural_key=EXCLUDED.natural_key,fingerprint=EXCLUDED.fingerprint,last_seen_run_id=EXCLUDED.last_seen_run_id,active=true`, [mapping.dataset,source.file,source.row,mapping.entityType,mapping.entityId,source.legacyId,mapping.naturalKey,mapping.fingerprint,runId]);
+    await client.query(
+      "INSERT INTO audit_events(action,entity_type,entity_id,details) VALUES ('import.applied','import_run',$1,$2::jsonb)",
+      [runId, JSON.stringify({ manifestChecksum: snapshot.manifestChecksum, mode: report.mode })],
+    );
     await client.query("COMMIT");
     return appliedReport;
   } catch (error) {
