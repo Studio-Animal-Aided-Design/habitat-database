@@ -15,6 +15,7 @@ Dieser Plan führt eine manuelle Ende-zu-Ende- und User-Acceptance-Prüfung für
 ## Umgebungen und Grenzen
 
 - **Lokal:** Wegwerfbare PostgreSQL-Datenbank, Next.js-App und Converter. Die [lokale Import-Anleitung](../../import-api.md) liefert Kommandos. Sie ersetzt keine Abnahme auf der Zielumgebung.
+- **Lokale Container-Generalprobe:** Die [Anleitung](../../deployment/installation.md#lokale-generalprobe-vor-ionos) verbindet die IONOS-Images mit einem neuen isolierten Testlauf. Maschinenlesbare CLI-Evidenz ergänzt UAT-M1-002 bis 006 und 021; native GUI, Screenshots und die übrigen manuellen Erwartungen bleiben separat zu prüfen.
 - **Render-PR-Preview:** Zugriffsschutz und Mock-Isolation prüfen. Render bleibt für PR-Previews bestehen; Render ist **nicht** die IONOS-RC- oder Produktionsabnahme.
 - **IONOS-RC und Produktion:** Erst nach Bereitstellung von Tarif/Vertrag, deutschem Standort, AVV, Domains/DNS und Serverzugang. RC und Produktion getrennt; keine Mock-/Auto-Fallback-Daten in Produktion. Die Tests 021–024 bleiben bis zu den genannten Lieferungen/Entscheidungen blockiert.
 - Management-Login, CRUD und Publikationsworkflow gehören zu M3, nicht zu M1. Eine tiefe Accessibility-Zertifizierung, Backups/PITR und SEO-Optimierung sind keine stillschweigenden M1-Kriterien; ein kurzer Usability-, Indexierungs- und Performance-Smoke-Test ist es.

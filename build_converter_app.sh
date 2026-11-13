@@ -47,11 +47,14 @@ python3 -m PyInstaller \
   --workpath "$TEMP_BUILD_DIR" \
   --specpath "$TEMP_SPEC_DIR" \
   converter_app/gui_main.py
+python3 scripts/verify_converter_modules.py "$TEMP_APP_PATH/Contents/MacOS/$APP_NAME"
 
 # Set the release version before signing. PyInstaller otherwise writes 0.0.0.
 /usr/libexec/PlistBuddy -c "Set :CFBundleShortVersionString $APP_VERSION" "$TEMP_APP_PATH/Contents/Info.plist"
 /usr/libexec/PlistBuddy -c "Add :CFBundleVersion string $APP_VERSION" "$TEMP_APP_PATH/Contents/Info.plist" 2>/dev/null \
   || /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $APP_VERSION" "$TEMP_APP_PATH/Contents/Info.plist"
+python3 scripts/converter_build_info.py \
+  "$TEMP_APP_PATH/Contents/Resources/build-info.json" "$APP_VERSION"
 
 # FinderInfo/resource forks from synced folders make codesign fail. Build and sign
 # in a local temp directory, strip all extended metadata, and fail on any error.

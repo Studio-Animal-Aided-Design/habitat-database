@@ -55,9 +55,13 @@ Vor einem Wiederaufbau den Vorfall sichern, betroffene Umgebung und exakten Volu
 
 ## Gesicherte Importe betreiben
 
+Der Web-Container läuft als Benutzer 1001 mit schreibgeschütztem Root-Dateisystem. Das Image legt das Import-Staging-Verzeichnis mit diesem Eigentümer an, damit neue benannte Docker-Volumes beschreibbar sind. Vorhandene Volumes behalten ihre bisherigen Rechte; bei einer Migration diese bewusst prüfen. Der Next.js-Cache liegt in einem auf 128 MiB begrenzten temporären Dateisystem mit denselben Benutzerrechten. Ein Neustart leert diesen Cache, erhält jedoch PostgreSQL und das getrennte Import-Staging-Volume.
+
 Ein regulärer Datenimport beginnt im Converter mit einem vollständigen lokalen Lauf. Anschließend sendet die verantwortliche Person einen Dry-Run an die gewählte Umgebung, prüft Prüfsumme, Diagnosen sowie eingefügte, geänderte und entfernte Datensätze und bestätigt Apply getrennt. Preview und Produktion verwenden unterschiedliche Basis-URLs, Tokens, Datenbanken und Staging-Volumes. Ein Preview-Run darf nicht in Produktion angewendet werden.
 
 Bei einer unsicheren Netzwerkantwort nach Apply nicht mit einem neuen Upload fortfahren. Zuerst den bestehenden Run-Status über die API beziehungsweise die Tabellen `import_runs`, `import_files` und `audit_events` prüfen und denselben Run idempotent wiederholen. Ein erfolgreicher Apply entfernt die Staging-Dateien und aktualisiert die öffentlichen Leseansichten; Metadaten und Audit-Ereignisse bleiben in PostgreSQL. Fehlgeschlagene oder abgelaufene Runs dürfen bereinigt werden, nachdem Ursache und benötigte Diagnoseinformationen gesichert sind. Import-Tokens niemals in Logs oder Support-Tickets kopieren; bei Verdacht auf Offenlegung neues Token und neuen Hash konfigurieren und die App kontrolliert neu starten.
+
+Für lokale Converter-Kandidaten `./package_converter_release.sh 0.1.5` verwenden. Der Build prüft, dass API-Client, Import-Einstellungen und GUI tatsächlich im eingefrorenen Programm enthalten sind. Die vor der Signatur geschriebene `Contents/Resources/build-info.json` dokumentiert Quell-Commit, Arbeitsbaumstatus, Python-/Bibliotheksversionen und Quell-Prüfsummen. `scripts/verify_macos_release.sh` prüft das entpackte ZIP, Version und Signatur. Ein lokales ad-hoc-signiertes Paket ist keine veröffentlichte oder notarisierte Kundenfreigabe. Der Start, die Einrichtung, der Schlüsselbund und der bestätigte Import müssen zusätzlich in der macOS-Oberfläche nach UAT-M1-002 bis 006 geprüft und mit redigierten Screenshots dokumentiert werden.
 
 ## Render-PR-Previews beibehalten
 

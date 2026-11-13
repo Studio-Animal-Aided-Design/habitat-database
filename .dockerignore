@@ -8,6 +8,8 @@
 **/.pytest_cache
 build
 dist
+.local
+.pyinstaller-cache
 private
 deploy/ionos/.env
 deploy/ionos/.env.*

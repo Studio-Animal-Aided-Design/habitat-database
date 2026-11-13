@@ -10,6 +10,33 @@ Der Vertragsinhaber oder die benannte Betriebsverantwortung muss in #117 den kon
 
 Für einen reinen Entwicklungstest von #105 genügen lokale Platzhalter und eine Test-VM; echte Kundenverträge, Domains oder Zugangsdaten sind dafür nicht erforderlich. Eine lokale Prüfung ersetzt weder TLS- noch Netz- oder Standortnachweise der späteren Bereitstellung.
 
+## Lokale Generalprobe vor IONOS
+
+Im Repository-Hauptverzeichnis lässt sich derselbe Web- und Migrations-Container mit einer neuen lokalen PostgreSQL-Datenbank prüfen. Benötigt werden eine laufende lokale Docker Engine, Compose und Python mit den Abhängigkeiten aus `requirements-converter.txt`. Die Images verwenden Node 24.13.0; vor dem Web-Build werden die Lockfiles von Web-App und Datenbankpaket separat installiert.
+
+```bash
+python3 scripts/local_rc_rehearsal.py prepare
+```
+
+Die ausgegebene Run-ID als `RUN_ID` verwenden. Jeder Aufruf von `prepare` erzeugt eigene Zugangsdaten, einen eigenen Compose-Projektnamen und neue Volumes unter diesem Projektnamen. Konfiguration und Berichte liegen unter `.local/rc-runs/RUN_ID`, außerhalb von Git und Docker-Build-Kontext. Die Secret-Dateien sind nur für den lokalen Benutzer lesbar. Keine bestehenden Kunden-Zugangsdaten eintragen.
+
+```bash
+python3 scripts/local_rc_rehearsal.py run RUN_ID
+python3 scripts/local_rc_rehearsal.py status RUN_ID
+```
+
+Die Generalprobe baut Images, migriert eine leere Datenbank und prüft den Converter-Import über HTTP: Verbindung, ungültigen Token, Dry-Run ohne fachliche Änderungen, falsche Prüfsumme, Apply, wiederholten Apply und identischen Zweitimport, fehlerhafte CSV-Datei, Staging-Bereinigung, Audit-Ereignisse und Daten nach App-Neustart. Die Quelldaten unter `data` werden nur gelesen; neue CSVs und Berichte entstehen im Run-Verzeichnis. Ein bereits befüllter Run wird nicht zurückgesetzt; für einen neuen Gesamtlauf erneut `prepare` verwenden.
+
+Die App ist standardmäßig nur unter `http://127.0.0.1:3120` erreichbar (`prepare --port 3121` wählt einen anderen Port). Die lokale Generalprobe benutzt den Produktions-Datenmodus mit deaktiviertem Preview-Login, damit der öffentliche Lese- und Importweg ohne TLS geprüft werden kann. Caddy und die Produktionsdienste bleiben ausgeschaltet; PostgreSQL hat keinen Host-Port. Die beiden echten Umgebungen der IONOS-Vorlage bleiben getrennt konfiguriert.
+
+`evidence.json` enthält Revision, Arbeitsbaumstatus, CSV-Prüfsummen, tatsächliche Schritte und Status. Eine fehlende Engine ergibt `blocked`, keinen Erfolg. Ein technisch erfolgreicher CLI-Lauf ersetzt weder den nativen Converter-GUI-Test samt Screenshots noch Preview-Zugang, TLS, IONOS- oder Kundenabnahme. Erst danach die zugehörigen UAT-Ergebnisse dokumentieren.
+
+```bash
+python3 scripts/local_rc_rehearsal.py stop RUN_ID
+```
+
+`stop` entfernt die Container und Netzwerke dieses Testlaufs, erhält jedoch dessen Datenbankvolumes und Evidenz. Es löscht keine vorhandenen Kundendaten. Die Skript-Kommandos akzeptieren ausschließlich erzeugte lokale Run-IDs und eine lokale Docker-Schnittstelle.
+
 ## Schritt 1 Server bereitstellen und absichern
 
 Den freigegebenen IONOS-Server am bestätigten deutschen Standort mit einer unterstützten Linux-LTS-Version anlegen. Einen namentlich zugeordneten Nicht-root-Benutzer für das Deployment einrichten und dessen Docker-Berechtigung bewusst vergeben: Zugriff auf die Docker-Schnittstelle kann praktisch Root-Rechte auf dem Host bedeuten. Administratorzugang auf benannte IPs oder VPN begrenzen und einen IONOS-Konsolen-Notfallweg festhalten.
@@ -82,7 +109,7 @@ docker compose --profile ops run --rm production-db-tools db:dry-run -- --mode s
 docker compose --profile ops run --rm production-db-tools db:apply -- --mode sync --approve CHECKSUM
 ```
 
-Preview und Produktion können unterschiedliche Checksum-Werte nur dann haben, wenn absichtlich unterschiedliche Dateien verwendet werden; für die M1-Abnahme ist der freigegebene Datenstand je Umgebung nachzuweisen. Vor `apply` die Anzahl der Inserts, Änderungen und Entfernungen, Warnungen und die Quell-Dateien kontrollieren. Berichte liegen unter `deploy/ionos/reports/preview` und `deploy/ionos/reports/production`. Für Importdetails gilt [`packages/database/README.md`](../../../packages/database/README.md). Nach Integration von PR #121 wird derselbe fachliche Dry-Run- und Apply-Ablauf über die gesicherte API aus dem Converter ausgelöst; der Operator-Weg bleibt für Erstinbetriebnahme und Wiederherstellung verfügbar.
+Preview und Produktion können unterschiedliche Checksum-Werte nur dann haben, wenn absichtlich unterschiedliche Dateien verwendet werden; für die M1-Abnahme ist der freigegebene Datenstand je Umgebung nachzuweisen. Vor `apply` die Anzahl der Inserts, Änderungen und Entfernungen, Warnungen und die Quell-Dateien kontrollieren. Berichte liegen unter `deploy/ionos/reports/preview` und `deploy/ionos/reports/production`. Für Importdetails gilt [`packages/database/README.md`](../../../packages/database/README.md). Die integrierte Import-API aus PR #121 ermöglicht denselben fachlichen Dry-Run- und Apply-Ablauf direkt aus dem Converter; der Operator-Weg bleibt für Erstinbetriebnahme und Wiederherstellung verfügbar.
 
 ## Schritt 8 Apps und Reverse Proxy starten
 

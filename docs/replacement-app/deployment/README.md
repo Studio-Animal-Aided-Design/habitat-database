@@ -2,6 +2,8 @@
 
 Dieser Ordner ist die maßgebliche, provider-portable Betriebsdokumentation der Replacement App. Die ausführbaren IONOS-Dateien bleiben in [`deploy/ionos`](../../../deploy/ionos); Entscheidungen, Installationsanleitung und laufender Betrieb stehen hier. Die Markdown-Dateien sind die pflegbare Quelle; [`handbuch.docx`](handbuch.docx) wird daraus erzeugt.
 
+Für die isolierte lokale Generalprobe zuerst den Abschnitt „Lokale Generalprobe vor IONOS“ in [`installation.md`](installation.md) verwenden. Er beschreibt Vorbereitung, Ausführung, Evidenz und Stoppen ohne Kunden-Zugangsdaten.
+
 IONOS ist wegen der bestehenden Kundenbeziehung die bevorzugte Wahl. Falls Vertragserweiterung, deutscher Standort oder geeigneter Serverzugang nicht möglich sind, kann derselbe Container-Stack nach einer neuen Freigabe bei Hetzner betrieben werden; die Entscheidung und AVV-Prüfung sind dann in #117 neu zu dokumentieren.
 
 | Dokument | Zweck |

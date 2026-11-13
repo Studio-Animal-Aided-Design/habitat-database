@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 
-FROM node:24-alpine
+FROM node:24.13.0-bookworm-slim
 WORKDIR /workspace
 
 COPY packages/database/package.json packages/database/package-lock.json ./packages/database/
