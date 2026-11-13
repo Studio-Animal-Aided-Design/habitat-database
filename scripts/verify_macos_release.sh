@@ -33,6 +33,16 @@ codesign --verify --deep --strict "$APP_PATH"
 BUNDLE_ID="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP_PATH/Contents/Info.plist")"
 VERSION="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleShortVersionString' "$APP_PATH/Contents/Info.plist")"
 ARCHITECTURES="$(lipo -archs "$APP_PATH/Contents/MacOS/$APP_NAME")"
+python3 - "$APP_PATH/Contents/Resources/build-info.json" "$VERSION" <<'PY'
+import json
+from pathlib import Path
+import sys
+info = json.loads(Path(sys.argv[1]).read_text())
+assert info["version"] == sys.argv[2], "Build metadata version mismatch"
+for module in ("api_client", "import_settings", "gui"):
+    assert f"converter_app/{module}.py" in info["sourceFiles"], f"Missing source provenance: {module}"
+print(f"Source revision: {info['revision']} (dirty={info['dirty']})")
+PY
 
 echo "Release verification: OK"
 echo "Bundle ID: $BUNDLE_ID"

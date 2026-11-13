@@ -10,11 +10,6 @@ import { catalogApi } from "@/lib/catalog/catalog-api";
 
 type PageProps = { params: Promise<{ slug: string }> };
 
-export async function generateStaticParams() {
-  const habitats = await catalogApi.listHabitats();
-  return habitats.filter((habitat) => habitat.status === "published").map(({ slug }) => ({ slug }));
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const habitat = await catalogApi.getHabitatBySlug((await params).slug);
   return habitat?.status === "published" ? {

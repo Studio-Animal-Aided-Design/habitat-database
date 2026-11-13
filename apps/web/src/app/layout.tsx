@@ -4,6 +4,10 @@ import "./globals.css";
 
 const baseUrl = process.env.APP_BASE_URL ?? process.env.RENDER_EXTERNAL_URL ?? "https://habitat-database.example";
 
+// Catalogue data belongs to the runtime environment. Do not prerender a build-time
+// snapshot that could accidentally promote preview fixtures into production.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
