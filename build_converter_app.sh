@@ -81,6 +81,8 @@ test -f "$TEMP_APP_PATH/Contents/_CodeSignature/CodeResources"
 rm -rf "$APP_PATH"
 mkdir -p "$DIST_DIR"
 ditto --norsrc --noextattr "$TEMP_APP_PATH" "$APP_PATH"
+# File providers can attach Finder metadata during the final copy as well.
+xattr -cr "$APP_PATH"
 codesign --verify --deep --strict "$APP_PATH"
 
 echo "Build complete: $APP_PATH"
