@@ -21,9 +21,9 @@ export function SiteHeader() {
           <Link href="/habitat-elements">Habitatelemente</Link>
         </div>
       </details>
-      <Link className="header-cta" href="/management">
-        Verwaltung <ArrowUpRight size={15} />
-      </Link>
+      <a className="header-cta" href="https://animal-aided-design.de/" target="_blank" rel="noreferrer" aria-label="Zum Studio – öffnet in neuem Tab">
+        Zum Studio <ArrowUpRight aria-hidden="true" size={15} />
+      </a>
     </header>
   );
 }
