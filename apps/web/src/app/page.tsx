@@ -39,7 +39,16 @@ export default async function Home() {
             </div>
           </div>
           <div className="hero-art">
-            <span className="hero-art-label" aria-hidden="true">Tiere. Pflanzen. Lebensräume.</span>
+            <Image
+              className="hero-core"
+              src="/landing/hero-circle.webp"
+              width={1186}
+              height={1185}
+              alt=""
+              loading="eager"
+              unoptimized
+            />
+            <span className="hero-orbit" aria-hidden="true" />
             <div className="hero-media hero-media-bird">
               <Image src="/landing/bird.webp" width={880} height={865} alt="Illustrierter Gimpel auf einem Zweig" loading="eager" unoptimized />
             </div>

@@ -11,6 +11,16 @@ Dies ist ein überprüfbarer lokaler Entwurf. Er ersetzt weder die Kundenfreigab
 
 ## Quellen und ihre Aussagekraft
 
+### Korrekturrunde: texturierter Header
+
+Die Rückmeldung vom 13.11.2026 bestätigt die Richtung des Entwurfs und verlangt zwei konkrete Änderungen: die texturierte rechte Hero-Collage wiederherstellen und den Spruch „Tiere. Pflanzen. Lebensräume.“ entfernen. Das ist eine Designkorrektur, keine abschließende Studio-/M1-Freigabe.
+
+Wiederverwendet werden die vorhandenen Originaldateien `hero-right-side-texture.webp`, `hero-circle.webp`, `decorative-circle.webp` und `animal-bg.webp` sowie die unveränderten drei Illustrationen. Papierkorn und organische Konturen bleiben erhalten. Die Hintergrundtextur und der große Kreis werden ausschließlich bei der Darstellung per CSS farblich in Richtung Grün/Mint abgestimmt; die ursprüngliche Ziergrafik dient als Alphamaske für das exakte CI-Grün `#00CC99`. Es werden keine Rasterdateien neu erzeugt oder überschrieben. Die Bildunterschrift und ihre CSS-Regel sind entfernt.
+
+Die [ergänzte Galerie](index.html#header-revision) zeigt diese Korrektur separat; der Startseitenvergleich verwendet jetzt die neue Fassung. Vorher-/Nachher-Aufnahmen für Desktop, Tablet und Mobil sowie Detailausschnitte liegen unter `screenshots/revision-02/`. Die ursprünglichen Aufnahmen bleiben erhalten. Das dortige Aufnahmeprotokoll dokumentiert unveränderte Mock-Fixtures, reduzierte Bewegung, vollständig geladene Hero-Bilder, gegebenenfalls fehlende externe Bilder, fehlenden Spruch, keine JavaScript-Seitenfehler, keinen horizontalen Überlauf und vollständig innerhalb der Hero-Fläche liegende Illustrationen.
+
+Lint, TypeScript und optimierter Build werden auf einer identischen Quellkopie unter `/private/tmp/aad-113-header-review` geprüft, weil der TypeScript-Start aus den synchronisierten lokalen Abhängigkeiten hängen blieb. Die lokale Vorschau auf Port 3114 verwendet den geprüften Build dieser Kopie. Anwendungsquellen und Dokumentation bleiben im Issue-Checkout; der vorhandene ungetrackte Abhängigkeitslink `node_modules 2` bleibt erhalten.
+
 ### Gelieferte Corporate Identity
 
 Der Nutzer hat den Ordner `Re_ Beauftragung M1` mit einem einseitigen Mini Corporate Design Manual, Stand Juni 2018, sowie den Unterordnern `Office` und `Web` bereitgestellt. Das Handbuch ist als [gerenderte Referenz](screenshots/reference/ci-manual.png) dokumentiert. Die Dateien wurden ausschließlich als Designreferenz behandelt.
@@ -73,7 +83,7 @@ Abweichungen zur Kundenmarke:
 | Abstand | 4-px-Grundskala, Abschnittsabstand 64–104 px, innere Gutters 24–72 px | Gemeinsamer Rhythmus statt einzelner Seitenlösungen |
 | Form | Karten und große Flächen 8 px, zentrale Controls 6 px; Tags bleiben rund | Präzisere architektonische Anmutung; Tags behalten ihre eigene Bedeutung |
 | Kopfzeile | 174 px breites Logo, mobil 132 px; feine grüne Linie, Serifennavigation | Klarer Studio-Absender bei kontrolliertem Platzbedarf |
-| Hero | Bestehende freigestellte Illustrationen, weiße Flächen, skalierbare grüne Kreislinien | Redaktionelle Bildsprache erhalten, die frühere creme-/waldgrüne Rasterkulisse ablösen |
+| Hero | Originale texturierte Collage mit Papierflächen, mintgrünem Kreis und Zierlinien in CI-Grün | Nutzerkorrektur: haptische Editorial-Bildwelt bewahren und an die neue Markenoberfläche anbinden; zusätzlichen Spruch entfernen |
 | Fußzeile | Dunkle Fläche, originale weiße Wort-Bild-Marke und grüne Trennlinie | Markenabschluss mit belastbarem Kontrast |
 | Öffentliche Navigation | Arten, Pflanzen, Habitatelemente und externer Link zum Studio | Öffentlichen Lesezugang und Verwaltung getrennt halten |
 | Lebenszyklus | Jahreszeiten- und Phasenfarben bleiben als semantische Datenfarben bestehen | Unterschiedliche fachliche Kategorien dürfen nicht durch ein einziges Markengrün ununterscheidbar werden |

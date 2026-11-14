@@ -14,6 +14,17 @@
 <div class="toplinks"><a href="http://127.0.0.1:3114/" target="_blank" rel="noreferrer">Neue App öffnen ↗</a><a href="README.md">Vollständige Beobachtungen und Entscheidungen</a><a href="manifest.json">Quellen und Prüfsummen</a></div>
 </header>
 <main>
+<section class="section" id="header-revision">
+<h2>Header-Korrektur: die Textur bleibt.</h2>
+<p class="lede">Rückmeldung vom 13.11.2026: Die texturierte Collage rechts soll erhalten bleiben; der Spruch darunter entfällt. Originale Papierflächen, Gimpel, Blatt und Habitat sind wieder eingebunden. Der große Kreis ist mintgrün abgestimmt, die ursprünglichen Zierlinien tragen das CI-Grün. Die Quelldateien bleiben unverändert.</p>
+<div class="references">
+<article class="source"><h3>Desktop · vorher</h3><a href="screenshots/revision-02/before-home-desktop.jpg"><img src="screenshots/revision-02/before-home-desktop.jpg" alt="Erster CI-Entwurf mit glatten Kreisflächen"></a><p>Erster Entwurf: glatte Flächen und zusätzliche Bildunterschrift.</p></article>
+<article class="source"><h3>Desktop · korrigiert</h3><a href="screenshots/revision-02/after-home-desktop-viewport.jpg"><img src="screenshots/revision-02/after-home-desktop-viewport.jpg" alt="Korrigierter Header mit originalen Texturen und grünen Kreislinien"></a><p>Texturierte Collage, an das Markengrün angepasst; Spruch entfernt.</p></article>
+<article class="source fullref"><h3>Mobil · Detail</h3><a href="screenshots/revision-02/after-hero-art-mobile.png"><img src="screenshots/revision-02/after-hero-art-mobile.png" alt="Vollständig sichtbare Collage auf Mobilgeräten"></a><p>Alle drei Illustrationen bleiben innerhalb der Fläche. Desktop, Tablet und Mobil ohne horizontalen Überlauf geprüft.</p></article>
+</div>
+<p class="caption">Die bisherigen Aufnahmen bleiben erhalten. Der Startseitenvergleich unten zeigt jetzt die korrigierte Version. <a href="screenshots/revision-02/capture-log.json">Aufnahmeprotokoll</a></p>
+</section>
+
 <section class="section" aria-labelledby="compare-title">
 <h2 id="compare-title">Vorher und nachher</h2>
 <p class="lede">Drei Referenzseiten in drei Browsergrößen. Beide Aufnahmen verwenden denselben Beispieldatenstand. Die vollständigen Seiten lassen sich in den beiden Bildfenstern scrollen; über „Original öffnen“ sind Details in voller Auflösung erreichbar.</p>
@@ -38,7 +49,7 @@
 <tr><td>Schrift</td><td>Die Kundenwebsite nutzt Lato sowie Eidetic Neo Black in der Navigation. Der gelieferte Ordner enthält keine Hausschriftdateien.</td><td>Lato 400/700 wird lokal unter OFL gehostet. Georgia bleibt als kräftige und kursive Editorial-Schrift erhalten; eine Eidetic-Neo-Lizenz wäre separat zu klären.</td></tr>
 <tr><td>Abstand</td><td>Der Kunde arbeitet mit viel Weißraum. Das Handbuch nennt keine numerischen Abstandsregeln.</td><td>4-px-Grundskala, 64–104 px Abschnittsabstand, klare Außenränder und Logo-Freiraum. Ableitung aus beiden Gestaltungswelten.</td></tr>
 <tr><td>Form</td><td>Unsere bisherige Oberfläche war sehr rund und warm; die Kundenwebsite ist geradliniger.</td><td>Zurückhaltende 6-/8-px-Radien, feine Linien und eine weiße Kopfzeile. Tags bleiben als Tags erkennbar.</td></tr>
-<tr><td>Bildwelt</td><td>Große Bilder, wissenschaftliche Inhalte und Quellen verbinden beide Auftritte.</td><td>Artenporträts und vorhandene Illustrationen bleiben. Die frühere creme-/waldgrüne Rasterkulisse wird durch leichte grüne Kreislinien ersetzt.</td></tr>
+<tr><td>Bildwelt</td><td>Große Bilder, wissenschaftliche Inhalte und Quellen verbinden beide Auftritte.</td><td>Artenporträts und Originaltexturen bleiben. Die Hero-Collage erhält mintgrüne Kreisflächen und Zierlinien in CI-Grün; die übrige Oberfläche bleibt weiß und klar.</td></tr>
 <tr><td>Orientierung</td><td>Öffentliche Wissensdatenbank und interne Verwaltung haben unterschiedliche Aufgaben.</td><td>Öffentlich: Arten, Pflanzen, Habitatelemente und Studio-Link. Verwaltung bleibt eine eigene Oberfläche.</td></tr>
 <tr><td>Fachdaten</td><td>Jahreszeiten und Lebensphasen benötigen unterscheidbare Farben.</td><td>Semantische Diagrammfarben bleiben erhalten. CI-Akzente und fachliche Farbcodierung werden getrennt beurteilt.</td></tr>
 </tbody></table>
@@ -66,7 +77,7 @@
 const pages={home:'Startseite',species:'Artenkatalog',gimpel:'Gimpel-Porträt'};
 const formats={desktop:'1440 × 1000 px',tablet:'834 × 1112 px',mobile:'390 × 844 px'};
 const page=document.getElementById('page'),format=document.getElementById('format');
-function update(){for(const phase of ['before','after']){const src=`screenshots/${phase}/${page.value}-${format.value}.jpg`;const img=document.getElementById(phase);img.src=src;img.alt=`${phase==='before'?'Bisheriges Design':'Neuer CI-Entwurf'}: ${pages[page.value]}, ${formats[format.value]}`;document.getElementById(phase+'-link').href=src;img.closest('.picture-window').scrollTop=0;}document.getElementById('selection').textContent=`${pages[page.value]} · Browsergröße ${formats[format.value]} · identische Beispieldaten · Aufnahmedatum 13.11.2026`}
+function update(){for(const phase of ['before','after']){const src=phase==='after'&&page.value==='home'?`screenshots/revision-02/after-home-${format.value}.jpg`:`screenshots/${phase}/${page.value}-${format.value}.jpg`;const img=document.getElementById(phase);img.src=src;img.alt=`${phase==='before'?'Bisheriges Design':'Neuer CI-Entwurf'}: ${pages[page.value]}, ${formats[format.value]}`;document.getElementById(phase+'-link').href=src;img.closest('.picture-window').scrollTop=0;}document.getElementById('selection').textContent=`${pages[page.value]} · Browsergröße ${formats[format.value]} · identische Beispieldaten · Aufnahmedatum 13.11.2026`}
 page.addEventListener('change',update);format.addEventListener('change',update);document.getElementById('expanded').addEventListener('change',e=>document.getElementById('comparison').classList.toggle('expanded',e.target.checked));update();
 </script>
 </html>

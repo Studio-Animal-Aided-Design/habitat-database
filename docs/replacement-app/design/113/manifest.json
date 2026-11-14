@@ -270,5 +270,112 @@
     "customer_approval": "pending",
     "full_manual_uat": "not run",
     "unit_tests": "71 passed in 21 files"
-  }
+  },
+  "revisions": [
+    {
+      "id": "02",
+      "requestedOn": "2026-11-13",
+      "capturedOn": "2026-11-14",
+      "description": "Restore original textured hero collage with CI green/mint; remove tagline.",
+      "sourceBaseline": "637a95f3c04e146e7e2d4d976871da0057579b96",
+      "sourceSha256": {
+        "apps/web/src/app/globals.css": "c48ea1d21d64cea17ede404883f4533cdaaf11a11f3ea8fe19e999fc6d6ed5d5",
+        "apps/web/src/app/page.tsx": "bec12979ac0e1098621917af86fe1d714e818b022078a43ce55c6cdf4f616ea4"
+      },
+      "dataMode": "unchanged mock fixtures",
+      "screenshots": [
+        {
+          "file": "screenshots/revision-02/after-hero-art-desktop.png",
+          "sha256": "d80e2703acac443dcd6161f36885f1380624d886f0a85d41ac4b0e5d0ffa1d5a",
+          "bitmap_width": 620,
+          "bitmap_height": 738
+        },
+        {
+          "file": "screenshots/revision-02/after-hero-art-mobile.png",
+          "sha256": "41be64a11d1199f5a7432ddd00f79f9099cf6e87bdf18dd927de7ca81b37fa1b",
+          "bitmap_width": 350,
+          "bitmap_height": 361
+        },
+        {
+          "file": "screenshots/revision-02/after-hero-art-tablet.png",
+          "sha256": "c3ade953a567fc5167620c7a7ac63eb65530b163d9f192cc5af8289929fa3c4e",
+          "bitmap_width": 770,
+          "bitmap_height": 621
+        },
+        {
+          "file": "screenshots/revision-02/after-home-desktop-viewport.jpg",
+          "sha256": "53d1842986e09ef462f9642e5d23703c3ef6ac0366018fb06536c984bfbe6b0d",
+          "bitmap_width": 1440,
+          "bitmap_height": 1000
+        },
+        {
+          "file": "screenshots/revision-02/after-home-desktop.jpg",
+          "sha256": "389e0dc307c382bf9dbf202c69330d03b62410ea78d964c81fe0ecd889f11fbd",
+          "bitmap_width": 1440,
+          "bitmap_height": 4748
+        },
+        {
+          "file": "screenshots/revision-02/after-home-mobile-viewport.jpg",
+          "sha256": "c0e0acc67c3cfe68f026cd9b6f2e45c5f5541d4ca90c183239628cea1721ed2d",
+          "bitmap_width": 390,
+          "bitmap_height": 844
+        },
+        {
+          "file": "screenshots/revision-02/after-home-mobile.jpg",
+          "sha256": "daf86102181e53abb17ece64dfc73ba7ca2a57e31160040b7063ef206c6ecd8a",
+          "bitmap_width": 390,
+          "bitmap_height": 9046
+        },
+        {
+          "file": "screenshots/revision-02/after-home-tablet-viewport.jpg",
+          "sha256": "b517cd7983370dc89b35a05254554eb3f560ba133af55a8ac2a293144e4bff75",
+          "bitmap_width": 834,
+          "bitmap_height": 1112
+        },
+        {
+          "file": "screenshots/revision-02/after-home-tablet.jpg",
+          "sha256": "557fa7a3ae934023ce6cbc1aec667284738828947cf0a94c881ec089c2726ccf",
+          "bitmap_width": 834,
+          "bitmap_height": 6642
+        },
+        {
+          "file": "screenshots/revision-02/before-home-desktop.jpg",
+          "sha256": "018bbf5fd9413dc1104fdcf0656beac1d7ab44ab5ab6e675c153a236c85e2102",
+          "bitmap_width": 1440,
+          "bitmap_height": 1000
+        },
+        {
+          "file": "screenshots/revision-02/before-home-mobile.jpg",
+          "sha256": "61cc47d3d858d9f51fde00c4e76a057d931a59f79f416a0fd99191ef743945b2",
+          "bitmap_width": 390,
+          "bitmap_height": 9046
+        },
+        {
+          "file": "screenshots/revision-02/before-home-tablet.jpg",
+          "sha256": "b8a10c0267955cd647356ed43491495ef07cd951a128483adb794c37116717ed",
+          "bitmap_width": 834,
+          "bitmap_height": 1112
+        },
+        {
+          "file": "screenshots/revision-02/user-tagline-removal.png",
+          "sha256": "c066d4d7fe661276def997e3d5d870b23d44e17393b5c2c4f5bb217dd714af64",
+          "bitmap_width": 450,
+          "bitmap_height": 216
+        },
+        {
+          "file": "screenshots/revision-02/user-texture-reference.png",
+          "sha256": "69fe46a0b8114220d02ee9b66085392600723c135dbb02cba22c557fbaf7dfb7",
+          "bitmap_width": 672,
+          "bitmap_height": 620
+        },
+        {
+          "file": "screenshots/revision-02/gallery-revision.png",
+          "sha256": "46fcc37ab9f115b6d6c0e6ddcf855aa24ccff518cb7eadb52d165436e58ddf6d",
+          "bitmap_width": 1152,
+          "bitmap_height": 672
+        }
+      ],
+      "captureLog": "screenshots/revision-02/capture-log.json"
+    }
+  ]
 }
