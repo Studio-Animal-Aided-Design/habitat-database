@@ -1,0 +1,195 @@
+{
+  "date": "2026-11-13",
+  "timezone": "Europe/Berlin",
+  "implementationIssue": 105,
+  "revision": "6c74178dda1c2a1b9fd754e0503d58bb1fba3edc",
+  "environment": "local macOS arm64; no reachable Docker engine",
+  "overall": "partially verified; container E2E and native GUI blocked",
+  "checks": {
+    "freshNpmCi": {
+      "status": "passed",
+      "packages": [
+        "packages/database",
+        "apps/web"
+      ],
+      "existingDependencyVersionsChanged": false
+    },
+    "web": {
+      "status": "passed",
+      "lint": true,
+      "typecheck": true,
+      "unitTests": 61,
+      "productionBuildWithoutLiveDatabase": true
+    },
+    "database": {
+      "status": "passed",
+      "typecheck": true,
+      "unitTests": 4
+    },
+    "python": {
+      "status": "passed",
+      "tests": 20
+    },
+    "standaloneSmoke": {
+      "status": "passed",
+      "healthHTTP": 200,
+      "importConnectionWithoutTokenHTTP": 401,
+      "databaseImportExecuted": false
+    },
+    "composeConfig": {
+      "status": "passed",
+      "loopbackOnlyWeb": true,
+      "publishedDatabasePorts": 0,
+      "productionAndCaddyProfilesDisabledLocally": true,
+      "literalScryptHashVerified": true
+    },
+    "converterPipeline": {
+      "status": "success",
+      "fileCount": 30,
+      "stages": [
+        {
+          "stage": "species_classification",
+          "status": "success",
+          "row_counts": {
+            "species": 14
+          }
+        },
+        {
+          "stage": "species_attribute_definitions",
+          "status": "success",
+          "row_counts": {
+            "species_attribute_definitions": 49
+          }
+        },
+        {
+          "stage": "species_portrait_attributes",
+          "status": "success",
+          "row_counts": {
+            "species_attributes": 685
+          }
+        },
+        {
+          "stage": "species_images",
+          "status": "success",
+          "row_counts": {
+            "species_images": 28
+          }
+        },
+        {
+          "stage": "plants",
+          "status": "success",
+          "row_counts": {
+            "plants": 262
+          }
+        },
+        {
+          "stage": "plant_relations",
+          "status": "success",
+          "row_counts": {
+            "plant_relations": 321
+          }
+        },
+        {
+          "stage": "habitat_elements",
+          "status": "success",
+          "row_counts": {
+            "habitat_elements": 57
+          }
+        },
+        {
+          "stage": "habitat_element_images",
+          "status": "success",
+          "row_counts": {
+            "habitat_element_images": 57
+          }
+        },
+        {
+          "stage": "habitat_element_species_relations",
+          "status": "success",
+          "row_counts": {
+            "habitat_element_species_relations": 300
+          }
+        }
+      ]
+    },
+    "converterPackage": {
+      "status": "passed",
+      "path": "dist/release/AAD-Tooljet-Converter-0.1.5-macos.zip",
+      "version": "0.1.5",
+      "architecture": "arm64",
+      "sourceRevision": "6c74178dda1c2a1b9fd754e0503d58bb1fba3edc",
+      "dirty": false,
+      "sha256": "c2e139b3da330d0ea13e32e8936e059109f07a2cae3c5907dc0cf74ed743ec83",
+      "bytes": 41039877,
+      "frozenModules": [
+        "converter_app.api_client",
+        "converter_app.import_settings",
+        "converter_app.gui"
+      ],
+      "signature": "ad-hoc; ZIP extracted and codesign --verify --deep --strict passed",
+      "notarized": false,
+      "published": false
+    },
+    "handbook": {
+      "status": "passed",
+      "pagesRenderedAndVisuallyInspected": 9,
+      "path": "docs/replacement-app/deployment/handbuch.docx",
+      "sha256": "b5e01e89f46da5e74b5e353f27aa0dcaadf9e285c65856566fc4c9537e372bbf"
+    },
+    "containerE2E": {
+      "status": "blocked",
+      "reason": "Local Docker engine unavailable. User can unlock Mac later. No current image/DB/volume/import/restart proof claimed."
+    },
+    "nativeGUI": {
+      "status": "blocked",
+      "reason": "Mac locked; no first-run/Keychain/GUI-apply screenshots captured."
+    },
+    "ionos": {
+      "status": "not run",
+      "reason": "Separate commissioning in #117; no hoster resources or public deployment changed."
+    }
+  },
+  "testSnapshot": {
+    "customerApproved": false,
+    "note": "Current repository input used for a technical conversion only. Counts are CSV output counts, not DB acceptance.",
+    "csvSha256": {
+      "data/habitat-elements/import/out/habitat_element_images.csv": "fe9a3c79b935cd1801553bf84f00497457175e8bac9641b86730b4fc42a3c239",
+      "data/habitat-elements/import/out/habitat_element_species_relation.csv": "6f5a6deac7c1dc31cfc8803b549c02ae20b6ecaa5c49f2ee1c6628a016c1dce6",
+      "data/habitat-elements/import/out/habitat_elements.csv": "d4d7fedab39ead84324de07ff3e0e1f2b6733564cb0d743eccdfacf49edb454e",
+      "data/plants/import/out/plants/all_plants.csv": "c36caf9c2f5d1b214ce93407dd173f3bcbadf4e7dc79872fb1c65d2d4265c609",
+      "data/plants/import/out/relations/Andrena barbilabris_species_plant_relationship.csv": "f7d5d221290232dad7f45667825ff83c2d43269b1439088d7283ca966ab9fefb",
+      "data/plants/import/out/relations/Anthidium oblongatum_species_plant_relationship.csv": "3d4c89c7ed4665d281678feb3296d455129b9497c0d7d25528255ba2f8ac2f99",
+      "data/plants/import/out/relations/Anthophora plumipes_species_plant_relationship.csv": "589b6d0bbfe05383e5e3acc1be630cbf67ac15be1cf9da48870d6f8f27a9e18e",
+      "data/plants/import/out/relations/Papilio machaon_species_plant_relationship.csv": "3fa3bf640d6c8dd387b6d85fc08d99ee120d9127e3e2dde215fb95a68e2571a3",
+      "data/plants/import/out/relations/Passer domesticus_species_plant_relationship.csv": "7e3278bd940d8fef0e56e5a2639e12671ce27801c1a82af62690479fd5b60ae5",
+      "data/plants/import/out/relations/Phoenicurus phoenicurus_species_plant_relationship.csv": "e4688db80ac4f6719c529f4f21e802cc474ba457d51703fcd21d8800cab3c878",
+      "data/plants/import/out/relations/Plebejus idas_species_plant_relationship.csv": "fa58d7d663e4c622d23ae44f7ddde4e06edc40e9a71150ca300a72d65dc83774",
+      "data/plants/import/out/relations/Pyrrhula pyrrhula_species_plant_relationship.csv": "858583a713542e0a5789f3841419eb93efe335e62d32480c7ce9fce3548b155d",
+      "data/species-portraits/attribute-definitions/import/out/species-attribute-definitions.csv": "9b49dd3ebddc7301624e4388cfa12fcfc16c7a760da4d91ad8ca76d88d2f3dab",
+      "data/species-portraits/classification/import/out/species.csv": "03ae10d0d21ffa31e217f24e495d35177baad1bec28d20a189e3692a6a8df330",
+      "data/species-portraits/images/import/out/species-images.csv": "848be63276695bf8e31e08855ee78f4eec1ca7322fcfdc1493a9f8409f7780da",
+      "data/species-portraits/lifecycle/import/out/species-lifecycle-phases.csv": "df815d01e32e314cd3224bca3d7771838301c6b8dd7180197b2fae0d7f5e3c9f",
+      "data/species-portraits/portraits/import/out/attributes/Andrena barbilabris_attributes.csv": "cba9d2123f458f9fee811256c75f0dfa7eac5e3b3cb22075af735f37e65a5b07",
+      "data/species-portraits/portraits/import/out/attributes/Anthidium oblongatum_attributes.csv": "5029fd0b808cb339dd98f654ab51bac0079a3b2fe727faa19e69f73ad537ed64",
+      "data/species-portraits/portraits/import/out/attributes/Anthophora plumipes_attributes.csv": "2dbdf97f77449ff0f87436c3b5c845aa7ea1d38d26030a3d14b69c1bb530488a",
+      "data/species-portraits/portraits/import/out/attributes/Apus apus_attributes.csv": "86af017b9c7bac17c8e90e363ffdbe22a12eb121da50e56daa1022376dc7d737",
+      "data/species-portraits/portraits/import/out/attributes/Lacerta agilis_attributes.csv": "77f9276ac12e16058e2ca1772b817878d5043a28535bec44aa213acf4ad6e03e",
+      "data/species-portraits/portraits/import/out/attributes/Muscicapa striata_attributes.csv": "b0c0c3dc9e8a50b9b04054959ff739abf05839d212e4f1b7262b10e2ea5f464e",
+      "data/species-portraits/portraits/import/out/attributes/Papilio machaon_attributes.csv": "c9eb8859a12b3c000c13e9e88fc9bcdb4d419dd0664ff1c7ddafa7ec0f1036c0",
+      "data/species-portraits/portraits/import/out/attributes/Passer domesticus_attributes.csv": "717b88e8c48d2a61a6e845eb251a5ec665b10fc918504073008c8dc934212e74",
+      "data/species-portraits/portraits/import/out/attributes/Phoenicurus phoenicurus_attributes.csv": "4abb9fcf385bccfbcb9dbb2c2c03b02c6ec4c1729f884f05f34f9084f319c184",
+      "data/species-portraits/portraits/import/out/attributes/Picus viridis_attributes.csv": "c050a52e2e82fe8987fcbb9139f88f3db915b5ba4d6fce4bdcfddc088e862213",
+      "data/species-portraits/portraits/import/out/attributes/Pipistrellus pipistrellus_attributes.csv": "19a4181e9b00b22c5682fd8c45d063c1b4b0b4c84afdd1b0da691f76ced5dfd0",
+      "data/species-portraits/portraits/import/out/attributes/Plebejus idas_attributes.csv": "5cbf03fd0f897d9333ba014708cc1540e82401bbbd2a1d75d64fdc4e23d7e49f",
+      "data/species-portraits/portraits/import/out/attributes/Pyrrhula pyrrhula_attributes.csv": "1bf7471e583457b95eaa21fa375f3c3720372fde21f063ac502f4700e1aefe44",
+      "data/species-portraits/portraits/import/out/attributes/Vespertilio murinus_attributes.csv": "f09a3ae971b9f5ae70509d167b2b6ac4481b5517fc6939ee149f45eb25ff3849"
+    }
+  },
+  "next": [
+    "Start Docker Desktop after unlocking the Mac.",
+    "Prepare a new local run and execute scripts/local_rc_rehearsal.py with the converter Python dependencies.",
+    "Run actual macOS package first-run, Keychain and import UAT with redacted screenshots.",
+    "Complete IONOS RC commissioning #117 and remaining customer M1 sign-offs."
+  ],
+  "uatResultsChanged": false
+}

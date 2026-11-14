@@ -1,0 +1,356 @@
+{
+  "status": "passed",
+  "revision": "f29f7ca751922b36b5bf4e1d8cecc90625f917c4",
+  "dirty": true,
+  "environment": "http://127.0.0.1:3120",
+  "steps": [
+    {
+      "name": "Compose configuration",
+      "status": "passed"
+    },
+    {
+      "name": "Container images built",
+      "status": "passed"
+    },
+    {
+      "name": "Migrations and empty business tables",
+      "status": "passed",
+      "database": {
+        "species": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "plants": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "habitat_elements": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "species_attribute_definitions": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "species_attribute_values": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "media_assets": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "species_media": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "habitat_element_media": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "plant_media": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "species_plant_relations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "species_habitat_relations": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "entity_aliases": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "species_lifecycle_phases": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    {
+      "name": "Public catalogue responds before import",
+      "status": "passed"
+    },
+    {
+      "name": "Connection and invalid-token rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Converter creates import snapshot",
+      "status": "passed",
+      "fileCount": 30,
+      "result": "success"
+    },
+    {
+      "name": "Dry-run leaves business data unchanged",
+      "status": "passed",
+      "datasets": {
+        "plants": {
+          "updated": 0,
+          "incoming": 259,
+          "inserted": 259,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        },
+        "species": {
+          "updated": 0,
+          "incoming": 14,
+          "inserted": 14,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        },
+        "media_assets": {
+          "updated": 0,
+          "incoming": 85,
+          "inserted": 85,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        },
+        "habitat_elements": {
+          "updated": 0,
+          "incoming": 57,
+          "inserted": 57,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        },
+        "species_plant_relations": {
+          "updated": 0,
+          "incoming": 321,
+          "inserted": 321,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        },
+        "species_attribute_values": {
+          "updated": 0,
+          "incoming": 685,
+          "inserted": 685,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        },
+        "species_lifecycle_phases": {
+          "updated": 0,
+          "incoming": 62,
+          "inserted": 62,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        },
+        "species_habitat_relations": {
+          "updated": 0,
+          "incoming": 294,
+          "inserted": 294,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        },
+        "species_attribute_definitions": {
+          "updated": 0,
+          "incoming": 49,
+          "inserted": 49,
+          "unchanged": 0,
+          "removedOrArchived": 0
+        }
+      }
+    },
+    {
+      "name": "Wrong-checksum rejection",
+      "status": "passed"
+    },
+    {
+      "name": "Apply, idempotent retry and public data",
+      "status": "passed",
+      "database": {
+        "species": {
+          "rows": 14,
+          "sha256": "3214aae73720c88854268f560956f9f6a9b892f8a39861879631181f85db5f58"
+        },
+        "plants": {
+          "rows": 259,
+          "sha256": "0f24335f5f9e7b7c36b8cdf9e81a251766542e3aecc6fb76254bb8e9689ad8a3"
+        },
+        "habitat_elements": {
+          "rows": 57,
+          "sha256": "88d11dd42c5f3d5fdc4281eb71faff6ec64dd7910bc52cd7cdab23a0cff8f79d"
+        },
+        "species_attribute_definitions": {
+          "rows": 49,
+          "sha256": "5a6897d2be0f78671893d6da131fb128730bccb250d46b3fb491504edec8301f"
+        },
+        "species_attribute_values": {
+          "rows": 685,
+          "sha256": "09a0d1b416e10e9628f79d553483024de56d56f24f5910f0ddd9002c03f9b2b7"
+        },
+        "media_assets": {
+          "rows": 85,
+          "sha256": "2310a4f21a0bf3fa5cdfa382c4a9bd3fe625578109f83bafd233410ad74ea554"
+        },
+        "species_media": {
+          "rows": 28,
+          "sha256": "62b2cd47921859c6e934c24e2628aa5e45ee85af7e00ab766e88c854bb9f59ba"
+        },
+        "habitat_element_media": {
+          "rows": 57,
+          "sha256": "5c0cf7c83a1d3cc1b7f1917fb7cfd74d3c35646e7b51a306a29695b7c2667c29"
+        },
+        "plant_media": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "species_plant_relations": {
+          "rows": 321,
+          "sha256": "450908420e06bf5116a15b0d642325e4e7f071fb2edcfcd9189c0b263704ac79"
+        },
+        "species_habitat_relations": {
+          "rows": 294,
+          "sha256": "fc80de0728ede8e5489f023b641e7d40c50005a0712be022e05e77e30d28bbbd"
+        },
+        "entity_aliases": {
+          "rows": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "species_lifecycle_phases": {
+          "rows": 62,
+          "sha256": "322cfa3ec1a30afdb36cc5f1b22c9b36378e8f5abebaf37a457776ac747623df"
+        }
+      }
+    },
+    {
+      "name": "Second import preserves business values and IDs",
+      "status": "passed",
+      "datasets": {
+        "plants": {
+          "updated": 0,
+          "incoming": 259,
+          "inserted": 0,
+          "unchanged": 259,
+          "removedOrArchived": 0
+        },
+        "species": {
+          "updated": 0,
+          "incoming": 14,
+          "inserted": 0,
+          "unchanged": 14,
+          "removedOrArchived": 0
+        },
+        "media_assets": {
+          "updated": 0,
+          "incoming": 85,
+          "inserted": 0,
+          "unchanged": 85,
+          "removedOrArchived": 0
+        },
+        "habitat_elements": {
+          "updated": 0,
+          "incoming": 57,
+          "inserted": 0,
+          "unchanged": 57,
+          "removedOrArchived": 0
+        },
+        "species_plant_relations": {
+          "updated": 0,
+          "incoming": 321,
+          "inserted": 0,
+          "unchanged": 321,
+          "removedOrArchived": 0
+        },
+        "species_attribute_values": {
+          "updated": 0,
+          "incoming": 685,
+          "inserted": 0,
+          "unchanged": 685,
+          "removedOrArchived": 0
+        },
+        "species_lifecycle_phases": {
+          "updated": 0,
+          "incoming": 62,
+          "inserted": 0,
+          "unchanged": 62,
+          "removedOrArchived": 0
+        },
+        "species_habitat_relations": {
+          "updated": 0,
+          "incoming": 294,
+          "inserted": 0,
+          "unchanged": 294,
+          "removedOrArchived": 0
+        },
+        "species_attribute_definitions": {
+          "updated": 0,
+          "incoming": 49,
+          "inserted": 0,
+          "unchanged": 49,
+          "removedOrArchived": 0
+        }
+      }
+    },
+    {
+      "name": "Invalid CSV rejected atomically and staging cleaned",
+      "status": "passed"
+    },
+    {
+      "name": "Audit events persisted",
+      "status": "passed",
+      "actions": [
+        "import.applied:2",
+        "import.dry_run:2"
+      ]
+    },
+    {
+      "name": "Database and public view survive app restart",
+      "status": "passed"
+    }
+  ],
+  "limits": "Local Linux containers on macOS arm64 and CLI HTTP transport only; no IONOS, TLS, external network, x86_64 or customer acceptance proof.",
+  "recordedAt": "2026-11-14T09:23:07.069643+00:00",
+  "files": {
+    "data/habitat-elements/import/out/habitat_element_images.csv": "fe9a3c79b935cd1801553bf84f00497457175e8bac9641b86730b4fc42a3c239",
+    "data/habitat-elements/import/out/habitat_element_species_relation.csv": "6f5a6deac7c1dc31cfc8803b549c02ae20b6ecaa5c49f2ee1c6628a016c1dce6",
+    "data/habitat-elements/import/out/habitat_elements.csv": "d4d7fedab39ead84324de07ff3e0e1f2b6733564cb0d743eccdfacf49edb454e",
+    "data/plants/import/out/plants/all_plants.csv": "c36caf9c2f5d1b214ce93407dd173f3bcbadf4e7dc79872fb1c65d2d4265c609",
+    "data/plants/import/out/relations/Andrena barbilabris_species_plant_relationship.csv": "f7d5d221290232dad7f45667825ff83c2d43269b1439088d7283ca966ab9fefb",
+    "data/plants/import/out/relations/Anthidium oblongatum_species_plant_relationship.csv": "3d4c89c7ed4665d281678feb3296d455129b9497c0d7d25528255ba2f8ac2f99",
+    "data/plants/import/out/relations/Anthophora plumipes_species_plant_relationship.csv": "589b6d0bbfe05383e5e3acc1be630cbf67ac15be1cf9da48870d6f8f27a9e18e",
+    "data/plants/import/out/relations/Papilio machaon_species_plant_relationship.csv": "3fa3bf640d6c8dd387b6d85fc08d99ee120d9127e3e2dde215fb95a68e2571a3",
+    "data/plants/import/out/relations/Passer domesticus_species_plant_relationship.csv": "7e3278bd940d8fef0e56e5a2639e12671ce27801c1a82af62690479fd5b60ae5",
+    "data/plants/import/out/relations/Phoenicurus phoenicurus_species_plant_relationship.csv": "e4688db80ac4f6719c529f4f21e802cc474ba457d51703fcd21d8800cab3c878",
+    "data/plants/import/out/relations/Plebejus idas_species_plant_relationship.csv": "fa58d7d663e4c622d23ae44f7ddde4e06edc40e9a71150ca300a72d65dc83774",
+    "data/plants/import/out/relations/Pyrrhula pyrrhula_species_plant_relationship.csv": "858583a713542e0a5789f3841419eb93efe335e62d32480c7ce9fce3548b155d",
+    "data/species-portraits/attribute-definitions/import/out/species-attribute-definitions.csv": "9b49dd3ebddc7301624e4388cfa12fcfc16c7a760da4d91ad8ca76d88d2f3dab",
+    "data/species-portraits/classification/import/out/species.csv": "03ae10d0d21ffa31e217f24e495d35177baad1bec28d20a189e3692a6a8df330",
+    "data/species-portraits/images/import/out/species-images.csv": "848be63276695bf8e31e08855ee78f4eec1ca7322fcfdc1493a9f8409f7780da",
+    "data/species-portraits/lifecycle/import/out/species-lifecycle-phases.csv": "df815d01e32e314cd3224bca3d7771838301c6b8dd7180197b2fae0d7f5e3c9f",
+    "data/species-portraits/portraits/import/out/attributes/Andrena barbilabris_attributes.csv": "cba9d2123f458f9fee811256c75f0dfa7eac5e3b3cb22075af735f37e65a5b07",
+    "data/species-portraits/portraits/import/out/attributes/Anthidium oblongatum_attributes.csv": "5029fd0b808cb339dd98f654ab51bac0079a3b2fe727faa19e69f73ad537ed64",
+    "data/species-portraits/portraits/import/out/attributes/Anthophora plumipes_attributes.csv": "2dbdf97f77449ff0f87436c3b5c845aa7ea1d38d26030a3d14b69c1bb530488a",
+    "data/species-portraits/portraits/import/out/attributes/Apus apus_attributes.csv": "86af017b9c7bac17c8e90e363ffdbe22a12eb121da50e56daa1022376dc7d737",
+    "data/species-portraits/portraits/import/out/attributes/Lacerta agilis_attributes.csv": "77f9276ac12e16058e2ca1772b817878d5043a28535bec44aa213acf4ad6e03e",
+    "data/species-portraits/portraits/import/out/attributes/Muscicapa striata_attributes.csv": "b0c0c3dc9e8a50b9b04054959ff739abf05839d212e4f1b7262b10e2ea5f464e",
+    "data/species-portraits/portraits/import/out/attributes/Papilio machaon_attributes.csv": "c9eb8859a12b3c000c13e9e88fc9bcdb4d419dd0664ff1c7ddafa7ec0f1036c0",
+    "data/species-portraits/portraits/import/out/attributes/Passer domesticus_attributes.csv": "717b88e8c48d2a61a6e845eb251a5ec665b10fc918504073008c8dc934212e74",
+    "data/species-portraits/portraits/import/out/attributes/Phoenicurus phoenicurus_attributes.csv": "4abb9fcf385bccfbcb9dbb2c2c03b02c6ec4c1729f884f05f34f9084f319c184",
+    "data/species-portraits/portraits/import/out/attributes/Picus viridis_attributes.csv": "c050a52e2e82fe8987fcbb9139f88f3db915b5ba4d6fce4bdcfddc088e862213",
+    "data/species-portraits/portraits/import/out/attributes/Pipistrellus pipistrellus_attributes.csv": "19a4181e9b00b22c5682fd8c45d063c1b4b0b4c84afdd1b0da691f76ced5dfd0",
+    "data/species-portraits/portraits/import/out/attributes/Plebejus idas_attributes.csv": "5cbf03fd0f897d9333ba014708cc1540e82401bbbd2a1d75d64fdc4e23d7e49f",
+    "data/species-portraits/portraits/import/out/attributes/Pyrrhula pyrrhula_attributes.csv": "1bf7471e583457b95eaa21fa375f3c3720372fde21f063ac502f4700e1aefe44",
+    "data/species-portraits/portraits/import/out/attributes/Vespertilio murinus_attributes.csv": "f09a3ae971b9f5ae70509d167b2b6ac4481b5517fc6939ee149f45eb25ff3849"
+  },
+  "manifestChecksum": "b48ae31f6d26bda09316c21f25f152c2c24f45d2a58695b88fc1b04c2a770024",
+  "sourceSha256": {
+    "apps/web/Dockerfile": "b17afbdc231c96f3ff7e2779ab00edd3e4e6d1d0bfea3ee27426fd89c3252601",
+    "apps/web/package-lock.json": "27fb9b32b8978f149ae0d51194d5ef2ce0fdbe8363e90565cf48a0d8d8fdbe38",
+    "packages/database/Dockerfile": "32e6fad22796a04d6d51e3c120cca2c53ef466032904bed5e04976837d15dc1d",
+    "deploy/ionos/compose.yaml": "a5341d86be5b588972ac8a85ab75cada9ab8fb8b8dbe5b43c3e5e37670472a43",
+    "deploy/ionos/compose.local.yaml": "845b81b7e66ba4ba3f68b155fbf290fcafa89e614b48d474cc449da9417793fc",
+    "scripts/local_rc_rehearsal.py": "3942a913560ed2175d30a3ab34f36e14fb9af0e98244b6be26abf226bbe795a4"
+  },
+  "runtimeVersions": {
+    "docker": "27.3.1",
+    "compose": "2.30.3-desktop.1"
+  },
+  "regression": {
+    "initialFailure": "Local production-db-tools inherited the ops profile and referenced the disabled production database.",
+    "fix": "Replace profiles with !override [production]; Docker Compose >=2.24.4.",
+    "verification": "Six rehearsal tests including actual Compose ops-profile validation; all 21 Python tests passed."
+  }
+}

@@ -47,11 +47,6 @@ function lifecyclePhaseDetails(phases: LifecyclePhase[], attributes: SpeciesAttr
   });
 }
 
-export async function generateStaticParams() {
-  const species = await catalogApi.listSpecies();
-  return species.filter((item) => item.status === "published").map(({ slug }) => ({ slug }));
-}
-
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
   const species = await catalogApi.getSpeciesBySlug(slug);
