@@ -2,6 +2,7 @@
 import importlib.util
 import json
 from pathlib import Path
+import shutil
 from unittest.mock import patch
 
 import pytest
@@ -43,3 +44,15 @@ def test_prepare_keeps_secrets_private_and_out_of_evidence(tmp_path):
 def test_refuses_arbitrary_run_paths(run_id):
     with pytest.raises(ValueError):
         rehearsal.resolve_run(run_id)
+
+
+@pytest.mark.skipif(shutil.which("docker") is None, reason="Docker Compose CLI is unavailable")
+def test_ops_profile_keeps_production_services_disabled(tmp_path):
+    with patch.object(rehearsal, "RUNS", tmp_path):
+        run = rehearsal.prepare(3129)
+    config = json.loads(rehearsal.compose(run, "--profile", "ops", "config", "--format", "json"))
+    names = set(config["services"])
+    assert "preview-db-tools" in names
+    assert "preview-db" in names
+    assert "caddy" not in names
+    assert not any(name.startswith("production-") for name in names)

@@ -1,0 +1,313 @@
+{
+  "date": "2026-11-14",
+  "environment": "http://127.0.0.1:3121",
+  "packageVersion": "0.1.5",
+  "packageRevision": "6c74178dda1c2a1b9fd754e0503d58bb1fba3edc",
+  "packageSha256": "c2e139b3da330d0ea13e32e8936e059109f07a2cae3c5907dc0cf74ed743ec83",
+  "execution": "Actual frozen macOS app. User assisted Save/Direct mode and dry-run button because CUA could not address Tk controls reliably. Codex performed conversion, apply and readback.",
+  "connection": {
+    "invalidTokenHTTP": 401,
+    "validTokenAccepted": true,
+    "initialCredentialAbsent": true,
+    "isolatedConfigContainsOnlyURL": true,
+    "keychainTokenMatches": true,
+    "restartRecognizedSavedConnection": true
+  },
+  "run": {
+    "id": "9ba458da-c6ae-4f28-8cc3-33d0e7dac785",
+    "status": "applied",
+    "manifestChecksum": "b48ae31f6d26bda09316c21f25f152c2c24f45d2a58695b88fc1b04c2a770024"
+  },
+  "businessBefore": {
+    "species": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "plants": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "habitat_elements": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_attribute_definitions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_attribute_values": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "media_assets": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "habitat_element_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "plant_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_plant_relations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_habitat_relations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "entity_aliases": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_lifecycle_phases": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "businessAfterDryRun": {
+    "species": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "plants": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "habitat_elements": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_attribute_definitions": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_attribute_values": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "media_assets": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "habitat_element_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "plant_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_plant_relations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_habitat_relations": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "entity_aliases": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_lifecycle_phases": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "emptyStateEvidence": "Initial SQL snapshot and later equality check of all 13 business tables observed; public catalogue screenshot shows zero species before apply.",
+  "businessAfterApply": {
+    "species": {
+      "rows": 14,
+      "sha256": "e2be7ac05a94b96ac7cfcfcf80c42168618c4da0ead726f41a0e0d338ed6d84a"
+    },
+    "plants": {
+      "rows": 259,
+      "sha256": "29c67cdbde583d48f0359b934643ae913f4a7346578e8bdebbaa80b4c3af9fc7"
+    },
+    "habitat_elements": {
+      "rows": 57,
+      "sha256": "8b5806defcc904013908ce16b8379b6eb95667d278582b8ac81ce50f47007f81"
+    },
+    "species_attribute_definitions": {
+      "rows": 49,
+      "sha256": "70113b59c9d1324d3429a01d832c856d9a6c49889a5f227f2a2cb97b5f4f31ae"
+    },
+    "species_attribute_values": {
+      "rows": 685,
+      "sha256": "301c67c0b6a9f57cd58fed4fd43779b5b4a2d3eddfa3b06fa8bed95c06d7e743"
+    },
+    "media_assets": {
+      "rows": 85,
+      "sha256": "5184546971b5be3f18ea6cfe56860ff321292f7e5345ccee99bcf15878b55fc2"
+    },
+    "species_media": {
+      "rows": 28,
+      "sha256": "bfa310b6dbb5e5dd00856c7461d737632bb1ab510825003f84ca8140934b9e86"
+    },
+    "habitat_element_media": {
+      "rows": 57,
+      "sha256": "4844ae6af3802439750eb2f5219eec34ef9fe91a0a24704c159832bc9db3892c"
+    },
+    "plant_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_plant_relations": {
+      "rows": 321,
+      "sha256": "6e3edb14e1d55ecfa1db11ab7aee6d4d7c0ab6e8cbdb67b82d6049fda49a9702"
+    },
+    "species_habitat_relations": {
+      "rows": 294,
+      "sha256": "b4dc7db2d98a888c93bb47b4e46d55c2fb644ae3ffe20295562b3a77e30e46e9"
+    },
+    "entity_aliases": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_lifecycle_phases": {
+      "rows": 62,
+      "sha256": "6f515e5c4791d72b2347d22fc0cbf597c7c7a7ce6c6e24fe3b1d13b392c079f7"
+    }
+  },
+  "datasets": {
+    "plants": {
+      "updated": 0,
+      "incoming": 259,
+      "inserted": 259,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    },
+    "species": {
+      "updated": 0,
+      "incoming": 14,
+      "inserted": 14,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    },
+    "media_assets": {
+      "updated": 0,
+      "incoming": 85,
+      "inserted": 85,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    },
+    "habitat_elements": {
+      "updated": 0,
+      "incoming": 57,
+      "inserted": 57,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    },
+    "species_plant_relations": {
+      "updated": 0,
+      "incoming": 321,
+      "inserted": 321,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    },
+    "species_attribute_values": {
+      "updated": 0,
+      "incoming": 685,
+      "inserted": 685,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    },
+    "species_lifecycle_phases": {
+      "updated": 0,
+      "incoming": 62,
+      "inserted": 62,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    },
+    "species_habitat_relations": {
+      "updated": 0,
+      "incoming": 294,
+      "inserted": 294,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    },
+    "species_attribute_definitions": {
+      "updated": 0,
+      "incoming": 49,
+      "inserted": 49,
+      "unchanged": 0,
+      "removedOrArchived": 0
+    }
+  },
+  "diagnosticCounts": {
+    "plant_duplicate_conflict": 6,
+    "plant_duplicate": 3,
+    "blank_attribute_value": 74,
+    "incomplete_media_metadata": 28,
+    "blank_media_url": 1,
+    "duplicate_habitat_relation": 6
+  },
+  "publicCatalogue": {
+    "before": 0,
+    "after": 14,
+    "representative": "Gimpel / Pyrrhula pyrrhula"
+  },
+  "limits": [
+    "Repository test dataset is not customer-approved canonical data.",
+    "Full manual UAT and IONOS/HTTPS remain separate.",
+    "Gatekeeper/notarized distribution is not covered."
+  ],
+  "screenshots": [
+    {
+      "file": "gui/01-first-run.png",
+      "sha256": "e48288f3bfa44e5d7d77ab86ed20c805e7c06e2008521a1c9fec549cfc9df164"
+    },
+    {
+      "file": "gui/02-invalid-token.png",
+      "sha256": "5c8be2a57d270fb3fbff05c0a4acba0cd3bacbbcaf13b68a28df4e87cb4c2e6f"
+    },
+    {
+      "file": "gui/03-connection-valid.png",
+      "sha256": "8f65e849492bda44183615fe2c1995d3626a6b3133c38fe7e8e1af0024e5e4c6"
+    },
+    {
+      "file": "gui/04-connection-saved.png",
+      "sha256": "b14a45b797b9b2a64e853355555135d96f01ed1018bd54d8b75acd64bc79b34a"
+    },
+    {
+      "file": "gui/05-conversion-complete.png",
+      "sha256": "2abe421b294abf1e05b31e26be9f13bd7964caf99bc797cf4c98606320c8ebf3"
+    },
+    {
+      "file": "gui/06-conversion-report.png",
+      "sha256": "75c6194af20927065e91022a4e07d9929f3a46065d94c164f998fa38198cfa4f"
+    },
+    {
+      "file": "gui/07-dry-run-confirmation.png",
+      "sha256": "d026fcb87398967ef08a55cd62cd8a64c6256f49d94d13fe14924863fc691f97"
+    },
+    {
+      "file": "gui/08-public-before.png",
+      "sha256": "8f9767994a242c641e4f512d053487a7133a69032eb0e95b88d49e3a7e9fedcc"
+    },
+    {
+      "file": "gui/09-import-applied.png",
+      "sha256": "1815c7a90edde014fd8db7d9d3c4dcf9eafea91f1b192ed5b9218aead4144d8b"
+    },
+    {
+      "file": "gui/10-public-after.png",
+      "sha256": "86fce508f3a449e35294e555628a34b4e80974bcf3ed3769e17cb29d830db648"
+    },
+    {
+      "file": "gui/11-restart.png",
+      "sha256": "843e0a3fc35250a459834fdffc7e279141c07f754c7fc5e02619cda45b3b9222"
+    }
+  ]
+}

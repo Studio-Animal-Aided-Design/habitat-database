@@ -12,7 +12,7 @@ Für einen reinen Entwicklungstest von #105 genügen lokale Platzhalter und eine
 
 ## Lokale Generalprobe vor IONOS
 
-Im Repository-Hauptverzeichnis lässt sich derselbe Web- und Migrations-Container mit einer neuen lokalen PostgreSQL-Datenbank prüfen. Benötigt werden eine laufende lokale Docker Engine, Compose und Python mit den Abhängigkeiten aus `requirements-converter.txt`. Die Images verwenden Node 24.13.0; vor dem Web-Build werden die Lockfiles von Web-App und Datenbankpaket separat installiert.
+Im Repository-Hauptverzeichnis lässt sich derselbe Web- und Migrations-Container mit einer neuen lokalen PostgreSQL-Datenbank prüfen. Benötigt werden eine laufende lokale Docker Engine, Compose ab Version 2.24.4 und Python mit den Abhängigkeiten aus `requirements-converter.txt`. Die lokale Overlay-Datei ersetzt das Profil der Produktionswerkzeuge ausdrücklich, damit `--profile ops` ausschließlich die lokalen Migrationswerkzeuge aktiviert. Die Images verwenden Node 24.13.0; vor dem Web-Build werden die Lockfiles von Web-App und Datenbankpaket separat installiert.
 
 ```bash
 python3 scripts/local_rc_rehearsal.py prepare
