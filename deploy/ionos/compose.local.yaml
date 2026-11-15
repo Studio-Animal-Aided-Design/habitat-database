@@ -1,0 +1,16 @@
+# Local rehearsal only: no Caddy, public ports, customer credentials or production database.
+services:
+  caddy:
+    profiles: [public-edge]
+  production-app:
+    profiles: [production]
+  production-db:
+    profiles: [production]
+  production-db-tools:
+    # Replace the base 'ops' profile: enabling local migrations must not activate production tools.
+    profiles: !override [production]
+  preview-app:
+    environment:
+      APP_BASE_URL: http://127.0.0.1:${LOCAL_RC_PORT:-3120}
+    ports:
+      - "127.0.0.1:${LOCAL_RC_PORT:-3120}:3000"

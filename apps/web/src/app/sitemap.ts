@@ -4,6 +4,8 @@ import { isPreviewEnvironment } from "@/lib/runtime-environment";
 
 const baseUrl = process.env.APP_BASE_URL ?? "https://habitat-database.example";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   if (isPreviewEnvironment) {
     return [];

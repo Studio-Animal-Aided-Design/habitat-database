@@ -2,7 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { previewAccessCookieName, resolvePreviewAccessConfig } from "@/lib/preview-access/config";
 import { verifyPreviewSessionToken } from "@/lib/preview-access/session";
 
-const PUBLIC_PREVIEW_PATHS = new Set(["/health", "/robots.txt"]);
+// The login screen needs these public brand assets before a preview session exists.
+// Keep the allowlist exact; other files and product pages still require the gate.
+const PUBLIC_PREVIEW_PATHS = new Set([
+  "/health",
+  "/robots.txt",
+  "/brand/studio-aad-color.jpg",
+  "/brand/studio-aad-white.png",
+  "/fonts/lato/lato-latin-400.woff2",
+  "/fonts/lato/lato-latin-700.woff2",
+  "/fonts/lato/lato-latin-ext-400.woff2",
+  "/fonts/lato/lato-latin-ext-700.woff2"
+]);
 
 export async function proxy(request: NextRequest) {
   const config = resolvePreviewAccessConfig();

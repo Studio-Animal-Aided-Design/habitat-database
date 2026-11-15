@@ -1,0 +1,85 @@
+[
+  {
+    "color": "rgb(0, 0, 0)",
+    "font": "Lato, Arial, Helvetica, sans-serif",
+    "tag": "BODY",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(0, 204, 153)",
+    "font": "\"Eidetic Neo Black\"",
+    "tag": "A",
+    "text": "News",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "\"Eidetic Neo Black\"",
+    "tag": "A",
+    "text": "Animal-Aided Design",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "Lato, Arial, Helvetica, sans-serif",
+    "tag": "A",
+    "text": "Methode",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "Lato, Arial, Helvetica, sans-serif",
+    "tag": "A",
+    "text": "Anwendung",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "Lato, Arial, Helvetica, sans-serif",
+    "tag": "A",
+    "text": "Lizenzierung",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "Lato, Arial, Helvetica, sans-serif",
+    "tag": "A",
+    "text": "Artenportraits",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "\"Eidetic Neo Black\"",
+    "tag": "A",
+    "text": "Leistungen",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "\"Eidetic Neo Black\"",
+    "tag": "A",
+    "text": "Projekte",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "\"Eidetic Neo Black\"",
+    "tag": "A",
+    "text": "Forschung",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "\"Eidetic Neo Black\"",
+    "tag": "A",
+    "text": "Publikationen",
+    "weight": "400"
+  },
+  {
+    "color": "rgb(51, 51, 51)",
+    "font": "\"Eidetic Neo Black\"",
+    "tag": "A",
+    "text": "Über uns",
+    "weight": "400"
+  }
+]

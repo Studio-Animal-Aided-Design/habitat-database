@@ -23,10 +23,18 @@ dist/
 # Node / Next.js
 node_modules/
 .next/
+.next-classic/
 out/
 *.tsbuildinfo
 .env*.local
 .local/
+
+# IONOS deployment secrets and generated operational reports
+/deploy/ionos/.env
+/deploy/ionos/.env.*
+!/deploy/ionos/.env.example
+!/deploy/ionos/.env.*.example
+/deploy/ionos/reports/
 
 # Client-confidential feasibility studies and commercial planning artifacts
 /private/

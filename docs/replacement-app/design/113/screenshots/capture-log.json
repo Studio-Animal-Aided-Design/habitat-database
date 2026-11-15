@@ -1,0 +1,222 @@
+[
+  {
+    "phase": "before",
+    "page": "home",
+    "format": "desktop",
+    "documentWidth": 1440,
+    "fontStatus": "loaded",
+    "height": 4613,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 1440
+  },
+  {
+    "phase": "before",
+    "page": "species",
+    "format": "desktop",
+    "documentWidth": 1440,
+    "fontStatus": "loaded",
+    "height": 1477,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 1440
+  },
+  {
+    "phase": "before",
+    "page": "gimpel",
+    "format": "desktop",
+    "documentWidth": 1440,
+    "fontStatus": "loaded",
+    "height": 4525,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 1440
+  },
+  {
+    "phase": "before",
+    "page": "home",
+    "format": "tablet",
+    "documentWidth": 834,
+    "fontStatus": "loaded",
+    "height": 6620,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 834
+  },
+  {
+    "phase": "before",
+    "page": "species",
+    "format": "tablet",
+    "documentWidth": 834,
+    "fontStatus": "loaded",
+    "height": 2014,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 834
+  },
+  {
+    "phase": "before",
+    "page": "gimpel",
+    "format": "tablet",
+    "documentWidth": 834,
+    "fontStatus": "loaded",
+    "height": 5262,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 834
+  },
+  {
+    "phase": "before",
+    "page": "home",
+    "format": "mobile",
+    "documentWidth": 390,
+    "fontStatus": "loaded",
+    "height": 8998,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 390
+  },
+  {
+    "phase": "before",
+    "page": "species",
+    "format": "mobile",
+    "documentWidth": 390,
+    "fontStatus": "loaded",
+    "height": 2761,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 390
+  },
+  {
+    "phase": "before",
+    "page": "gimpel",
+    "format": "mobile",
+    "documentWidth": 390,
+    "fontStatus": "loaded",
+    "height": 5529,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 390
+  },
+  {
+    "phase": "after",
+    "page": "home",
+    "format": "desktop",
+    "documentWidth": 1440,
+    "fontStatus": "loaded",
+    "height": 4748,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 1440
+  },
+  {
+    "phase": "after",
+    "page": "species",
+    "format": "desktop",
+    "documentWidth": 1440,
+    "fontStatus": "loaded",
+    "height": 1659,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 1440
+  },
+  {
+    "phase": "after",
+    "page": "gimpel",
+    "format": "desktop",
+    "documentWidth": 1440,
+    "fontStatus": "loaded",
+    "height": 4627,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 1440
+  },
+  {
+    "phase": "after",
+    "page": "home",
+    "format": "tablet",
+    "documentWidth": 834,
+    "fontStatus": "loaded",
+    "height": 6642,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 834
+  },
+  {
+    "phase": "after",
+    "page": "species",
+    "format": "tablet",
+    "documentWidth": 834,
+    "fontStatus": "loaded",
+    "height": 2079,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 834
+  },
+  {
+    "phase": "after",
+    "page": "gimpel",
+    "format": "tablet",
+    "documentWidth": 834,
+    "fontStatus": "loaded",
+    "height": 5054,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 834
+  },
+  {
+    "phase": "after",
+    "page": "home",
+    "format": "mobile",
+    "documentWidth": 390,
+    "fontStatus": "loaded",
+    "height": 9046,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 390
+  },
+  {
+    "phase": "after",
+    "page": "species",
+    "format": "mobile",
+    "documentWidth": 390,
+    "fontStatus": "loaded",
+    "height": 2855,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 390
+  },
+  {
+    "phase": "after",
+    "page": "gimpel",
+    "format": "mobile",
+    "documentWidth": 390,
+    "fontStatus": "loaded",
+    "height": 5706,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 390
+  },
+  {
+    "phase": "after",
+    "page": "plant",
+    "format": "desktop",
+    "documentWidth": 1440,
+    "fontStatus": "loaded",
+    "height": 2604,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 1440
+  },
+  {
+    "phase": "after",
+    "page": "habitat",
+    "format": "desktop",
+    "documentWidth": 1440,
+    "fontStatus": "loaded",
+    "height": 2330,
+    "missingImages": [],
+    "scrollTop": 0,
+    "width": 1440
+  }
+]

@@ -8,7 +8,13 @@ The public application uses one small editorial system rather than page-specific
 - **Type:** `--font-editorial` is used for expressive headings and scientific names; `--font-interface` is used for navigation, labels, controls and body copy.
 - **Space and shape:** `--space-*`, `--radius-*`, `--shadow-*` and `--content-*` tokens provide the shared rhythm. Public cards and sections use the same corner and border language.
 - **Motion:** motion supports orientation and reveal only. Every animation has a `prefers-reduced-motion` fallback.
-- **Focus:** all keyboard-operable elements receive a visible orange focus ring. Search and filter groups also expose `:focus-within` state.
+- **Focus:** all keyboard-operable elements receive a visible dark-green focus ring. Search and filter groups also expose `:focus-within` state. The bright CI green is reserved for decorative marks and labelled surfaces, not small text on white.
+
+## Studio CI proposal, 2026-11-13
+
+The [documented design review](design/113/README.md) adapts the existing editorial system to the supplied Studio manual and the public Studio website. It includes a local HTML comparison gallery, nine responsive before/after pairs, source references, asset hashes and additional state screenshots. Customer approval remains pending.
+
+The proposal uses original colour/white wordmarks, white surfaces, near-black type, `#00CC99` brand accents and a `#00694F` readable accent derivative. Lato is self-hosted under SIL OFL 1.1; Georgia remains the editorial family while the separately licensed Eidetic Neo option awaits a decision. Shared controls/cards/sections use the radius tokens, public content uses a common fluid spacing scale, and the public footer is explicitly scoped to `.public-footer`. The seasonal chart palette retains its semantic role. The public header links to the Studio website; management remains directly accessible under `/management` and outside the public navigation.
 
 ## Reusable primitives
 

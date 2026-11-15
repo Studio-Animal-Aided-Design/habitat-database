@@ -35,9 +35,17 @@ AAD Tooljet Converter
 2) Falls macOS die nicht notarisierte App blockiert:
    Systemeinstellungen -> Datenschutz & Sicherheit -> "Dennoch öffnen".
    Alternativ: Rechtsklick auf die App -> "Öffnen".
-3) Wähle den Eingabeordner "data" (oder euren Datenordner) und einen Ausgabeordner.
-4) Starte die Konvertierung.
-5) Öffne danach "tooljet-import-guide.md" und "conversion-report.html" im Ausgabeordner.
+3) Für die Habitat-App: App-Verbindung einrichten, Betreiber-URL und Import-Token
+   eingeben, Verbindung testen und speichern. Der Token liegt im macOS-Schlüsselbund.
+   Für reine Dateiausgabe kann die App-Einrichtung übersprungen werden.
+4) Wähle den Eingabeordner "data" (oder euren Datenordner) und einen eigenen Ausgabeordner.
+5) Starte die Konvertierung und prüfe "conversion-report.html" im Ausgabeordner.
+6) "An App senden" führt zuerst einen Dry-Run aus. Änderungen prüfen und nur den
+   beabsichtigten Import ausdrücklich bestätigen. Erst Apply schreibt App-Daten.
+7) "tooljet-import-guide.md" ist die Anleitung für den bisherigen ToolJet-Import.
+
+Die signierte Datei Contents/Resources/build-info.json im App-Paket dokumentiert
+Version, Quell-Commit und Prüfsummen des Converter-Quellcodes.
 TXT
 
 # Re-clean and verify immediately before packaging. This catches metadata added

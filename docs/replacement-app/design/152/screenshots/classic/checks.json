@@ -1,0 +1,112 @@
+{
+  "base": "http://127.0.0.1:3122",
+  "date": "2026-11-15T12:54:54.872Z",
+  "browser": "156.0.8078.4",
+  "results": [
+    {
+      "name": "home-desktop",
+      "route": "/",
+      "status": 200,
+      "design": "classic",
+      "title": "Planen für Artenvielfalt.",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "unloadedImages": [
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+      ],
+      "errors": []
+    },
+    {
+      "name": "home-tablet",
+      "route": "/",
+      "status": 200,
+      "design": "classic",
+      "title": "Planen für Artenvielfalt.",
+      "viewport": 834,
+      "scrollWidth": 834,
+      "clientWidth": 834,
+      "unloadedImages": [
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+      ],
+      "errors": []
+    },
+    {
+      "name": "home-mobile",
+      "route": "/",
+      "status": 200,
+      "design": "classic",
+      "title": "Planen für Artenvielfalt.",
+      "viewport": 390,
+      "scrollWidth": 390,
+      "clientWidth": 390,
+      "unloadedImages": [
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+      ],
+      "errors": []
+    },
+    {
+      "name": "species-desktop",
+      "route": "/species",
+      "status": 200,
+      "design": "classic",
+      "title": "Arten entdecken.Bedürfnisse verstehen.",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "unloadedImages": [
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F82%2FAndrena_%2528Leucandrena%2529_barbilabris_%2528male%2529_-_Flickr_-_S._Rae.jpg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fe%2Fe3%2FAnthophora_plumipes_male.jpg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fc%2Fcd%2FPhoenicurus_phoenicurus_08%2528js%2529%252C_Lodz_%2528Poland%2529.jpg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F8c%2FMuscicapa_striata_%D0%BC%D1%83%D1%85%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B0_%D1%81%D1%96%D1%80%D0%B0.jpg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fc%2Fc5%2FEuropean_green_woodpecker_%2528Picus_viridis%2529_female_Barnes.jpg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fb%2Fb0%2FIdas-Bl%C3%A4uling_Plebeius_idas_M%C3%A4nnchen-M%C3%BCnchen-Garten-010.jpg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fd%2Fd5%2FSchwalbenschwanz_Papilio_Machaon_%2528217453115%2529.jpeg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fa%2Fa6%2FAnthidium_oblongatum%252C_Gynandromorph%252C_Side%252C_PA%252C_Adams_County_2014-11-24-15.42.27_ZS_PMax_%252815685252898%2529.jpg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F22%2FVespertilio_murinus_2.jpg&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fd%2Fdc%2FPipistrellus_pipistrellus01.jpg&w=3840&q=75"
+      ],
+      "errors": []
+    },
+    {
+      "name": "gimpel-desktop",
+      "route": "/species/gimpel",
+      "status": 200,
+      "design": "classic",
+      "title": "Gimpel",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "unloadedImages": [
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75",
+        "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+      ],
+      "errors": []
+    },
+    {
+      "name": "plant-desktop",
+      "route": "/plants/acer-campestre",
+      "status": 200,
+      "design": "classic",
+      "title": "Feld-Ahorn",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "unloadedImages": [],
+      "errors": []
+    },
+    {
+      "name": "habitat-desktop",
+      "route": "/habitat-elements/wild-hecken",
+      "status": 200,
+      "design": "classic",
+      "title": "(Wild-)Hecken",
+      "viewport": 1440,
+      "scrollWidth": 1440,
+      "clientWidth": 1440,
+      "unloadedImages": [],
+      "errors": []
+    }
+  ]
+}

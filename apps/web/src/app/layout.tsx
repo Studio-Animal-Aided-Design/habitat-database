@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
 import { isPreviewEnvironment } from "@/lib/runtime-environment";
-import "./globals.css";
+import { designVariant } from "@/lib/design-variant";
+import "@aad/design-styles.css";
 
 const baseUrl = process.env.APP_BASE_URL ?? process.env.RENDER_EXTERNAL_URL ?? "https://habitat-database.example";
+
+// Catalogue data belongs to the runtime environment. Do not prerender a build-time
+// snapshot that could accidentally promote preview fixtures into production.
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -31,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="de">
+    <html lang="de" data-design={designVariant}>
       <body>{children}</body>
     </html>
   );
