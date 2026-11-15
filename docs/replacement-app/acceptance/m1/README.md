@@ -41,12 +41,12 @@ Dieser Plan führt eine manuelle Ende-zu-Ende- und User-Acceptance-Prüfung für
 | 15 | [UAT-M1-015](UAT-M1-015.md) | Pflanzenportrait | #90 | 06 | Lokal | [#138](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/138) |
 | 16 | [UAT-M1-016](UAT-M1-016.md) | Habitatelementportrait | #91 | 06 | Lokal | [#139](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/139) |
 | 17 | [UAT-M1-017](UAT-M1-017.md) | Nicht veröffentlichte Daten ausschließen | #75, #85, #114 | 07 | Lokal | [#140](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/140) |
-| 18 | [UAT-M1-018](UAT-M1-018.md) | Editorial UI, responsive und Grundbedienbarkeit | #87 | 06, 08 | Lokal/RC | [#141](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/141) |
+| 18 | [UAT-M1-018](UAT-M1-018.md) | Editorial UI, responsive und Grundbedienbarkeit | #87, #113, #152 | 06, 08 | Lokal/RC | [#141](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/141) |
 | 19 | [UAT-M1-019](UAT-M1-019.md) | Render-Preview-Zugang, Redirect und Robots | #104, #111 | 18 | Render | [#142](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/142) |
 | 20 | [UAT-M1-020](UAT-M1-020.md) | Datenmodus und Produktionsgrenze | #71, #85, #104, #105 | 11, 14 | Lokal/RC | [#143](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/143) |
-| 21 | [UAT-M1-021](UAT-M1-021.md) | IONOS-Deployvorlage und Runbook | #105 | 10–12, 16 | Nach #105 | [#144](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/144) |
+| 21 | [UAT-M1-021](UAT-M1-021.md) | IONOS-Deployvorlage und Runbook | #105, #152 | 10–12, 16 | Nach #105 | [#144](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/144) |
 | 22 | [UAT-M1-022](UAT-M1-022.md) | IONOS-RC/Produktion, DNS/TLS und Commissioning | #117 | 10–12, 15–16 | Nach #117 | [#145](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/145) |
-| 23 | [UAT-M1-023](UAT-M1-023.md) | Studio-CI und Kundenfreigabe | #113 | 08–09 | Nach #113 | [#146](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/146) |
+| 23 | [UAT-M1-023](UAT-M1-023.md) | Studio-CI und Kundenfreigabe | #113, #152 | 08–09 | Nach #113 | [#146](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/146) |
 | 24 | [UAT-M1-024](UAT-M1-024.md) | Schlanker RC-/Release-Prozess | #118 | 10, 19 | Nach #118 | [#147](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/147) |
 | 25 | [UAT-M1-025](UAT-M1-025.md) | Performance, Indexierung und Betriebssmoke | #104, #115, #117 | 16–18 | RC/Produktion | [#148](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/148) |
 | 26 | [UAT-M1-026](UAT-M1-026.md) | Gesamtnachweise und M1-Abnahmevotum | #115 | 19–21 | Zuletzt | [#149](https://github.com/Studio-Animal-Aided-Design/habitat-database/issues/149) |
@@ -58,3 +58,5 @@ Die Matrix-IDs 01–21 sind oben abgebildet. Für teilweise implementierte Katal
 ## CI-Referenz und Korrekturrunde
 
 Die Fälle UAT-M1-018 und UAT-M1-023 enthalten die ausführlichen CI-Prüfschritte und die Header-Korrektur. Die [Galerie](../../design/113/index.html) ist lokale Entwurfsevidenz; die vollständigen 26 Fälle und ihre getrennte Ausführungsverfolgung bleiben erhalten.
+
+Die lokale Designauswahl aus #152 wird in UAT-M1-018, 021 und 023 geprüft. Beide Varianten teilen Routen und Daten; ein technischer Vergleich erteilt keine fachliche oder CI-Freigabe.

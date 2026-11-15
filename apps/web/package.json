@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
+    "dev:studio": "APP_DESIGN=studio next dev --webpack",
+    "dev:classic": "APP_DESIGN=classic next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint .",

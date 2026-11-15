@@ -1,0 +1,567 @@
+{
+  "date": "2026-11-15",
+  "issue": 152,
+  "classicSource": "1662a7e:apps/web/src/app/globals.css",
+  "classicStylesUnchanged": true,
+  "classicCssSha256": "d87ebe10ba1aca0432e04f7439ddda286c325127d8daa651a5024e0eace0d6c3",
+  "studioCssSha256": "c48ea1d21d64cea17ede404883f4533cdaaf11a11f3ea8fe19e999fc6d6ed5d5",
+  "sameDatabaseContainerRetained": true,
+  "businessTableFingerprintsUnchanged": true,
+  "databaseBefore": {
+    "species": {
+      "rows": 14,
+      "sha256": "e2be7ac05a94b96ac7cfcfcf80c42168618c4da0ead726f41a0e0d338ed6d84a"
+    },
+    "plants": {
+      "rows": 259,
+      "sha256": "29c67cdbde583d48f0359b934643ae913f4a7346578e8bdebbaa80b4c3af9fc7"
+    },
+    "habitat_elements": {
+      "rows": 57,
+      "sha256": "8b5806defcc904013908ce16b8379b6eb95667d278582b8ac81ce50f47007f81"
+    },
+    "species_attribute_definitions": {
+      "rows": 49,
+      "sha256": "70113b59c9d1324d3429a01d832c856d9a6c49889a5f227f2a2cb97b5f4f31ae"
+    },
+    "species_attribute_values": {
+      "rows": 685,
+      "sha256": "301c67c0b6a9f57cd58fed4fd43779b5b4a2d3eddfa3b06fa8bed95c06d7e743"
+    },
+    "media_assets": {
+      "rows": 85,
+      "sha256": "5184546971b5be3f18ea6cfe56860ff321292f7e5345ccee99bcf15878b55fc2"
+    },
+    "species_media": {
+      "rows": 28,
+      "sha256": "bfa310b6dbb5e5dd00856c7461d737632bb1ab510825003f84ca8140934b9e86"
+    },
+    "habitat_element_media": {
+      "rows": 57,
+      "sha256": "4844ae6af3802439750eb2f5219eec34ef9fe91a0a24704c159832bc9db3892c"
+    },
+    "plant_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_plant_relations": {
+      "rows": 321,
+      "sha256": "6e3edb14e1d55ecfa1db11ab7aee6d4d7c0ab6e8cbdb67b82d6049fda49a9702"
+    },
+    "species_habitat_relations": {
+      "rows": 294,
+      "sha256": "b4dc7db2d98a888c93bb47b4e46d55c2fb644ae3ffe20295562b3a77e30e46e9"
+    },
+    "entity_aliases": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_lifecycle_phases": {
+      "rows": 62,
+      "sha256": "6f515e5c4791d72b2347d22fc0cbf597c7c7a7ce6c6e24fe3b1d13b392c079f7"
+    }
+  },
+  "databaseAfter": {
+    "species": {
+      "rows": 14,
+      "sha256": "e2be7ac05a94b96ac7cfcfcf80c42168618c4da0ead726f41a0e0d338ed6d84a"
+    },
+    "plants": {
+      "rows": 259,
+      "sha256": "29c67cdbde583d48f0359b934643ae913f4a7346578e8bdebbaa80b4c3af9fc7"
+    },
+    "habitat_elements": {
+      "rows": 57,
+      "sha256": "8b5806defcc904013908ce16b8379b6eb95667d278582b8ac81ce50f47007f81"
+    },
+    "species_attribute_definitions": {
+      "rows": 49,
+      "sha256": "70113b59c9d1324d3429a01d832c856d9a6c49889a5f227f2a2cb97b5f4f31ae"
+    },
+    "species_attribute_values": {
+      "rows": 685,
+      "sha256": "301c67c0b6a9f57cd58fed4fd43779b5b4a2d3eddfa3b06fa8bed95c06d7e743"
+    },
+    "media_assets": {
+      "rows": 85,
+      "sha256": "5184546971b5be3f18ea6cfe56860ff321292f7e5345ccee99bcf15878b55fc2"
+    },
+    "species_media": {
+      "rows": 28,
+      "sha256": "bfa310b6dbb5e5dd00856c7461d737632bb1ab510825003f84ca8140934b9e86"
+    },
+    "habitat_element_media": {
+      "rows": 57,
+      "sha256": "4844ae6af3802439750eb2f5219eec34ef9fe91a0a24704c159832bc9db3892c"
+    },
+    "plant_media": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_plant_relations": {
+      "rows": 321,
+      "sha256": "6e3edb14e1d55ecfa1db11ab7aee6d4d7c0ab6e8cbdb67b82d6049fda49a9702"
+    },
+    "species_habitat_relations": {
+      "rows": 294,
+      "sha256": "b4dc7db2d98a888c93bb47b4e46d55c2fb644ae3ffe20295562b3a77e30e46e9"
+    },
+    "entity_aliases": {
+      "rows": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "species_lifecycle_phases": {
+      "rows": 62,
+      "sha256": "6f515e5c4791d72b2347d22fc0cbf597c7c7a7ce6c6e24fe3b1d13b392c079f7"
+    }
+  },
+  "checks": {
+    "before": {
+      "base": "http://127.0.0.1:3121",
+      "date": "2026-11-15T12:51:10.648Z",
+      "browser": "156.0.8078.4",
+      "results": [
+        {
+          "name": "home-desktop",
+          "route": "/",
+          "status": 200,
+          "design": "baseline",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [],
+          "errors": []
+        },
+        {
+          "name": "home-tablet",
+          "route": "/",
+          "status": 200,
+          "design": "baseline",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 834,
+          "scrollWidth": 834,
+          "clientWidth": 834,
+          "unloadedImages": [],
+          "errors": []
+        },
+        {
+          "name": "home-mobile",
+          "route": "/",
+          "status": 200,
+          "design": "baseline",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "unloadedImages": [],
+          "errors": []
+        },
+        {
+          "name": "species-desktop",
+          "route": "/species",
+          "status": 200,
+          "design": "baseline",
+          "title": "Arten entdecken.Bedürfnisse verstehen.",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F82%2FAndrena_%2528Leucandrena%2529_barbilabris_%2528male%2529_-_Flickr_-_S._Rae.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fe%2Fe3%2FAnthophora_plumipes_male.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fc%2Fcd%2FPhoenicurus_phoenicurus_08%2528js%2529%252C_Lodz_%2528Poland%2529.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F8c%2FMuscicapa_striata_%D0%BC%D1%83%D1%85%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B0_%D1%81%D1%96%D1%80%D0%B0.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fb%2Fb0%2FIdas-Bl%C3%A4uling_Plebeius_idas_M%C3%A4nnchen-M%C3%BCnchen-Garten-010.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fd%2Fd5%2FSchwalbenschwanz_Papilio_Machaon_%2528217453115%2529.jpeg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fa%2Fa6%2FAnthidium_oblongatum%252C_Gynandromorph%252C_Side%252C_PA%252C_Adams_County_2014-11-24-15.42.27_ZS_PMax_%252815685252898%2529.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F22%2FVespertilio_murinus_2.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fd%2Fdc%2FPipistrellus_pipistrellus01.jpg&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "gimpel-desktop",
+          "route": "/species/gimpel",
+          "status": 200,
+          "design": "baseline",
+          "title": "Gimpel",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "plant-desktop",
+          "route": "/plants/acer-campestre",
+          "status": 200,
+          "design": "baseline",
+          "title": "Feld-Ahorn",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [],
+          "errors": []
+        },
+        {
+          "name": "habitat-desktop",
+          "route": "/habitat-elements/wild-hecken",
+          "status": 200,
+          "design": "baseline",
+          "title": "(Wild-)Hecken",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [],
+          "errors": []
+        }
+      ]
+    },
+    "studio": {
+      "base": "http://127.0.0.1:3121",
+      "date": "2026-11-15T12:54:39.424Z",
+      "browser": "156.0.8078.4",
+      "results": [
+        {
+          "name": "home-desktop",
+          "route": "/",
+          "status": 200,
+          "design": "studio",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "home-tablet",
+          "route": "/",
+          "status": 200,
+          "design": "studio",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 834,
+          "scrollWidth": 834,
+          "clientWidth": 834,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "home-mobile",
+          "route": "/",
+          "status": 200,
+          "design": "studio",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "species-desktop",
+          "route": "/species",
+          "status": 200,
+          "design": "studio",
+          "title": "Arten entdecken.Bedürfnisse verstehen.",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F82%2FAndrena_%2528Leucandrena%2529_barbilabris_%2528male%2529_-_Flickr_-_S._Rae.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fe%2Fe3%2FAnthophora_plumipes_male.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fc%2Fcd%2FPhoenicurus_phoenicurus_08%2528js%2529%252C_Lodz_%2528Poland%2529.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F8c%2FMuscicapa_striata_%D0%BC%D1%83%D1%85%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B0_%D1%81%D1%96%D1%80%D0%B0.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fb%2Fb0%2FIdas-Bl%C3%A4uling_Plebeius_idas_M%C3%A4nnchen-M%C3%BCnchen-Garten-010.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fd%2Fd5%2FSchwalbenschwanz_Papilio_Machaon_%2528217453115%2529.jpeg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fa%2Fa6%2FAnthidium_oblongatum%252C_Gynandromorph%252C_Side%252C_PA%252C_Adams_County_2014-11-24-15.42.27_ZS_PMax_%252815685252898%2529.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F22%2FVespertilio_murinus_2.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fd%2Fdc%2FPipistrellus_pipistrellus01.jpg&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "gimpel-desktop",
+          "route": "/species/gimpel",
+          "status": 200,
+          "design": "studio",
+          "title": "Gimpel",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "plant-desktop",
+          "route": "/plants/acer-campestre",
+          "status": 200,
+          "design": "studio",
+          "title": "Feld-Ahorn",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [],
+          "errors": []
+        },
+        {
+          "name": "habitat-desktop",
+          "route": "/habitat-elements/wild-hecken",
+          "status": 200,
+          "design": "studio",
+          "title": "(Wild-)Hecken",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [],
+          "errors": []
+        }
+      ]
+    },
+    "classic": {
+      "base": "http://127.0.0.1:3122",
+      "date": "2026-11-15T12:54:54.872Z",
+      "browser": "156.0.8078.4",
+      "results": [
+        {
+          "name": "home-desktop",
+          "route": "/",
+          "status": 200,
+          "design": "classic",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "home-tablet",
+          "route": "/",
+          "status": 200,
+          "design": "classic",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 834,
+          "scrollWidth": 834,
+          "clientWidth": 834,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "home-mobile",
+          "route": "/",
+          "status": 200,
+          "design": "classic",
+          "title": "Planen für Artenvielfalt.",
+          "viewport": 390,
+          "scrollWidth": 390,
+          "clientWidth": 390,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "species-desktop",
+          "route": "/species",
+          "status": 200,
+          "design": "classic",
+          "title": "Arten entdecken.Bedürfnisse verstehen.",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F82%2FAndrena_%2528Leucandrena%2529_barbilabris_%2528male%2529_-_Flickr_-_S._Rae.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fe%2Fe3%2FAnthophora_plumipes_male.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fc%2Fcd%2FPhoenicurus_phoenicurus_08%2528js%2529%252C_Lodz_%2528Poland%2529.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F8%2F8c%2FMuscicapa_striata_%D0%BC%D1%83%D1%85%D0%BE%D0%BB%D0%BE%D0%B2%D0%BA%D0%B0_%D1%81%D1%96%D1%80%D0%B0.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fc%2Fc5%2FEuropean_green_woodpecker_%2528Picus_viridis%2529_female_Barnes.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fb%2Fb0%2FIdas-Bl%C3%A4uling_Plebeius_idas_M%C3%A4nnchen-M%C3%BCnchen-Garten-010.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fd%2Fd5%2FSchwalbenschwanz_Papilio_Machaon_%2528217453115%2529.jpeg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fa%2Fa6%2FAnthidium_oblongatum%252C_Gynandromorph%252C_Side%252C_PA%252C_Adams_County_2014-11-24-15.42.27_ZS_PMax_%252815685252898%2529.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F2%2F22%2FVespertilio_murinus_2.jpg&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2Fd%2Fdc%2FPipistrellus_pipistrellus01.jpg&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "gimpel-desktop",
+          "route": "/species/gimpel",
+          "status": 200,
+          "design": "classic",
+          "title": "Gimpel",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75",
+            "/_next/image?url=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fcommons%2F0%2F02%2FPyrrhula_Pyrrhula_Kittila_20120305.JPG&w=3840&q=75"
+          ],
+          "errors": []
+        },
+        {
+          "name": "plant-desktop",
+          "route": "/plants/acer-campestre",
+          "status": 200,
+          "design": "classic",
+          "title": "Feld-Ahorn",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [],
+          "errors": []
+        },
+        {
+          "name": "habitat-desktop",
+          "route": "/habitat-elements/wild-hecken",
+          "status": 200,
+          "design": "classic",
+          "title": "(Wild-)Hecken",
+          "viewport": 1440,
+          "scrollWidth": 1440,
+          "clientWidth": 1440,
+          "unloadedImages": [],
+          "errors": []
+        }
+      ]
+    }
+  },
+  "screenshots": [
+    {
+      "file": "screenshots/before/gimpel-desktop.jpg",
+      "sha256": "9ec3648aa93ba5964c65b313bf0a33004664d5d75aad48e22588ae48844e0caf"
+    },
+    {
+      "file": "screenshots/before/habitat-desktop.jpg",
+      "sha256": "c2440edde7a4326dc093a5e315de8dacd6a37e9fa5ceadf8772b68b7d8eba8b0"
+    },
+    {
+      "file": "screenshots/before/home-desktop-viewport.jpg",
+      "sha256": "2b06f5ffc6788da5cd15bbca5ea3217531bb7bbd8c8cb42498bc4d94177e55be"
+    },
+    {
+      "file": "screenshots/before/home-desktop.jpg",
+      "sha256": "d004117dc9655610bcdb350f8373dd8bfe4028c9d49bfc4a4c2c7ae584a9c12b"
+    },
+    {
+      "file": "screenshots/before/home-mobile.jpg",
+      "sha256": "2e881f4dc183c6b31e0180316ffc8a3bc7b8e5fa8091362dc951479dc8044e5f"
+    },
+    {
+      "file": "screenshots/before/home-tablet.jpg",
+      "sha256": "d055b5817532134f292c41c52996391aaede72beaba3ffc3d99aa900186fa1d0"
+    },
+    {
+      "file": "screenshots/before/plant-desktop.jpg",
+      "sha256": "a6e8b32d776a9fc81705c8111d18783293a501a24ef1f0e1d7b03c07f541da8a"
+    },
+    {
+      "file": "screenshots/before/species-desktop.jpg",
+      "sha256": "2245e9580f4188fdc22a38c879aed06303f80bb72d45a697b8d87241816f1c5b"
+    },
+    {
+      "file": "screenshots/classic/gimpel-desktop.jpg",
+      "sha256": "9ec3648aa93ba5964c65b313bf0a33004664d5d75aad48e22588ae48844e0caf"
+    },
+    {
+      "file": "screenshots/classic/habitat-desktop.jpg",
+      "sha256": "c2440edde7a4326dc093a5e315de8dacd6a37e9fa5ceadf8772b68b7d8eba8b0"
+    },
+    {
+      "file": "screenshots/classic/home-desktop-viewport.jpg",
+      "sha256": "f6fb7afa03b33b35d06f8292e57bfce3350fe95cba5a3213fa362b09ddc34df5"
+    },
+    {
+      "file": "screenshots/classic/home-desktop.jpg",
+      "sha256": "6bf17123a88857bb40c6b2f44c54a940dcc0304a13ba89198df93470acfab5f4"
+    },
+    {
+      "file": "screenshots/classic/home-mobile.jpg",
+      "sha256": "44ec0a67b70b4a6f756e47f0238a6483d052df5a6308f1cfce57333e78da5e11"
+    },
+    {
+      "file": "screenshots/classic/home-tablet.jpg",
+      "sha256": "f55449b9ae499b7a8a7ce67254e3acf2db90d61b0527d97f7da35001e80ab787"
+    },
+    {
+      "file": "screenshots/classic/plant-desktop.jpg",
+      "sha256": "a6e8b32d776a9fc81705c8111d18783293a501a24ef1f0e1d7b03c07f541da8a"
+    },
+    {
+      "file": "screenshots/classic/species-desktop.jpg",
+      "sha256": "3731c6e41a47b15aae95d536a54ff808e264db1a1a64b3b407b39a302db57b5e"
+    },
+    {
+      "file": "screenshots/studio/gimpel-desktop.jpg",
+      "sha256": "bad7c00973858611fc448a68dfb47d4b48800e88206cc5786e66120c272ff195"
+    },
+    {
+      "file": "screenshots/studio/habitat-desktop.jpg",
+      "sha256": "bcfc80988ec03937fda6b7d0be3753856ce7f5a5395c192763d86bb394d19366"
+    },
+    {
+      "file": "screenshots/studio/home-desktop-viewport.jpg",
+      "sha256": "15471e847081047992fd2db97a939515f0c5e1abc5a5b10b86b63a3990890f94"
+    },
+    {
+      "file": "screenshots/studio/home-desktop.jpg",
+      "sha256": "44392910f0d3c0f44401ec935a56d76eb285fdcbda6d84683fece9bce0e39b3d"
+    },
+    {
+      "file": "screenshots/studio/home-mobile.jpg",
+      "sha256": "0c34221728b7fd369b016206231a3673348446bde7418863fe25df3a4f505c09"
+    },
+    {
+      "file": "screenshots/studio/home-tablet.jpg",
+      "sha256": "af2dafc4ceff1b024e559b2fd06201f4160b809f2515a9c054fb79f7a733a126"
+    },
+    {
+      "file": "screenshots/studio/plant-desktop.jpg",
+      "sha256": "eec8b5f4bf33492d59f0080235c5dff0a3f438433dd104d5f434111f3c241961"
+    },
+    {
+      "file": "screenshots/studio/species-desktop.jpg",
+      "sha256": "0ede4d261c25fa4277104af6e622301def174d409525326e6b026f8a8c2f4a83"
+    }
+  ],
+  "browserEvidence": [
+    {
+      "file": "screenshots/classic-browser.png",
+      "sha256": "519b2aeccfa07fd1d220ebb5b803b101e6a6a23a5494455e304d4923e5f569d6"
+    },
+    {
+      "file": "screenshots/studio-browser.png",
+      "sha256": "4126d9aa8979665db4025981682628dcd38621dfe533ef559d25276bed0685f9"
+    }
+  ],
+  "verification": {
+    "webTestsPassed": 74,
+    "lint": "passed",
+    "typescript": "passed",
+    "studioBuild": "passed",
+    "classicProductionBuild": "rejected as intended",
+    "studioImportWithoutToken": 401,
+    "classicImportDisabled": 404,
+    "deploymentHandbookRenderedPages": 10,
+    "deploymentHandbookAllPageLayoutInspected": true,
+    "manualUatSignoff": "not granted"
+  }
+}

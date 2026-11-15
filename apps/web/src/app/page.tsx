@@ -7,6 +7,7 @@ import { CatalogEntityCard } from "@/components/catalog-entity-card";
 import { PublicFooter } from "@/components/public-footer";
 import { EditorialActionLink, EditorialSectionHeading } from "@/components/editorial-primitives";
 import { catalogApi } from "@/lib/catalog/catalog-api";
+import { isStudioDesign } from "@/lib/design-variant";
 
 export default async function Home() {
   const overview = await catalogApi.getOverview();
@@ -18,7 +19,7 @@ export default async function Home() {
 
         <section className="hero">
           <div className="hero-copy">
-            <p className="kicker">Animal-Aided Design · Die Habitat-Datenbank</p>
+            <p className="kicker">{isStudioDesign ? "Animal-Aided Design · Die Habitat-Datenbank" : "Wissen, das Lebensräume schafft"}</p>
             <h1>
               Planen für <em>Artenvielfalt.</em>
             </h1>
@@ -48,7 +49,7 @@ export default async function Home() {
               loading="eager"
               unoptimized
             />
-            <span className="hero-orbit" aria-hidden="true" />
+            {isStudioDesign ? <span className="hero-orbit" aria-hidden="true" /> : <Image className="hero-orbit" src="/landing/decorative-circle.webp" width={807} height={767} alt="" loading="eager" unoptimized />}
             <div className="hero-media hero-media-bird">
               <Image src="/landing/bird.webp" width={880} height={865} alt="Illustrierter Gimpel auf einem Zweig" loading="eager" unoptimized />
             </div>

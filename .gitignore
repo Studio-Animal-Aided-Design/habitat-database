@@ -23,6 +23,7 @@ dist/
 # Node / Next.js
 node_modules/
 .next/
+.next-classic/
 out/
 *.tsbuildinfo
 .env*.local

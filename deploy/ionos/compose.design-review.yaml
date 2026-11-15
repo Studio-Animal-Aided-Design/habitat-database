@@ -1,0 +1,37 @@
+# Add only to an isolated local rehearsal, never the public IONOS stack.
+services:
+  classic-app:
+    profiles: [design-review]
+    image: ${AAD_APP_IMAGE:-aad-habitat-web}:${AAD_APP_TAG:-local}-classic-dev
+    build:
+      context: ../..
+      dockerfile: apps/web/Dockerfile
+      target: development
+    init: true
+    env_file:
+      - ${PREVIEW_APP_ENV_FILE:-.env.preview-app}
+    environment:
+      NODE_ENV: development
+      APP_ENV: preview
+      APP_DESIGN: classic
+      CATALOG_DATA_SOURCE: postgres
+      ALLOW_MOCK_CATALOG_IN_PREVIEW: "false"
+      IMPORT_API_ENABLED: "false"
+      PREVIEW_ACCESS_MODE: "off"
+      APP_BASE_URL: http://127.0.0.1:${LOCAL_CLASSIC_PORT:-3122}
+    ports:
+      - "127.0.0.1:${LOCAL_CLASSIC_PORT:-3122}:3000"
+    networks:
+      - edge
+      - preview-database
+    depends_on:
+      preview-db:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 10s
+      timeout: 5s
+      start_period: 90s
+      retries: 12

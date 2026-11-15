@@ -3,6 +3,7 @@
 **/.DS_Store
 **/node_modules
 **/.next
+**/.next-classic
 **/*.tsbuildinfo
 **/__pycache__
 **/.pytest_cache

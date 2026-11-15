@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { BrandMark } from "./brand-mark";
+import { isStudioDesign } from "@/lib/design-variant";
 
 export function SiteHeader() {
   return (
@@ -21,9 +22,13 @@ export function SiteHeader() {
           <Link href="/habitat-elements">Habitatelemente</Link>
         </div>
       </details>
-      <a className="header-cta" href="https://animal-aided-design.de/" target="_blank" rel="noreferrer" aria-label="Zum Studio – öffnet in neuem Tab">
-        Zum Studio <ArrowUpRight aria-hidden="true" size={15} />
-      </a>
+      {isStudioDesign ? (
+        <a className="header-cta" href="https://animal-aided-design.de/" target="_blank" rel="noreferrer" aria-label="Zum Studio – öffnet in neuem Tab">
+          Zum Studio <ArrowUpRight aria-hidden="true" size={15} />
+        </a>
+      ) : (
+        <Link className="header-cta" href="/management">Verwaltung <ArrowUpRight aria-hidden="true" size={15} /></Link>
+      )}
     </header>
   );
 }

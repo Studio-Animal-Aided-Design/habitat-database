@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { isPreviewEnvironment } from "@/lib/runtime-environment";
-import "./globals.css";
+import { designVariant } from "@/lib/design-variant";
+import "@aad/design-styles.css";
 
 const baseUrl = process.env.APP_BASE_URL ?? process.env.RENDER_EXTERNAL_URL ?? "https://habitat-database.example";
 
@@ -35,7 +36,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="de">
+    <html lang="de" data-design={designVariant}>
       <body>{children}</body>
     </html>
   );

@@ -21,6 +21,16 @@ COPY apps/web/ ./
 # Webpack avoids Turbopack's build-time worker port and is predictable on locked-down hosts.
 RUN npm run build -- --webpack
 
+FROM builder AS development
+# Local comparison only. Production continues to use the final, non-root runner stage.
+RUN chown -R node:node /workspace/apps/web
+USER node
+ENV NODE_ENV=development \
+    APP_ENV=preview \
+    IMPORT_API_ENABLED=false \
+    APP_DESIGN=classic
+CMD ["npm", "run", "dev", "--", "--hostname", "0.0.0.0", "--port", "3000"]
+
 FROM node:24.13.0-bookworm-slim AS runner
 WORKDIR /app
 

@@ -1,5 +1,20 @@
 # Konfiguration und offene Entscheidungen
 
+## Design für lokale Entwicklung auswählen
+
+Die gemeinsame Anwendung enthält zwei versionierte Darstellungen: `studio` ist der Standard mit Studio-CI; `classic` bewahrt den bisherigen Editorial-Stand für lokale Vergleiche. Routen, Datenabfragen und Importlogik sind gemeinsam. Die Stylesheets liegen unter `apps/web/src/styles/`; Logo, Header und Hero wählen ihre Darstellung aus derselben Konfiguration.
+
+Im Verzeichnis `apps/web` lässt sich der Entwicklungsserver so starten:
+
+```bash
+APP_DESIGN=studio npm run dev -- --hostname 127.0.0.1 --port 3131
+APP_DESIGN=classic npm run dev -- --hostname 127.0.0.1 --port 3132
+```
+
+Alternativ stehen `npm run dev:studio` und `npm run dev:classic` bereit. Nach einem Variantenwechsel den Server neu starten. Der Parameter steuert die Darstellung; Datenmodus, Datenbank-URL und Preview-Schutz werden weiterhin separat konfiguriert. Produktionsbuilds verwenden Studio. Ein Classic-Produktionsbuild und unbekannte Varianten werden abgewiesen; die gebaute Variante lässt sich nicht unabhängig von ihrem CSS zur Laufzeit umstellen. Nur der nicht geheime Variantenname wird in den Browser-Build aufgenommen.
+
+Für einen Vergleich mit echten Daten ergänzt `compose.design-review.yaml` die lokale Generalprobe um einen Classic-Entwicklungsdienst auf `127.0.0.1:3122`. Er verwendet dieselbe Preview-Datenbank wie die Studio-App, hat aber eine deaktivierte Import-API. Die zusätzliche Datei gehört ausschließlich in den lokalen Test-Stack. Datenbankdienst und bestehende Volumes bleiben erhalten. Für einen neuen Code-/Image-Stand einen eigenen Image-Tag vergeben, um frühere Prüfarbeitsstände nicht zu überschreiben. Die genauen Kommandos und die Vergleichsevidenz stehen unter `docs/replacement-app/design/152`.
+
 Dieses Kapitel trennt externe Voraussetzungen von Konfigurationsarbeit und fehlender Produktimplementierung. Stand 22. September 2026 sind in #117 noch keine konkreten IONOS-Werte als bestätigt dokumentiert. Die Übersicht ist eine Arbeitsliste für die reale Inbetriebnahme, keine Liste von Programmierfehlern. Echte Zugangsdaten dürfen nur in einem geeigneten Secret-Speicher und in den geschützten Serverdateien stehen, niemals hier.
 
 ## Was vor der IONOS Bereitstellung fehlt
