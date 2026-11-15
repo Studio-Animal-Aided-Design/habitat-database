@@ -54,3 +54,7 @@ Dieser Plan führt eine manuelle Ende-zu-Ende- und User-Acceptance-Prüfung für
 ## Abdeckungsregel
 
 Die Matrix-IDs 01–21 sind oben abgebildet. Für teilweise implementierte Katalog-/Portrait-Issues prüft der Test den **heute gelieferten Funktionsstand**; fehlende Anforderungen bleiben im jeweiligen Feature-Issue offen. Die Gates 021–026 werden angelegt, damit M1 nicht mit einer rein lokalen Prüfung verwechselt wird. Ein fehlendes Kundenartefakt ist als `Blocked` zu protokollieren und nie als Erfolg zu interpretieren.
+
+## CI-Referenz und Korrekturrunde
+
+Die Fälle UAT-M1-018 und UAT-M1-023 enthalten die ausführlichen CI-Prüfschritte und die Header-Korrektur. Die [Galerie](../../design/113/index.html) ist lokale Entwurfsevidenz; die vollständigen 26 Fälle und ihre getrennte Ausführungsverfolgung bleiben erhalten.

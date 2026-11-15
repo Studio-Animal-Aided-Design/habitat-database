@@ -11,7 +11,7 @@ export default function ManagementLayout({ children }: Readonly<{ children: Reac
   return (
     <main className="management">
       <aside className="management-sidebar">
-        <div className="management-brand"><BrandMark /><strong>Verwaltung</strong></div>
+        <div className="management-brand"><BrandMark variant="white" /><strong>Verwaltung</strong></div>
         <ManagementNav />
       </aside>
       <section className="management-content">{children}</section>
